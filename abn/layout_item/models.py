@@ -42,13 +42,6 @@ class LayoutItemBase(PolymorphicModel):
         return self.identifier
 
 
-class Plate(LayoutItemBase):
-    def clean(self) -> None:
-        if not isinstance(self.labware, PipettableLabware):
-            raise ValidationError("Labware choice must be a pipettable labware.")
-        return super().clean()
-
-
 class Lid(LayoutItemBase):
     def clean(self) -> None:
         if not isinstance(self.labware, NonPipettableLabware):
@@ -70,6 +63,16 @@ class VacuumManifold(LayoutItemBase):
         return super().clean()
 
 
+class Plate(LayoutItemBase):
+    def clean(self) -> None:
+        if not isinstance(self.labware, PipettableLabware):
+            raise ValidationError("Labware choice must be a pipettable labware.")
+        return super().clean()
+
+
+class FilterPlate(Plate): ...
+
+
 class CoverablePlate(Plate):
     lid = models.ForeignKey(
         to=Lid,
@@ -77,3 +80,6 @@ class CoverablePlate(Plate):
         name="lid_id",
         db_column="lid_id",
     )
+
+
+class CoverableFilterPlate(CoverablePlate): ...
