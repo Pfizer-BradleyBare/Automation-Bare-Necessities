@@ -31,10 +31,13 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "polymorphic",
+    "backend",
     "carrier",
     "deck_location",
     "labware",
     "layout_item",
+    "tip",
+    "closeable_container",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
