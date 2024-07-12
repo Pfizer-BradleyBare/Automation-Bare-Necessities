@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 from django.forms import ValidationError
 from polymorphic.models import PolymorphicModel
@@ -38,13 +40,17 @@ class LabwareBase(PolymorphicModel):
 class NonPipettableLabware(LabwareBase): ...
 
 
+def json_default() -> list[dict[str, float]]:
+    return [{"Height": 0, "Volume": 0}]
+
+
 class PipettableLabware(LabwareBase):
     positions_per_well = models.SmallIntegerField()
     well_max_volume = models.FloatField()
     well_dead_volume = models.FloatField()
     calibration_points = models.JSONField(
         help_text="Should be a list of dictionary values containing 'Volume' and 'Height' where 'Volume' is in uL and 'Height' is in mm. Ex. [{\"Volume\":0,\"Height\":0},{\"Volume\":100,\"Height\":10}]",
-        default=[{"Height": 0, "Volume": 0}],
+        default=json_default,
     )
 
     def clean(self) -> None:

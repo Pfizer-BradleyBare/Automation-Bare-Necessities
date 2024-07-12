@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "closeable_container",
     "heat_cool_shake",
     "transport",
+    "centrifuge",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
