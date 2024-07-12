@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "layout_item",
     "tip",
     "closeable_container",
+    "heat_cool_shake",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
