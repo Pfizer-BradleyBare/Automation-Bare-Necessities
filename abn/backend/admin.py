@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import HamiltonMicrolabStar, HamiltonVantageTrackGripperEntryExit, Stunner
+from .models import HamiltonMicrolabStar, HamiltonTrackGripperEntryExitVantage, Stunner
 
 admin.site.register(HamiltonMicrolabStar)
-admin.site.register(HamiltonVantageTrackGripperEntryExit)
+admin.site.register(HamiltonTrackGripperEntryExitVantage)
 admin.site.register(Stunner)

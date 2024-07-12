@@ -1,7 +1,6 @@
 from deck_location.models import DeckLocationBase
 from django.db import models
-from django.forms import ValidationError
-from labware.models import LabwareBase, NonPipettableLabware, PipettableLabware
+from labware.models import LabwareBase
 from polymorphic.models import PolymorphicModel
 
 
@@ -42,32 +41,16 @@ class LayoutItemBase(PolymorphicModel):
         return self.identifier
 
 
-class Lid(LayoutItemBase):
-    def clean(self) -> None:
-        if not isinstance(self.labware, NonPipettableLabware):
-            raise ValidationError("Labware choice must be a pipettable labware.")
-        return super().clean()
+class Lid(LayoutItemBase): ...
 
 
-class TipRack(LayoutItemBase):
-    def clean(self) -> None:
-        if not isinstance(self.labware, NonPipettableLabware):
-            raise ValidationError("Labware choice must be a pipettable labware.")
-        return super().clean()
+class TipRack(LayoutItemBase): ...
 
 
-class VacuumManifold(LayoutItemBase):
-    def clean(self) -> None:
-        if not isinstance(self.labware, NonPipettableLabware):
-            raise ValidationError("Labware choice must be a pipettable labware.")
-        return super().clean()
+class VacuumManifold(LayoutItemBase): ...
 
 
-class Plate(LayoutItemBase):
-    def clean(self) -> None:
-        if not isinstance(self.labware, PipettableLabware):
-            raise ValidationError("Labware choice must be a pipettable labware.")
-        return super().clean()
+class Plate(LayoutItemBase): ...
 
 
 class FilterPlate(Plate): ...
