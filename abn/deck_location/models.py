@@ -1,6 +1,7 @@
 from carrier.models import CarrierBase
 from django.db import models
 from polymorphic.models import PolymorphicModel
+from transport.models import TransportBase, TransportGetOptions, TransportPlaceOptions
 
 
 class DeckLocationBase(PolymorphicModel):
@@ -33,3 +34,13 @@ class DeckLocationBase(PolymorphicModel):
 
 
 class NonTransportableDeckLocation(DeckLocationBase): ...
+
+
+class TransportConfig(models.Model):
+    transport_device = models.ForeignKey(to=TransportBase, on_delete=models.CASCADE)
+    get_options = models.ManyToManyField(to=TransportGetOptions)
+    place_options = models.ManyToManyField(to=TransportPlaceOptions)
+
+
+class TransportableDeckLocation(DeckLocationBase):
+    transport_configs = models.ManyToManyField(to=TransportConfig)

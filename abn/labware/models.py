@@ -28,6 +28,9 @@ class LabwareBase(PolymorphicModel):
         choices=(("Numeric", "Numeric"), ("Alphanumeric", "Alphanumeric")),
     )
 
+    labware_defintion_columns = models.SmallIntegerField()
+    labware_defintion_rows = models.SmallIntegerField()
+
     def __str__(self) -> str:
         return self.identifier
 
@@ -41,10 +44,11 @@ class PipettableLabware(LabwareBase):
     well_dead_volume = models.FloatField()
     calibration_points = models.JSONField(
         help_text="Should be a list of dictionary values containing 'Volume' and 'Height' where 'Volume' is in uL and 'Height' is in mm. Ex. [{\"Volume\":0,\"Height\":0},{\"Volume\":100,\"Height\":10}]",
+        default=[{"Height": 0, "Volume": 0}],
     )
 
     def clean(self) -> None:
-        error_msg = "Calibration points input must be a list of Height, Volume dict. See help text for example."
+        error_msg = "Calibration points input must be a list of dict of Height, Volume. See help text for example."
 
         if not isinstance(self.calibration_points, list):
             raise ValidationError(error_msg)
