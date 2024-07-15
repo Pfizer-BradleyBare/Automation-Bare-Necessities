@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "heat_cool_shake",
     "transport",
     "centrifuge",
+    "carrier_loader",
+    "storage_device",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
