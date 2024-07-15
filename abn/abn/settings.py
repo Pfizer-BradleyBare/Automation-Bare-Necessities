@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "polymorphic",
+    "multiselectfield",
     "backend",
     "carrier",
     "deck_location",
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     "centrifuge",
     "carrier_loader",
     "storage_device",
+    "pipette",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
