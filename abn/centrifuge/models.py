@@ -1,3 +1,4 @@
+from backend.models import BackendBase
 from django.db import models
 from layout_item.models import LayoutItemBase
 from polymorphic.models import PolymorphicModel
@@ -16,6 +17,8 @@ class CentrifugeBase(PolymorphicModel):
     )
 
     enabled = models.BooleanField(default=True)
+
+    backend = models.ForeignKey(to=BackendBase, on_delete=models.CASCADE)
 
     plates = models.ManyToManyField(to=LayoutItemBase)
 

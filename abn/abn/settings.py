@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "polymorphic",
-    "multiselectfield",
     "backend",
     "carrier",
     "deck_location",

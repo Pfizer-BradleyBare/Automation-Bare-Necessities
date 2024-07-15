@@ -1,3 +1,4 @@
+from backend.models import BackendBase
 from django.db import models
 from labware.models import LabwareBase
 from polymorphic.models import PolymorphicModel
@@ -16,6 +17,8 @@ class TransportBase(PolymorphicModel):
     )
 
     enabled = models.BooleanField(default=True)
+
+    backend = models.ForeignKey(to=BackendBase, on_delete=models.CASCADE)
 
     supported_labwares = models.ManyToManyField(to=LabwareBase)
 

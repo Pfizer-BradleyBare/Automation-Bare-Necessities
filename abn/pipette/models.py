@@ -1,3 +1,4 @@
+from backend.models import BackendBase
 from django.db import models
 from labware.models import LabwareBase
 from multiselectfield import MultiSelectField
@@ -368,6 +369,8 @@ class PipetteBase(PolymorphicModel):
 
     enabled = models.BooleanField(default=True)
 
+    backend = models.ForeignKey(to=BackendBase, on_delete=models.CASCADE)
+
     supported_tips = models.ManyToManyField(to=PipetteTip)
     supported_dispense_labware = models.ManyToManyField(
         to=LabwareBase,
@@ -404,4 +407,4 @@ class HamiltonPortraitCORE8(PipetteBase):
     )
 
 
-class HamiltonPortraitCORE8SimpleContentDispense(PipetteBase): ...
+class HamiltonPortraitCORE8SimpleContentDispense(HamiltonPortraitCORE8): ...
