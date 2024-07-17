@@ -30,6 +30,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     "polymorphic",
+    "debug",
+    "deck",
+    "scheduler",
     "backend",
     "carrier",
     "deck_location",
