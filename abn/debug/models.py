@@ -1,5 +1,5 @@
 from django.db import models
-from scheduler.models import Method
+from scheduler.models import QueuedMethod
 
 
 class Log(models.Model):
@@ -15,7 +15,7 @@ class Log(models.Model):
         ),
     )
     device_identifier = models.CharField(max_length=100)
-    method = models.ForeignKey(to=Method, on_delete=models.CASCADE)
+    method = models.ForeignKey(to=QueuedMethod, on_delete=models.CASCADE)
     message = models.TextField()
 
     class Meta:
