@@ -4,6 +4,10 @@ from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
 
 
+def test_method(request: HttpRequest):
+    return render(request, "scheduler/test_method.html", {})
+
+
 def method_queue(request: HttpRequest):
     return render(request, "scheduler/method_queue.html", {})
 
