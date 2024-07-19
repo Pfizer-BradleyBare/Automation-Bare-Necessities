@@ -1,29 +1,68 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Navbar</a>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <a class="navbar-brand" href="{% url 'home' %}">
+        <img src="{% static 'images/navbar/ABN Logo Gianna.png' %}" width="75" height="65" alt=""
+            style="border-radius: 25%;">
+    </a>
+    <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false">
-                    Dropdown
+            <li class="nav-item dropdown" style="font-size: 22.5px">
+                <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-scheduler" role="button"
+                    data-toggle="dropdown">
+                    Scheduler
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-gantt-chart"
+                        href="{% url 'gantt_chart' %}">Gantt Chart</a>
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-method-queue"
+                        href="{% url 'method_queue' %}">Method Queue</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-queue-method"
+                        href="{% url 'queue_method' %}">Queue Method</a>
+
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+            <li class="nav-item dropdown" style="font-size: 22.5px">
+                <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-method" role="button"
+                    data-toggle="dropdown">
+                    Method
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-gantt-chart" href="">Method List</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-queue-method" href="">Test Method</a>
+                </div>
             </li>
+            <li class="nav-item dropdown" style="font-size: 22.5px">
+                <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-method" role="button"
+                    data-toggle="dropdown">
+                    Deck
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-gantt-chart" href="">Deck Visualization</a>
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-queue-method" href="">Method Positions</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" style="font-size: 22.5px">
+                <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-method" role="button"
+                    data-toggle="dropdown">
+                    Shortcuts
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-gantt-chart" href="">Deck Loading</a>
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-queue-method" href="">Notifications</a>
+                </div>
+            </li>
+            <li class="nav-item" style="font-size: 22.5px">
+                <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+            </li>
+            <li class="nav-item" style="font-size: 22.5px">
+                <a class="nav-link" href="">Debug</a>
+            </li>
+            <li class="nav-item" style="font-size: 22.5px">
+                <a class="nav-link" href="">Help</a>
+            </li>
+
         </ul>
     </div>
 </nav>
