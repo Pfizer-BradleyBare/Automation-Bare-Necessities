@@ -23,7 +23,7 @@ def queue_method(request: HttpRequest):
             for phone_number in request.POST["input-phone-numbers"].split(",")
             if phone_number != ""
         ]
-        if len(emails) + len(phone_numbers) > 10:
+        if len(emails) + len(phone_numbers) > 0:
             return redirect(queue_method_success)
 
     except KeyError:

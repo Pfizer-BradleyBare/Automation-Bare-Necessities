@@ -20,10 +20,16 @@
             </div>
             <hr>
             <div class="row justify-content-center">
-                <p>Please ensure that your method has been tested first. If your method does not pass testing then it
-                    will be removed from the queue without warning. To test, please click the button: <a
-                        class="btn btn-secondary btn-sm" href="{% url 'queue_method' %}" role="button">Test Method</a>
-                </p>
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <p>Please ensure that your method has been tested first. If your method does not pass testing then
+                        it
+                        will be removed from the queue without warning. To test, please click the button:
+                        <a class="btn btn-secondary btn-sm" href="{% url 'queue_method' %}" role="button">Test
+                            Method</a>
+                    </p>
+                </div>
+                <div class="col-md-1"></div>
             </div>
             <hr>
             <form method="post">{% csrf_token %}
@@ -33,13 +39,30 @@
                         <input type="email" class="form-control" id="input-emails" name="input-emails" multiple="true"
                             placeholder="Comma delimited list of emails. Ex. Email1@pfizer.com, Email2@gmail.com"
                             required>
+                        <small id="input-emails-help" class="form-text text-muted">
+                            You must enter at least one email.
+                        </small>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="input-phone-numbers" class="col-sm-2 col-form-label">Phone Numbers</label>
                     <div class="col-sm-10">
                         <input type="tel" class="form-control" id="input-phone-numbers" name="input-phone-numbers"
-                            placeholder="Comma delimited list of phone numbers. Ex. 1234567890, 123-456-7890" required>
+                            placeholder="Comma delimited list of phone numbers. Ex. 1234567890, 123-456-7890">
+                        <small id="input-phone-numbers-help" class="form-text text-muted">
+                            Phone numbers are optional.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="input-completion-time" class="col-sm-2 col-form-label">Completion Time</label>
+                    <div class="col-sm-10">
+                        <input type="datetime-local" class="form-control" id="input-completion-time"
+                            name="input-completion-time" placeholder="" required>
+                        <small id="input-completion-time-help" class="form-text text-muted">
+                            ABN will attempt to complete the method near the completion time. If not possible, ABN
+                            will complete as soon as possible.
+                        </small>
                     </div>
                 </div>
                 <div class="row">
@@ -50,8 +73,13 @@
                             <option>Resume from latest step</option>
                             <option>Repeat latest step</option>
                         </select>
+                        <small id="input-completion-time-help" class="form-text text-muted">
+                            Has this method been processed before? If so, you can choose to start over or to resume from
+                            two points.
+                        </small>
                     </div>
                 </div>
+
                 <hr style="visibility: hidden;">
                 <div class="row">
                     <legend class="col-form-label col-sm-2 pt-0">Method File</legend>
