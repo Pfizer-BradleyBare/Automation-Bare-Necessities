@@ -2,7 +2,7 @@ from django.db import models
 from scheduler.models import QueuedMethod
 
 
-class Log(models.Model):
+class TraceEntry(models.Model):
     time_stamp = models.DateTimeField(auto_now_add=True)
     level = models.CharField(
         max_length=10,
