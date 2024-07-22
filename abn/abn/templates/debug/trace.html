@@ -39,7 +39,7 @@
                     Log Level
                 </div>
                 <div class="row">
-                    <select class="form-select" style= "height: 28px;" id="input-log-level">
+                    <select class="form-select" style= "height: 28px;" id="input-log-level" onchange="filter_log_level()">
                         <option value="ALL" selected>ALL</option>
                         <option value="DEBUG">DEBUG</option>
                         <option value="INFO">INFO</option>
@@ -55,7 +55,7 @@
                     Method Name
                 </div>
                 <div class="row">
-                    <input type="text" style="width: 90%;" id="input-method-name"></input>
+                    <input type="text" style="width: 90%;" id="input-method-name" onkeyup="filter_method_name()"></input>
                 </div>
                 
             </div>
@@ -65,7 +65,7 @@
                     Device Identifier
                 </div>
                 <div class="row">
-                    <input type="text" style="width: 90%;" id="input-device-identifier"></input>
+                    <input type="text" style="width: 90%;" id="input-device-identifier" onkeyup="filter_device_identifier()"></input>
                 </div>
             </div>
 
@@ -74,7 +74,7 @@
                     Debug Message
                 </div>
                 <div class="row">
-                    <input type="text" style="width: 90%;" id="input-debug-message"></input>
+                    <input type="text" style="width: 90%;" id="input-debug-message" onkeyup="filter_debug_message()"></input>
                 </div>
             </div>
             
@@ -83,7 +83,7 @@
             Trace &raquo;</a></div>
         <div class="row" >
             <div class="table-responsive" style="height: 500px;" id="trace-container">
-                <table class="table table-bordered table-striped table-sm table-dark table-hover">
+                <table class="table table-bordered table-striped table-sm table-dark table-hover" id="trace-table">
                     <colgroup>
                         <col style="width: 9%;">
                         <col style="width: 5%;">
@@ -113,5 +113,6 @@
     trace_container = document.getElementById("trace-container")
     trace_container.scrollTop = trace_container.scrollHeight
 </script>
+<script src="{% static 'js/trace_filter.js' %}">
 
 {% endblock %}
