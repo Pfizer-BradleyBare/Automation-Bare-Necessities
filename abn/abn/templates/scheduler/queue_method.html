@@ -20,8 +20,8 @@
             </div>
             <hr>
             <div class="row justify-content-center">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
+                <div class="col-10"></div>
+                <div class="col-80">
                     <p>Please ensure that your method has been tested first. If your method does not pass testing then
                         it
                         will be removed from the queue without warning. To test, please click the button:
@@ -29,13 +29,13 @@
                             Method</a>
                     </p>
                 </div>
-                <div class="col-md-1"></div>
+                <div class="col-10"></div>
             </div>
             <hr>
             <form method="post">{% csrf_token %}
                 <div class="form-group row">
-                    <label for="input-emails" class="col-md-2 col-form-label">Emails</label>
-                    <div class="col-md-10">
+                    <label for="input-emails" class="col-15 col-form-label">Emails</label>
+                    <div class="col-85">
                         <input type="email" class="form-control" id="input-emails" name="input-emails" multiple="true"
                             placeholder="Comma delimited list of emails. Ex. Email1@pfizer.com, Email2@gmail.com"
                             required>
@@ -45,8 +45,8 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="input-phone-numbers" class="col-sm-2 col-form-label">Phone Numbers</label>
-                    <div class="col-sm-10">
+                    <label for="input-phone-numbers" class="col-15 col-form-label">Phone Numbers</label>
+                    <div class="col-85">
                         <input type="tel" class="form-control" id="input-phone-numbers" name="input-phone-numbers"
                             placeholder="Comma delimited list of phone numbers. Ex. 1234567890, 123-456-7890">
                         <small id="input-phone-numbers-help" class="form-text text-muted">
@@ -55,8 +55,8 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="input-completion-time" class="col-sm-2 col-form-label">Completion Time</label>
-                    <div class="col-sm-10">
+                    <label for="input-completion-time" class="col-15 col-form-label">Completion Time</label>
+                    <div class="col-85">
                         <input type="datetime-local" class="form-control" id="input-completion-time"
                             name="input-completion-time" placeholder="" required>
                         <small id="input-completion-time-help" class="form-text text-muted">
@@ -66,8 +66,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <legend class="col-form-label col-sm-2 pt-0">Method State</legend>
-                    <div class="col-sm-10">
+                    <legend class="col-form-label col-15 pt-0">Method State</legend>
+                    <div class="col-85">
                         <select class="form-control" id="input-method-state" name="input-method-state">
                             <option>Start from beginning</option>
                             <option>Resume</option>
@@ -82,14 +82,14 @@
 
                 <hr style="visibility: hidden;">
                 <div class="row">
-                    <legend class="col-form-label col-sm-2 pt-0">Method File</legend>
-                    <div class="col-sm-10">
+                    <legend class="col-form-label col-15 pt-0">Method File</legend>
+                    <div class="col-85">
                         {% include 'file_input.html' %}
                     </div>
                 </div>
                 <hr style="visibility: hidden;">
                 <div class="form-group row">
-                    <div class="col-sm-2">
+                    <div class="col">
                         <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                     </div>
                 </div>
