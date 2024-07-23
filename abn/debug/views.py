@@ -44,7 +44,7 @@ def trace(request: HttpRequest):
                 key=lambda x: x[0],
             ),
         }
-        return render(request, "debug/trace_body.html", context)
+        return render(request, "debug/trace/tbody.html", context)
     else:
         objects = TraceEntry.objects.all()[:num_objects]
         context = {
@@ -63,4 +63,4 @@ def trace(request: HttpRequest):
                 key=lambda x: x[0],
             ),
         }
-        return render(request, "debug/trace.html", context)
+        return render(request, "debug/trace/index.html", context)

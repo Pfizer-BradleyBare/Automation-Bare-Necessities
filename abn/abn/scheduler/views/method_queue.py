@@ -3,4 +3,4 @@ from django.shortcuts import render
 
 
 def method_queue(request: HttpRequest):
-    return render(request, "scheduler/method_queue.html", {})
+    return render(request, "scheduler/queue/list/index.html", {})

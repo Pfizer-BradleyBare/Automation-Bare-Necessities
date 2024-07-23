@@ -6,11 +6,13 @@
     document.getElementById("navbar-dropdown-scheduler-gantt-chart").classList.add("active")
 </script>
 
-<a class="btn btn-primary btn-lg btn-block" href="" hx-target="#container-gantt" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'gantt_chart' %}" hx-swap="innerHTML" role="button">Reload
+<a class="btn btn-primary btn-lg btn-block" href="" hx-target="#container-gantt"
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'gantt_chart' %}" hx-swap="innerHTML"
+    role="button">Reload
     Gantt Chart &raquo; </a>
 
-    <div id="container-gantt">
-    {% include 'scheduler/gantt_chart_figure.html' %}
-    </div>
+<div id="container-gantt">
+    {% include 'scheduler/gantt_chart/content.html' %}
+</div>
 
 {% endblock %}

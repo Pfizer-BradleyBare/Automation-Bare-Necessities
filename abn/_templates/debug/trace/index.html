@@ -20,7 +20,8 @@
         </div>
 
         <hr>
-        <form hx-post="{% url 'trace' %}" hx-trigger="click from:#button-update-trace, input keyup, select change" hx-target="#trace-body" hx-swap="outerHTML"> {% csrf_token %}
+        <form hx-post="{% url 'trace' %}" hx-trigger="click from:#button-update-trace, input keyup, select change"
+            hx-target="#trace-body" hx-swap="outerHTML"> {% csrf_token %}
             <div class="row">
                 <div class="col-9">
                     <div class="row">
@@ -28,12 +29,12 @@
                     </div>
                 </div>
 
-                <div class="col-3">                
+                <div class="col-3">
                     <div class="row">
                         Source
                     </div>
                     <div class="row">
-                        <select class="form-select" style= "height: 28px;" name="input-log-source">
+                        <select class="form-select" style="height: 28px;" name="input-log-source">
                             <option value="ALL" selected>ALL</option>
                             <option value="ABN">ABN</option>
                             <option value="PLH">PLH</option>
@@ -41,12 +42,12 @@
                     </div>
                 </div>
 
-                <div class="col-5">                
+                <div class="col-5">
                     <div class="row">
                         Log Level
                     </div>
                     <div class="row">
-                        <select class="form-select" style= "height: 28px;" name="input-log-level">
+                        <select class="form-select" style="height: 28px;" name="input-log-level">
                             <option value="ALL" selected>ALL</option>
                             <option value="DEBUG">DEBUG</option>
                             <option value="INFO">INFO</option>
@@ -64,7 +65,7 @@
                     <div class="row">
                         <input type="text" style="width: 90%;" name="input-method-name"></input>
                     </div>
-                    
+
                 </div>
 
                 <div class="col-20">
@@ -84,33 +85,34 @@
                         <input type="text" style="width: 90%;" name="input-debug-message"></input>
                     </div>
                 </div>
-                
+
             </div>
             <div class="row" style="margin-top: 5px;">
                 <a id="button-update-trace" class="btn btn-primary btn-lg btn-block" href="" role="button">Update
-                Trace &raquo;</a>
+                    Trace &raquo;</a>
             </div>
-            <div class="row" >
+            <div class="row">
         </form>
 
 
-            <div class="table-responsive" style="height: 500px;" id="trace-container">
-                <table class="table table-bordered table-striped table-sm table-dark table-hover" style="table-layout: fixed;"id="trace-table">
-                    <colgroup>
-                        <col style="width: 9%;">
-                        <col style="width: 3%;">
-                        <col style="width: 5%;">
-                        <col style="width: 15%;">
-                        <col style="width: 20%;">
-                        <col style="width: 48%;">
-                    </colgroup>
+        <div class="table-responsive" style="height: 500px;" id="trace-container">
+            <table class="table table-bordered table-striped table-sm table-dark table-hover"
+                style="table-layout: fixed;" id="trace-table">
+                <colgroup>
+                    <col style="width: 9%;">
+                    <col style="width: 3%;">
+                    <col style="width: 5%;">
+                    <col style="width: 15%;">
+                    <col style="width: 20%;">
+                    <col style="width: 48%;">
+                </colgroup>
 
-                    {% include 'debug/trace_body.html' %}
-                </table>
-            </div>
+                {% include 'debug/trace/tbody.html' %}
+            </table>
         </div>
-
     </div>
+
+</div>
 </div>
 
 

@@ -1,3 +1,6 @@
+from django.http.request import HttpRequest
 from django.shortcuts import render
 
-# Create your views here.
+
+def test_method(request: HttpRequest):
+    return render(request, "method/test/index.html", {})
