@@ -14,11 +14,12 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" id="navbar-dropdown-scheduler-gantt-chart"
                         href="{% url 'gantt_chart' %}">Gantt Chart</a>
-                    <a class="dropdown-item" id="navbar-dropdown-scheduler-method-queue"
-                        href="{% url 'method_queue' %}">Method Queue</a>
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-queue"
+                        href="{% url 'method_queue' %}">Queue</a>
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-trace" href="{% url 'trace' %}">Trace</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" id="navbar-dropdown-scheduler-queue-method"
-                        href="{% url 'queue_method' %}">Queue Method</a>
+                    <a class="dropdown-item" id="navbar-dropdown-scheduler-config"
+                        href="{% url 'config_admin:index' %}">Config</a>
                 </div>
             </li>
             <li class="nav-item dropdown" style="font-size: 22.5px">
@@ -27,21 +28,13 @@
                     Method
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" id="navbar-dropdown-method-method-list" href="">Method List</a>
+                    <a class="dropdown-item" id="navbar-dropdown-method-templates" href="">Templates</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" id="navbar-dropdown-method-test-method" href="{% url 'test_method' %}">Test
-                        Method</a>
+                    <a class="dropdown-item" id="navbar-dropdown-method-test" href="{% url 'test_method' %}">Test</a>
                 </div>
             </li>
-            <li class="nav-item dropdown" style="font-size: 22.5px">
-                <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-deck" role="button"
-                    data-toggle="dropdown">
-                    Deck
-                </a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" id="navbar-dropdown-deck-visualization" href="">Visualization</a>
-                    <a class="dropdown-item" id="navbar-dropdown-deck-method-positions" href="">Method Positions</a>
-                </div>
+            <li class="nav-item" style="font-size: 22.5px" id="navbar-help">
+                <a class="nav-link" href="">Deck Visualization</a>
             </li>
             <li class="nav-item dropdown" style="font-size: 22.5px">
                 <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-shortcuts" role="button"
@@ -52,15 +45,6 @@
                     <a class="dropdown-item" id="navbar-dropdown-shortcuts-deck-loading" href="">Deck Loading</a>
                     <a class="dropdown-item" id="navbar-dropdown-shortcuts-notifications" href="">Notifications</a>
                 </div>
-            </li>
-            <li class="nav-item" style="font-size: 22.5px" id="navbar-debug">
-                <a class="nav-link" href="{% url 'trace' %}">Debug</a>
-            </li>
-            <li class="nav-item" style="font-size: 22.5px" id="navbar-admin">
-                <a class="nav-link" href="{% url 'config_admin:index' %}">Config</a>
-            </li>
-            <li class="nav-item" style="font-size: 22.5px" id="navbar-admin">
-                <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
             </li>
             <li class="nav-item" style="font-size: 22.5px" id="navbar-help">
                 <a class="nav-link" href="">Help</a>
