@@ -8,6 +8,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <!-- JS -->
+
+    <script src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
+    <script src="{% static 'js/popper.1.12.9.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/htmx.2.0.1.js' %}"></script>
+
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/bootstrap_custom.css' %}">
 
@@ -32,12 +39,7 @@
     <!-- /container -->
 
 
-    <!-- JS -->
 
-    <script src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
-    <script src="{% static 'js/popper.1.12.9.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    {% block js %}{% endblock %}
 </body>
 
 </html>
