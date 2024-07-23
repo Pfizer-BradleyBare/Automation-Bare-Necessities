@@ -26,5 +26,5 @@ urlpatterns = [
     path("config/", include("abn_config.urls"), name="config"),
     path("", TemplateView.as_view(template_name="index.html"), name="home"),
     path("scheduler/", include("abn.scheduler.urls"), name="scheduler"),
-    path("debug/", include("abn.debug.urls"), name="debug"),
+    path("debug/", include("debug.urls"), name="debug"),
 ]
