@@ -9,14 +9,17 @@ def trace(request: HttpRequest):
     num_objects = 500
 
     if request.method == "POST":
+        log_source = request.POST["input-log-source"]
         log_level = request.POST["input-log-level"]
         method_name = request.POST["input-method-name"]
         device_identifier = request.POST["input-device-identifier"]
         debug_message = request.POST["input-debug-message"]
 
         query = TraceEntry.objects
+        if log_source != "ALL":
+            query = query.filter(log_source=log_source)
         if log_level != "ALL":
-            query = query.filter(level=log_level)
+            query = query.filter(log_level=log_level)
         if method_name != "":
             query = query.filter(method__name__icontains=method_name)
         if device_identifier != "":
@@ -30,7 +33,8 @@ def trace(request: HttpRequest):
                 [
                     [
                         object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),
-                        object.level,
+                        object.log_source,
+                        object.log_level,
                         object.method.file.name,
                         object.device_identifier,
                         object.message,
@@ -48,7 +52,8 @@ def trace(request: HttpRequest):
                 [
                     [
                         object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),
-                        object.level,
+                        object.log_source,
+                        object.log_level,
                         object.method.file.name,
                         object.device_identifier,
                         object.message,

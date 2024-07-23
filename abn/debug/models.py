@@ -4,7 +4,14 @@ from scheduler.models import QueuedMethod
 
 class TraceEntry(models.Model):
     time_stamp = models.DateTimeField(auto_now_add=True)
-    level = models.CharField(
+    log_source = models.CharField(
+        max_length=3,
+        choices=(
+            ("PLH", "PLH"),
+            ("ABN", "ABN"),
+        ),
+    )
+    log_level = models.CharField(
         max_length=10,
         choices=(
             ("DEBUG", "DEBUG"),
