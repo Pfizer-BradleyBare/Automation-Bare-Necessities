@@ -1,4 +1,4 @@
-from django.contrib import admin
+from config.admin import config_admin
 
 from .models import (
     NonTransportableDeckLocation,
@@ -6,6 +6,6 @@ from .models import (
     TransportConfig,
 )
 
-admin.site.register(NonTransportableDeckLocation)
-admin.site.register(TransportableDeckLocation)
-admin.site.register(TransportConfig)
+config_admin.register(NonTransportableDeckLocation)
+config_admin.register(TransportableDeckLocation)
+config_admin.register(TransportConfig)

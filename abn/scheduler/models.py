@@ -3,7 +3,7 @@ from django.db import models
 
 def get_upload_path(instance, filename):
     print(filename[:-5])
-    return f"queued_methods/{filename[:-5]}/{filename}"
+    return f"abn/files/queued_methods/{filename[:-5]}/{filename}"
 
 
 class QueuedMethod(models.Model):

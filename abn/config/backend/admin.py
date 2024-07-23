@@ -1,7 +1,7 @@
-from django.contrib import admin
+from config.admin import config_admin
 
 from .models import HamiltonMicrolabStar, HamiltonTrackGripperEntryExitVantage, Stunner
 
-admin.site.register(HamiltonMicrolabStar)
-admin.site.register(HamiltonTrackGripperEntryExitVantage)
-admin.site.register(Stunner)
+config_admin.register(HamiltonMicrolabStar)
+config_admin.register(HamiltonTrackGripperEntryExitVantage)
+config_admin.register(Stunner)

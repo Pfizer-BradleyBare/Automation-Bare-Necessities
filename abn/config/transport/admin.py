@@ -1,4 +1,4 @@
-from django.contrib import admin
+from config.admin import config_admin
 
 from .models import (
     HamiltonCOREGripper,
@@ -12,12 +12,12 @@ from .models import (
     VantageTrackGripperPlaceOptions,
 )
 
-admin.site.register(VantageTrackGripper)
-admin.site.register(VantageTrackGripperGetOptions)
-admin.site.register(VantageTrackGripperPlaceOptions)
-admin.site.register(HamiltonCOREGripper)
-admin.site.register(HamiltonCOREGripperGetOptions)
-admin.site.register(HamiltonCOREGripperPlaceOptions)
-admin.site.register(HamiltonInternalPlateGripper)
-admin.site.register(HamiltonInternalPlateGripperGetOptions)
-admin.site.register(HamiltonInternalPlateGripperPlaceOptions)
+config_admin.register(VantageTrackGripper)
+config_admin.register(VantageTrackGripperGetOptions)
+config_admin.register(VantageTrackGripperPlaceOptions)
+config_admin.register(HamiltonCOREGripper)
+config_admin.register(HamiltonCOREGripperGetOptions)
+config_admin.register(HamiltonCOREGripperPlaceOptions)
+config_admin.register(HamiltonInternalPlateGripper)
+config_admin.register(HamiltonInternalPlateGripperGetOptions)
+config_admin.register(HamiltonInternalPlateGripperPlaceOptions)

@@ -1,6 +1,6 @@
-from django.contrib import admin
+from config.admin import config_admin
 
 from .models import HamiltonSTARAutoload, HamiltonVantageAutoload
 
-admin.site.register(HamiltonSTARAutoload)
-admin.site.register(HamiltonVantageAutoload)
+config_admin.register(HamiltonSTARAutoload)
+config_admin.register(HamiltonVantageAutoload)

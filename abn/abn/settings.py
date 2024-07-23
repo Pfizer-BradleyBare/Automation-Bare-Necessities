@@ -36,10 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "polymorphic",
-    "custom_admin",
-    "debug",
-    "deck",
-    "scheduler",
+    "config",
     "config.backend",
     "config.carrier",
     "config.deck_location",
@@ -53,6 +50,9 @@ INSTALLED_APPS = [
     "config.carrier_loader",
     "config.storage_device",
     "config.pipette",
+    "debug",
+    "deck",
+    "scheduler",
 ]
 
 MIDDLEWARE = [

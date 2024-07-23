@@ -1,7 +1,7 @@
-from django.contrib import admin
+from config.admin import config_admin
 
 from .models import HamiltonAutoloadCarrier, MoveableCarrier, NonMoveableCarrier
 
-admin.site.register(NonMoveableCarrier)
-admin.site.register(MoveableCarrier)
-admin.site.register(HamiltonAutoloadCarrier)
+config_admin.register(NonMoveableCarrier)
+config_admin.register(MoveableCarrier)
+config_admin.register(HamiltonAutoloadCarrier)

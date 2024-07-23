@@ -1,8 +1,8 @@
-from django.contrib import admin
+from config.admin import config_admin
 
 from .models import HamiltonHeaterCooler, HamiltonHeaterShaker
 
 # Register your models here.
 
-admin.site.register(HamiltonHeaterShaker)
-admin.site.register(HamiltonHeaterCooler)
+config_admin.register(HamiltonHeaterShaker)
+config_admin.register(HamiltonHeaterCooler)

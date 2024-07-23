@@ -1,4 +1,4 @@
-from django.contrib import admin
+from config.admin import config_admin
 
 from .models import (
     HamiltonEEFTR1000uL,
@@ -8,8 +8,8 @@ from .models import (
     HamiltonNTR,
 )
 
-admin.site.register(HamiltonFTR)
-admin.site.register(HamiltonNTR)
-admin.site.register(HamiltonEETipStack)
-admin.site.register(HamiltonEENTR)
-admin.site.register(HamiltonEEFTR1000uL)
+config_admin.register(HamiltonFTR)
+config_admin.register(HamiltonNTR)
+config_admin.register(HamiltonEETipStack)
+config_admin.register(HamiltonEENTR)
+config_admin.register(HamiltonEEFTR1000uL)

@@ -1,5 +1,5 @@
-from django.contrib import admin
+from config.admin import config_admin
 
 from .models import HamiltonFliptubeLandscape
 
-admin.site.register(HamiltonFliptubeLandscape)
+config_admin.register(HamiltonFliptubeLandscape)
