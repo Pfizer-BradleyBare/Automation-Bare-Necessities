@@ -19,8 +19,8 @@ class AccessUser:
 
 
 config_admin.has_permission = (
-    lambda r: setattr(r, "user", AccessUser()) or True
-)  # type:ignore
+    lambda request: setattr(request, "user", AccessUser()) or True
+)
 
 # must have at least 1 user to save things to the DB
 try:
