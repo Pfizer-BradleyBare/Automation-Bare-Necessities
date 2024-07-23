@@ -1,5 +1,10 @@
 from django.db import models
 
 
+def get_upload_path(instance, filename):
+    print(filename[:-5])
+    return f"queued_methods/{filename[:-5]}/{filename}"
+
+
 class QueuedMethod(models.Model):
-    name = models.CharField(max_length=10)
+    file = models.FileField(upload_to=get_upload_path)

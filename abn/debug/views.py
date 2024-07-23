@@ -31,7 +31,7 @@ def trace(request: HttpRequest):
                     [
                         object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),
                         object.level,
-                        object.method.name,
+                        object.method.file.name,
                         object.device_identifier,
                         object.message,
                     ]
@@ -49,7 +49,7 @@ def trace(request: HttpRequest):
                     [
                         object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),
                         object.level,
-                        object.method.name,
+                        object.method.file.name,
                         object.device_identifier,
                         object.message,
                     ]
