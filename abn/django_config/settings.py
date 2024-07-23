@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "abn_config.carrier_loader",
     "abn_config.storage_device",
     "abn_config.pipette",
+    "abn",
     "abn.debug",
     "abn.deck",
     "abn.scheduler",

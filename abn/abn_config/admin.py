@@ -1,5 +1,5 @@
-from django.contrib.admin import AdminSite, site
-from django.contrib.auth.models import Group, User
+from django.contrib.admin import AdminSite
+from django.contrib.auth.models import User
 from django.db.utils import OperationalError
 
 
@@ -21,11 +21,6 @@ class AccessUser:
 config_admin.has_permission = (
     lambda r: setattr(r, "user", AccessUser()) or True
 )  # type:ignore
-
-site.unregister(Group)
-site.unregister(User)
-
-site.has_permission = lambda r: setattr(r, "user", AccessUser()) or True  # type:ignore
 
 # must have at least 1 user to save things to the DB
 try:
