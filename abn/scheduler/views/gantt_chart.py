@@ -40,4 +40,7 @@ def gantt_chart(request: HttpRequest):
         }
     except ValueError:
         context = {}
-    return render(request, "scheduler/gantt_chart.html", context)
+    if request.method == "POST":
+        return render(request, "scheduler/gantt_chart_figure.html", context)
+    else:
+        return render(request, "scheduler/gantt_chart.html", context)

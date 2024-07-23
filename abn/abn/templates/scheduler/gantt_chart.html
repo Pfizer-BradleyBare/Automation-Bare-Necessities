@@ -6,33 +6,11 @@
     document.getElementById("navbar-dropdown-scheduler-gantt-chart").classList.add("active")
 </script>
 
-{% if gantt_chart_html %}
-<a class="btn btn-primary btn-lg btn-block" href="{% url 'gantt_chart' %}" role="button">Reload
-    Gantt Chart &raquo;</a>
-{{ gantt_chart_html|safe}}
-{% else %}
+<a class="btn btn-primary btn-lg btn-block" href="" hx-target="#container-gantt" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'gantt_chart' %}" hx-swap="innerHTML" role="button">Reload
+    Gantt Chart &raquo; </a>
 
-<div class="container">
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <img src="{% static 'images/navbar/ABN Logo.png' %}" class="float-start" alt=""
-                        style="border-radius: 25%;">
-                </div>
-                <div class="col-sm-7">
-                    <h1 class="display-4">No Methods in Queue</h1>
-                    <p>Cannot show a Gantt chart without methods in the queue. Please queue a method first.</p>
-                    <p><a class="btn btn-primary btn-lg" href="{% url 'queue_method' %}" role="button">Queue Method
-                            &raquo;</a></p>
-                </div>
-            </div>
-        </div>
+    <div id="container-gantt">
+    {% include 'scheduler/gantt_chart_figure.html' %}
     </div>
-</div>
-
-
-{% endif %}
-
 
 {% endblock %}
