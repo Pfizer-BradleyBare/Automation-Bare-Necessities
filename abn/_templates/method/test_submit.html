@@ -1,0 +1,16 @@
+<form method="post"> {% csrf_token %}
+
+    <div class="row">
+        <div class="col-10"></div>
+        <div class="col-80">
+            {% include 'file_input.html' %}
+        </div>
+    </div>
+    <hr style="visibility: hidden;">
+    <div class="form-group row">
+        <div class="col-10"></div>
+        <div class="col-80">
+            <button type="submit" class="btn btn-primary btn-lg" id="button-submit-test">Submit</button>
+        </div>
+    </div>
+</form>
