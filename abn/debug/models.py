@@ -1,6 +1,5 @@
 from django.db import models
-
-from abn.scheduler.models import QueuedMethod
+from scheduler.models import QueuedMethod
 
 
 class TraceEntry(models.Model):

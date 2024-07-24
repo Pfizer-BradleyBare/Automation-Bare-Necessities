@@ -50,11 +50,11 @@ INSTALLED_APPS = [
     "plh_config.carrier_loader",
     "plh_config.storage_device",
     "plh_config.pipette",
-    "debug",
     "abn",
-    "abn.method",
-    "abn.deck",
-    "abn.scheduler",
+    "debug",
+    "method",
+    "deck",
+    "scheduler",
 ]
 
 MIDDLEWARE = [
