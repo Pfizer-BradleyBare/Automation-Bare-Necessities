@@ -19,13 +19,14 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import include, path
-from django.views.generic import TemplateView
+
+from abn.views import IndexView
 
 urlpatterns = [
     path("admin/", admin.site.urls, name="admin"),
     path("config/", include("plh_config.urls"), name="config"),
-    path("", TemplateView.as_view(template_name="index.html"), name="home"),
+    path("", IndexView.as_view(), name="home"),
     path("scheduler/", include("abn.scheduler.urls"), name="scheduler"),
     path("method/", include("abn.method.urls"), name="method"),
-    path("debug/", include("debug.urls"), name="debug"),
+    path("trace/", include("debug.urls", namespace="trace")),
 ]

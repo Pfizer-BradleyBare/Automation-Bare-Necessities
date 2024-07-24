@@ -1,0 +1,9 @@
+<tbody id="trace-body">
+    {% for row in table_rows %}
+    <tr style="height: 0px;">
+        {% for column in row %}
+        <td style="word-wrap:break-word">{{ column }} </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</tbody>

@@ -20,7 +20,7 @@
         </div>
 
         <hr>
-        <form hx-post="{% url 'trace' %}" hx-trigger="click from:#button-update-trace, input keyup, select change"
+        <form hx-post="{% url 'trace:body' %}" hx-trigger="click from:#button-update-trace, input keyup, select change"
             hx-target="#trace-body" hx-swap="outerHTML"> {% csrf_token %}
             <div class="row">
                 <div class="col-9">
@@ -107,7 +107,8 @@
                     <col style="width: 48%;">
                 </colgroup>
 
-                {% include 'debug/trace/tbody.html' %}
+                {% include 'debug/trace/trace_body.html' %}
+
             </table>
         </div>
     </div>
