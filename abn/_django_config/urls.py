@@ -23,10 +23,10 @@ from django.urls import include, path
 from abn.views import IndexView
 
 urlpatterns = [
-    path("admin/", admin.site.urls, name="admin"),
-    path("config/", include("plh_config.urls"), name="config"),
+    path("admin/", admin.site.urls),
+    path("config/", include("plh_config.urls")),
     path("", IndexView.as_view(), name="home"),
     path("scheduler/", include("scheduler.urls"), name="scheduler"),
-    path("method/", include("method.urls"), name="method"),
+    path("method/", include("method.urls", namespace="method")),
     path("trace/", include("debug.urls", namespace="trace")),
 ]

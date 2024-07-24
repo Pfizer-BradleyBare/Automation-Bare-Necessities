@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/file_input.css' %}">
+{% endblock %}
+{% block content %}
+<script>
+    document.getElementById("navbar-dropdown-method").classList.add("active")
+    document.getElementById("navbar-dropdown-method-test").classList.add("active")
+</script>
+<div class="container">
+    <div class="jumbotron">
+        <div class="row justify-content-center">
+            <h1 class="display-3">Test Method</h1>
+        </div>
+        <hr>
+        <div class="row justify-content-center">
+            <div class="col-10"></div>
+            <div class="col-80">
+                <p>Will test an ABN method containing both a "Method" and a "Worklist" sheet. Once testing completes
+                    successfully you will be able to download a preparation list and queue the method for execution.
+                </p>
+            </div>
+            <div class="col-10"></div>
+        </div>
+        <hr>
+        <form method="post">{% csrf_token %}
+
+            <div class="row">
+                <div class="col-10"></div>
+                <div class="col-80">
+                    {% include 'file_input.html' %}
+                </div>
+            </div>
+            <hr style="visibility: hidden;">
+            <div class="form-group row">
+                <div class="col-10"></div>
+                <div class="col-80">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+
+
+{% endblock %}
