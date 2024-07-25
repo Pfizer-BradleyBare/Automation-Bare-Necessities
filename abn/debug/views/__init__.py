@@ -1,4 +1,4 @@
-from .trace_body import TraceBodyView
-from .trace_index import TraceIndexView
+from .body import BodyView
+from .index import IndexView
 
-__all__ = ["TraceIndexView", "TraceBodyView"]
+__all__ = ["IndexView", "BodyView"]

@@ -1,10 +1,10 @@
 from django.http import HttpRequest
 from django.shortcuts import render
 
-from .trace_context import TraceContextView
+from .context import ContextView
 
 
-class TraceBodyView(TraceContextView):
+class BodyView(ContextView):
     def post(self, request: HttpRequest):
 
         return render(
