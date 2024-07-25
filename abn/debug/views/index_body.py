@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .context import ContextView
 
 
-class BodyView(ContextView):
+class IndexBodyView(ContextView):
     def post(self, request: HttpRequest):
 
         return render(

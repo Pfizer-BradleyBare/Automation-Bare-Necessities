@@ -1,4 +1,4 @@
-from .body import BodyView
 from .index import IndexView
+from .index_body import IndexBodyView
 
-__all__ = ["IndexView", "BodyView"]
+__all__ = ["IndexView", "IndexBodyView"]
