@@ -1,8 +1,11 @@
-from . import gantt_chart, method_queue, queue_method, queue_method_success
+from . import method_queue, queue_method, queue_method_success
+from .index import IndexView
+from .index_body import IndexBodyView
 
 __all__ = [
-    "gantt_chart",
     "method_queue",
     "queue_method",
     "queue_method_success",
+    "IndexView",
+    "IndexBodyView",
 ]

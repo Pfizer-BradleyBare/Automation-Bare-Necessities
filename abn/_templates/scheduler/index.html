@@ -7,12 +7,12 @@
 </script>
 
 <a class="btn btn-primary btn-lg btn-block" href="" hx-target="#container-gantt"
-    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-post="{% url 'gantt_chart' %}" hx-swap="innerHTML"
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-get="{% url 'scheduler:index_body' %}" hx-swap="innerHTML"
     role="button">Reload
     Gantt Chart &raquo; </a>
 
 <div id="container-gantt">
-    {% include 'scheduler/gantt_chart/content.html' %}
+    {% include 'scheduler/index_body.html' %}
 </div>
 
 {% endblock %}

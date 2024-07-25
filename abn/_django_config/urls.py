@@ -26,7 +26,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("config/", include("plh_config.urls")),
     path("", IndexView.as_view(), name="home"),
-    path("scheduler/", include("scheduler.urls"), name="scheduler"),
+    path("scheduler/", include("scheduler.urls", namespace="scheduler")),
     path("method/", include("method.urls", namespace="method")),
     path("trace/", include("debug.urls", namespace="trace")),
 ]
