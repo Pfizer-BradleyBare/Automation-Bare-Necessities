@@ -24,14 +24,16 @@
             hx-target="#trace-body" hx-swap="outerHTML"> {% csrf_token %}
             <div class="row">
                 <div class="col-9">
-                    <div class="row">
-                        Timestamp
+                    <div class="row justify-content-center">
+                        <h5>Timestamp</h5>
+
                     </div>
                 </div>
 
-                <div class="col-3">
+                <div class="col-4">
                     <div class="row">
-                        Source
+                        <h5>Source</h5>
+
                     </div>
                     <div class="row">
                         <select class="form-select" style="height: 28px;" name="input-log-source">
@@ -42,9 +44,10 @@
                     </div>
                 </div>
 
-                <div class="col-5">
+                <div class="col-6">
                     <div class="row">
-                        Log Level
+                        <h5>Log Level</h5>
+
                     </div>
                     <div class="row">
                         <select class="form-select" style="height: 28px;" name="input-log-level">
@@ -60,7 +63,8 @@
 
                 <div class="col-15">
                     <div class="row">
-                        Method Name
+                        <h5>Method Name</h5>
+
                     </div>
                     <div class="row">
                         <input type="text" style="width: 90%;" name="input-method-name"></input>
@@ -68,9 +72,10 @@
 
                 </div>
 
-                <div class="col-20">
+                <div class="col-18">
                     <div class="row">
-                        Device Identifier
+                        <h5>Device Identifier</h5>
+
                     </div>
                     <div class="row">
                         <input type="text" style="width: 90%;" name="input-device-identifier"></input>
@@ -79,7 +84,8 @@
 
                 <div class="col-48">
                     <div class="row">
-                        Debug Message
+                        <h5>Debug Message</h5>
+
                     </div>
                     <div class="row">
                         <input type="text" style="width: 90%;" name="input-debug-message"></input>
@@ -95,15 +101,15 @@
         </form>
 
 
-        <div class="table-responsive" style="height: 500px;" id="trace-container">
+        <div class="table-responsive table-dark" style="height: 500px;" id="trace-container">
             <table class="table table-bordered table-striped table-sm table-dark table-hover"
                 style="table-layout: fixed;" id="trace-table">
                 <colgroup>
                     <col style="width: 9%;">
-                    <col style="width: 3%;">
+                    <col style="width: 5%;">
                     <col style="width: 5%;">
                     <col style="width: 15%;">
-                    <col style="width: 20%;">
+                    <col style="width: 18%;">
                     <col style="width: 48%;">
                 </colgroup>
 

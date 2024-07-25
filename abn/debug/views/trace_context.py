@@ -36,7 +36,7 @@ class TraceContextView(NavbarView):
         objects = query.all()[:num_objects]
 
         context = {
-            "table_rows": sorted(
+            "rows": sorted(
                 [
                     [
                         object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),

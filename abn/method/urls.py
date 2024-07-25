@@ -11,4 +11,9 @@ urlpatterns = [
         views.TestProgressView.as_view(),
         name="progress",
     ),
+    path(
+        "test/body/<str:filename>/",
+        views.TestProgressBodyView.as_view(),
+        name="progress_body",
+    ),
 ]

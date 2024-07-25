@@ -4,16 +4,19 @@ from django.shortcuts import render
 
 from abn.views import NavbarView
 
+l = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-class TestProgressView(NavbarView):
+
+class TestProgressBodyView(NavbarView):
     def get_context_data(self, **kwargs) -> dict:
         filename = kwargs.get("filename")
 
         try:
+
             context = {
                 "filename": filename,
-                "progress": 0,
-                "rows": [1],
+                "progress": l.pop(0) * 10,
+                "rows": [],
             }
         except ObjectDoesNotExist:
             context = {}
@@ -23,6 +26,6 @@ class TestProgressView(NavbarView):
     def get(self, request: HttpRequest, filename: str):
         return render(
             request,
-            "method/test_progress.html",
+            "method/test_progress_body.html",
             self.get_context_data(filename=filename),
         )

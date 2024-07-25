@@ -1,0 +1,166 @@
+{% load static %} {% if not progress %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-33">
+            <img src="{% static 'images/navbar/ABN-cartoon.png' %}" class="float-start" alt=""
+                style="border-radius: 25%">
+        </div>
+        <div class="col-sm-58">
+            <h1 class="display-4">Method Not Found</h1>
+            <p style="font-weight: bold; font-size: larger">
+                "{{ filename }}" is not in the test list. Please submit the method for a test first.
+            </p>
+            <p>
+                <a class="btn btn-primary btn-lg" href="{% url 'method:test' %}" role="button">Test Method</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% else %} {% if progress == 100 %}
+
+<div class="row justify-content-center">
+    <h1 class="display-3">Test Complete</h1>
+</div>
+
+<hr />
+
+{% if rows|length == 0 %}
+
+<div class="row justify-content-center">
+    <div class="col-10"></div>
+    <div class="col-80">
+        <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+            Filename: "{{ filename }}"
+        </div>
+        <div class="row justify-content-center text-success" style="font-weight: bold; font-size: larger">
+            Test completed with no errors. Please download a preparation list
+            then queue the method.
+        </div>
+    </div>
+    <div class="col-10"></div>
+</div>
+
+<hr style="visibility: hidden" />
+
+<div class="row">
+    <div class="col-21"></div>
+    <div class="col-29">
+        <a class="btn btn-primary btn-lg" href="{% url 'method:test' %}" role="button">Download Preparation List</a>
+    </div>
+    <div class="col-15">
+        <a class="btn btn-primary btn-lg" href="{% url 'method:test' %}" role="button">Queue Method</a>
+    </div>
+    <div class="col-35"></div>
+</div>
+
+{% else %}
+
+<div class="row justify-content-center">
+    <div class="col-10"></div>
+    <div class="col-80">
+        <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+            Filename: "{{ filename }}"
+        </div>
+        <div class="row justify-content-center text-danger" style="font-weight: bold; font-size: larger">
+            Test completed with errors. Please correct the errors then test
+            again.
+        </div>
+        <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+            NOTE: You can click each error row to strike through.
+        </div>
+
+        <hr style="visibility: hidden" />
+
+        <div class="row justify-content-center">
+            <a class="btn btn-primary btn-lg" href="{% url 'method:test' %}" role="button">Test Method</a>
+        </div>
+    </div>
+    <div class="col-10"></div>
+</div>
+
+<hr />
+
+<div class="table-responsive table-dark" style="height: 315px" id="trace-container">
+    <table class="table table-bordered table-striped table-sm table-dark table-hover" style="table-layout: fixed"
+        id="trace-table">
+        <tbody id="trace-body">
+            {% for row in rows %}
+            <tr style="height: 0px" onclick="strikeRow(this)">
+                <td style="word-wrap: break-word">{{row}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function strikeRow(element) {
+        if (element.style.textDecoration == "line-through") {
+            element.style.textDecoration = "none";
+        } else {
+            element.style.textDecoration = "line-through";
+        }
+    }
+</script>
+
+{% endif %} {% else %}
+
+<div class="row justify-content-center" hx-get="{% url 'method:progress_body' filename=filename %}"
+    hx-trigger=" every 1s" hx-target="#test-body" hx-swap="innerHTML">
+    <h1 class="display-3">Test in Progress</h1>
+</div>
+
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-10"></div>
+    <div class="col-80">
+        <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+            Filename: "{{ filename }}"
+        </div>
+        <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+            Please do not leave this page. Once testing is complete you will be
+            guided on how to proceed.
+        </div>
+    </div>
+    <div class="col-10"></div>
+</div>
+
+<hr />
+
+<div class="row justify-content-center">
+    <h1 class="display-6" style="font-size: x-large">
+        Progress: {{progress}}%
+    </h1>
+</div>
+
+<div class="progress" style="height: 50px; background-color: white; margin-left: 5%; margin-right: 5%;">
+    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+        aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+        style="font-size: x-large; width:{{progress}}%"></div>
+
+</div>
+
+<hr style="visibility: hidden" />
+
+<div class="table-dark" style="height: 450px; overflow: hidden;" id="trace-container">
+    <table class="table table-bordered table-striped table-sm table-dark table-hover" style="table-layout: fixed"
+        id="trace-table">
+        <tbody id="trace-body">
+            {% for row in rows %}
+            <tr style="height: 0px">
+                <td style="word-wrap: break-word">{{row}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    trace_container = document.getElementById("trace-container");
+    trace_container.scrollTop = trace_container.scrollHeight;
+</script>
+
+{% endif %} {% endif %}
