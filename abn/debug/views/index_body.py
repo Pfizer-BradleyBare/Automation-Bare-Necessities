@@ -9,7 +9,7 @@ class IndexBodyView(ContextView):
 
         return render(
             request,
-            "trace/body.html",
+            "trace/index_body.html",
             self.get_context_data(
                 log_source=request.POST["input-log-source"],
                 log_level=request.POST["input-log-level"],
