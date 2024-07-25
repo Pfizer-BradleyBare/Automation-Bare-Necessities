@@ -2,7 +2,7 @@ from abn.views import NavbarView
 from debug.models import TraceEntry
 
 
-class ContextView(NavbarView):
+class IndexContextView(NavbarView):
 
     def get_context_data(self, **kwargs) -> dict:
 

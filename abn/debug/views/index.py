@@ -1,9 +1,9 @@
 from django.http import HttpRequest
 from django.shortcuts import render
 
-from .context import ContextView
+from .index_context import IndexContextView
 
 
-class IndexView(ContextView):
+class IndexView(IndexContextView):
     def get(self, request: HttpRequest):
         return render(request, "trace/index.html", self.get_context_data())

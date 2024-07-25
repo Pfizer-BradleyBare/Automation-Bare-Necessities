@@ -1,10 +1,10 @@
 from django.http import HttpRequest
 from django.shortcuts import render
 
-from .context import ContextView
+from .index_context import IndexContextView
 
 
-class IndexBodyView(ContextView):
+class IndexBodyView(IndexContextView):
     def post(self, request: HttpRequest):
 
         return render(
