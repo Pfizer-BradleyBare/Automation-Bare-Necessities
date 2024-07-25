@@ -12,8 +12,8 @@ class TestProgressView(NavbarView):
         try:
             context = {
                 "filename": filename,
-                "progress": 0,
-                "rows": [1],
+                "progress": 1,
+                "rows": [],
             }
         except ObjectDoesNotExist:
             context = {}
