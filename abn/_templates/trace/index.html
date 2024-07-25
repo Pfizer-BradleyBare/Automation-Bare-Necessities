@@ -20,8 +20,9 @@
         </div>
 
         <hr>
-        <form hx-post="{% url 'trace:body' %}" hx-trigger="click from:#button-update-trace, input keyup, select change"
-            hx-target="#trace-body" hx-swap="outerHTML"> {% csrf_token %}
+        <form hx-post="{% url 'trace:index_body' %}"
+            hx-trigger="click from:#button-update-trace, input keyup, select change" hx-target="#trace-body"
+            hx-swap="outerHTML"> {% csrf_token %}
             <div class="row">
                 <div class="col-9">
                     <div class="row justify-content-center">
