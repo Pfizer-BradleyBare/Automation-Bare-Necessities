@@ -12,13 +12,13 @@ urlpatterns = [
         name="progress",
     ),
     path(
-        "test/body/<str:filename>/",
+        "test/<str:filename>/body",
         views.TestProgressBodyView.as_view(),
         name="progress_body",
     ),
     path(
         "test/<str:filename>/preparation_list",
         views.TestPreparationListView.as_view(),
-        name="preparation_list",
+        name="progress_preparation_list",
     ),
 ]
