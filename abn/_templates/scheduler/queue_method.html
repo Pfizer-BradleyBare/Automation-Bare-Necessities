@@ -1,15 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block css %}
-<link rel="stylesheet" href="{% static 'css/file_input.css' %}">
-{% endblock %}
-
 {% block content %}
 <script>
     document.getElementById("navbar-dropdown-scheduler").classList.add("active")
-    document.getElementById("navbar-dropdown-scheduler-queue-method").classList.add("active")
+    document.getElementById("navbar-dropdown-scheduler-queue").classList.add("active")
 </script>
-
 
 <div class="container">
     <div class="jumbotron">
@@ -25,7 +20,7 @@
                     <p>Please ensure that your method has been tested first. If your method does not pass testing then
                         it
                         will be removed from the queue without warning. To test, please click the button:
-                        <a class="btn btn-secondary btn-sm" href="{% url 'test_method' %}" role="button">Test
+                        <a class="btn btn-secondary btn-sm" href="{% url 'method:test' %}" role="button">Test
                             Method</a>
                     </p>
                 </div>
@@ -86,5 +81,6 @@
         </div>
     </div>
 </div>
+
 
 {% endblock %}

@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+<script>
+    document.getElementById("navbar-dropdown-scheduler").classList.add("active")
+    document.getElementById("navbar-dropdown-scheduler-queue").classList.add("active")
+</script>
 
 <div class="container">
     <div class="jumbotron">
@@ -14,11 +18,12 @@
                 <p class="text-success" style="font-size: xx-large;">Success!</p>
             </div>
             <div class="row justify-content-center">
-                <a class="btn btn-primary btn-lg" href="{% url 'queue_method' %}" role="button">Queue Another
+                <a class="btn btn-primary btn-lg" href="{% url 'scheduler:queue_method' %}" role="button">Queue Another
                     Method</a>
             </div>
         </div>
     </div>
 </div>
+
 
 {% endblock %}

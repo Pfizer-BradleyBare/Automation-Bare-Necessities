@@ -1,6 +1,13 @@
-from django.http.request import HttpRequest
+from django.http import HttpRequest
 from django.shortcuts import render
 
+from abn.views import NavbarView
 
-def queue_method_success(request: HttpRequest):
-    return render(request, "scheduler/queue_method_success.html", {})
+
+class QueueMethodSuccessView(NavbarView):
+    def get(self, request: HttpRequest):
+        return render(
+            request,
+            "scheduler/queue_method_success.html",
+            self.get_context_data(),
+        )

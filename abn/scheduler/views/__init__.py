@@ -1,11 +1,13 @@
-from . import method_queue, queue_method, queue_method_success
 from .index import IndexView
 from .index_body import IndexBodyView
+from .queue_index import QueueIndexView
+from .queue_method import QueueMethodView
+from .queue_method_success import QueueMethodSuccessView
 
 __all__ = [
-    "method_queue",
-    "queue_method",
-    "queue_method_success",
     "IndexView",
     "IndexBodyView",
+    "QueueIndexView",
+    "QueueMethodView",
+    "QueueMethodSuccessView",
 ]
