@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/file_input.css' %}">
+{% endblock %}
+{% block content %}
+<script>
+    document.getElementById("navbar-dropdown-scheduler").classList.add("active")
+    document.getElementById("navbar-dropdown-scheduler-queue").classList.add("active")
+</script>
+
+<div class="container">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row justify-content-center">
+                <h1 class="display-3">Method Dashboard</h1>
+            </div>
+            <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+                {{ filename }}
+            </div>
+            <hr>
+            {% include 'scheduler/queue_method_dashboard_status_body.html' %}
+            <hr>
+            {% include 'scheduler/queue_method_dashboard_progress_body.html' %}
+            <hr>
+            {% include 'scheduler/queue_method_dashboard_control_body.html' %}
+            <hr>
+
+            <div class="row justify-content-center">
+                <h1 class="display-6" style="font-size: x-large">
+                    Update Information
+                </h1>
+            </div>
+            <form method="post">{% csrf_token %}
+                <div class="form-group row">
+                    <label for="input-emails" class="col-15 col-form-label">Emails</label>
+                    <div class="col-85">
+                        <input type="email" class="form-control" id="input-emails" name="input-emails" multiple="true"
+                            placeholder="Comma delimited list of emails. Ex. Email1@pfizer.com, Email2@gmail.com"
+                            required>
+                        <small id="input-emails-help" class="form-text text-muted">
+                            You must enter at least one email.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="input-phone-numbers" class="col-15 col-form-label">Phone Numbers</label>
+                    <div class="col-85">
+                        <input type="tel" class="form-control" id="input-phone-numbers" name="input-phone-numbers"
+                            placeholder="Comma delimited list of phone numbers. Ex. 1234567890, 123-456-7890">
+                        <small id="input-phone-numbers-help" class="form-text text-muted">
+                            Phone numbers are optional.
+                        </small>
+                    </div>
+                </div>
+                {% if not progress %}
+                <div class="form-group row">
+                    <label for="input-completion-time" class="col-15 col-form-label">Completion Time</label>
+                    <div class="col-85">
+                        <input type="datetime-local" class="form-control" id="input-completion-time"
+                            name="input-completion-time" placeholder="" required>
+                        <small id="input-completion-time-help" class="form-text text-muted">
+                            ABN will attempt to complete the method near the completion time. If not possible, ABN
+                            will complete as soon as possible.
+                        </small>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="form-group row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock %}

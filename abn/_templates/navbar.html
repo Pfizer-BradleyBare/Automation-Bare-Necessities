@@ -1,5 +1,5 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="{% url 'home' %}">
         {% if abn_state == "stop" %}
         <img src="{% static 'images/navbar/abn-persimmon.png' %}" width="65" height="65" alt=""

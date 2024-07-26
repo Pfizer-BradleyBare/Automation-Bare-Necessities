@@ -1,0 +1,20 @@
+{% if state == "not running" %}
+<div class="row justify-content-center">
+    <h1 class="display-6" style="font-size: x-large">
+        Estimated Start Time: {{time_remaining}}
+    </h1>
+</div>
+{% elif state == "running" or state == "paused" or state == "complete" %}
+{% if state == "running" %}
+<div class="row justify-content-center">
+    <h1 class="display-6" style="font-size: x-large">
+        Time Remaining: {{time_remaining}}
+    </h1>
+</div>
+{% endif %}
+<div class="progress" style="height: 50px; background-color: white; margin-left: 5%; margin-right: 5%;">
+    <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+        aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"
+        style="font-size: x-large; width:{{progress}}%"></div>
+</div>
+{% endif %}

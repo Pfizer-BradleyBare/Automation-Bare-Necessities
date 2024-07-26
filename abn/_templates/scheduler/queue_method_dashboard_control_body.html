@@ -1,0 +1,49 @@
+<div class="row justify-content-center">
+    <h1 class="display-6" style="font-size: x-large">
+        Control Buttons
+    </h1>
+</div>
+
+<div class="row justify-content-center">
+    {% if state != "complete" %}
+    <div class="col-20">
+        {% if notifications %}
+        <div class="btn btn-info btn-sm" style="width: 180px; font-size: large;" role="button">
+            Notifications
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-20">
+        <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Edit
+            Method</a>
+    </div>
+
+    {% if state == "running" or state == "paused" %}
+    <div class="col-20">
+        {% if state == "paused" %}
+        <a class="btn btn-success btn-sm" href="" style="width: 180px; font-size: large;" role="button">Resume
+            Execution</a>
+        {% else %}
+        <a class="btn btn-warning btn-sm" href="" style="width: 180px; font-size: large;" role="button">Pause
+            Execution</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    <div class="col-20">
+        <a class="btn btn-danger btn-sm" href="" style="width: 180px; font-size: large;" role="button">Abort
+            Execution</a>
+    </div>
+    <div class="col-20">
+        {% if deck_loading %}
+        <div class="btn btn-info btn-sm" style="width: 180px; font-size: large;" role="button">Deck
+            Loading</div>
+        {% endif %}
+    </div>
+    {% elif state == "complete" %}
+    <div class="row justify-content-center">
+        <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Start
+            Cleanup</a>
+    </div>
+    {% endif %}
+</div>

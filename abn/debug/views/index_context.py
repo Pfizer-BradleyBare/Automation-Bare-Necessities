@@ -27,7 +27,7 @@ class IndexContextView(NavbarView):
         if log_level != "ALL":
             query = query.filter(log_level=log_level)
         if method_name != "":
-            query = query.filter(method__name__icontains=method_name)
+            query = query.filter(method__filename__icontains=method_name)
         if device_identifier != "":
             query = query.filter(device_identifier__icontains=device_identifier)
         if debug_message != "":
@@ -42,7 +42,7 @@ class IndexContextView(NavbarView):
                         object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),
                         object.log_source,
                         object.log_level,
-                        object.method.file.name,
+                        object.method.filename,
                         object.device_identifier,
                         object.message,
                     ]
