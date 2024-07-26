@@ -45,18 +45,20 @@
                     <a class="dropdown-item" id="navbar-dropdown-method-test" href="{% url 'method:test' %}">Test</a>
                 </div>
             </li>
-            <li class="nav-item" style="font-size: 22.5px" id="navbar-help">
-                <a class="nav-link" href="">Deck Visualization</a>
-            </li>
+
             <li class="nav-item dropdown" style="font-size: 22.5px">
-                <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-shortcuts" role="button"
+                <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-deck" role="button"
                     data-toggle="dropdown">
-                    Shortcuts
+                    Deck
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" id="navbar-dropdown-shortcuts-deck-loading" href="">Deck Loading</a>
-                    <a class="dropdown-item" id="navbar-dropdown-shortcuts-notifications" href="">Notifications</a>
+                    <a class="dropdown-item" id="navbar-dropdown-deck-visualization" href="">Visualization</a>
+                    <a class="dropdown-item" id="navbar-dropdown-deck-loading" href="">Loading</a>
+
                 </div>
+            </li>
+            <li class="nav-item" style="font-size: 22.5px" id="navbar-notifications">
+                <a class="nav-link" href="">Notifications</a>
             </li>
             <li class="nav-item" style="font-size: 22.5px" id="navbar-trace">
                 <a class="nav-link" href="{% url 'trace:index' %}">Trace</a>

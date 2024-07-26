@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
@@ -13,4 +15,6 @@ class TestIndexView(NavbarView):
         )
 
     def post(self, request: HttpRequest):
-        return redirect("method:progress", "ttt")
+        raw_method_file = request.FILES["input-method-file"]
+        method_file_name = Path(raw_method_file.name).stem
+        return redirect("method:progress", method_file_name)

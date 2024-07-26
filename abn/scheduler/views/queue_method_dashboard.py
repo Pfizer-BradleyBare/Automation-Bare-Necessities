@@ -16,6 +16,6 @@ class QueueMethodDashboardView(NavbarView):
                 "notifications": [1],
                 "filename": filename,
                 "progress": 50,
-                "time_remaining": "3 hours 25 minutes",
+                "time_remaining": "10 days 24 hours 25 minutes",
             },
         )

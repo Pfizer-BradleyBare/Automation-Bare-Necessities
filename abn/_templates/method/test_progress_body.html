@@ -23,7 +23,9 @@
 <div class="row justify-content-center">
     <h1 class="display-3">Test Complete</h1>
 </div>
-
+<div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+    {{ filename }}
+</div>
 <hr />
 
 {% if rows|length == 0 %}
@@ -31,9 +33,6 @@
 <div class="row justify-content-center">
     <div class="col-10"></div>
     <div class="col-80">
-        <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
-            Filename: "{{ filename }}"
-        </div>
         <div class="row justify-content-center text-success" style="font-weight: bold; font-size: larger">
             Test completed with no errors. Please download a preparation list
             then queue the method.
@@ -61,9 +60,6 @@
 <div class="row justify-content-center">
     <div class="col-10"></div>
     <div class="col-80">
-        <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
-            Filename: "{{ filename }}"
-        </div>
         <div class="row justify-content-center text-danger" style="font-weight: bold; font-size: larger">
             Test completed with errors. Please correct the errors then test
             again.
@@ -112,15 +108,15 @@
     hx-trigger=" every 1s" hx-target="#test-body" hx-swap="innerHTML">
     <h1 class="display-3">Test in Progress</h1>
 </div>
-
+<div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+    {{ filename }}
+</div>
 <hr />
 
 <div class="row justify-content-center">
     <div class="col-10"></div>
     <div class="col-80">
-        <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
-            Filename: "{{ filename }}"
-        </div>
+
         <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
             Please do not leave this page. Once testing is complete you will be
             guided on how to proceed.
