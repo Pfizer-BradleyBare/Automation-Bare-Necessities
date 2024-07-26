@@ -14,4 +14,9 @@ urlpatterns = [
         views.QueueMethodSuccessView.as_view(),
         name="queue_method_success",
     ),
+    path(
+        "queue/method/error",
+        views.QueueMethodErrorView.as_view(),
+        name="queue_method_error",
+    ),
 ]

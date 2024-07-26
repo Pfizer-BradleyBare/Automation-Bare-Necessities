@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/file_input.css' %}">
+{% endblock %}
 {% block content %}
 <script>
     document.getElementById("navbar-dropdown-scheduler").classList.add("active")
@@ -27,7 +30,7 @@
                 <div class="col-10"></div>
             </div>
             <hr>
-            <form method="post">{% csrf_token %}
+            <form method="post" enctype="multipart/form-data">{% csrf_token %}
                 <div class="form-group row">
                     <label for="input-emails" class="col-15 col-form-label">Emails</label>
                     <div class="col-85">

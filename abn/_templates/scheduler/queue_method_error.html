@@ -15,22 +15,21 @@
             </div>
             <hr>
             <div class="row justify-content-center">
-                <p class="text-success" style="font-size: xx-large;">Success!</p>
+                <p class="text-danger" style="font-size: xx-large;">Error!</p>
             </div>
             <div class="row justify-content-center">
-                <p class="text-success" style="font-size: larger;">Method queued successfully. View the queue to begin
-                    deck loading, or queue another method.</p>
+                <p class="text-danger" style="font-size: larger;">Method already exists in the queue. Please view the
+                    queue.</p>
             </div>
             <div class="row justify-content-center">
-                <div class="col-21"></div>
-                <div class="col-20"><a class="btn btn-primary btn-lg" href="{% url 'scheduler:queue' %}"
-                        role="button">View Queue</a></div>
-                <div class="col-20"><a class="btn btn-primary btn-lg" href="{% url 'scheduler:queue_method' %}"
-                        role="button">Queue
-                        Method</a></div>
+                <p class="text-danger" style="font-size: larger;">Remove the method if it should not be queued, or
+                    continue with deck loading / execution. </p>
+            </div>
+            <div class="row justify-content-center">
+                <a class="btn btn-primary btn-lg" href="{% url 'scheduler:queue' %}" role="button">View Queue</a>
+            </div>
 
-                <div class="col-19"></div>
-            </div>
+
         </div>
     </div>
 </div>

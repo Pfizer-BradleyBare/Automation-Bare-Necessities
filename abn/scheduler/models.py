@@ -1,4 +1,6 @@
+import shutil
 from datetime import datetime
+from pathlib import Path
 
 from django.db import models
 
@@ -8,7 +10,28 @@ def get_upload_path(instance, filename):
 
 
 class QueuedMethod(models.Model):
-    emails = models.CharField(max_length=100)
-    phone_numbers = models.CharField(max_length=100)
-    completion_time = models.DateTimeField()
-    method_file = models.FileField(upload_to=get_upload_path, max_length=255)
+    file_name = models.CharField(
+        max_length=100,
+        unique=True,
+        primary_key=True,
+        blank=False,
+        null=False,
+    )
+    creation_time = models.DateTimeField(auto_now_add=True, editable=False)
+    emails = models.CharField(max_length=100, blank=False, null=False)
+    phone_numbers = models.CharField(max_length=100, blank=True)
+    completion_time = models.DateTimeField(blank=False, null=False)
+    file = models.FileField(
+        upload_to=get_upload_path,
+        max_length=255,
+        blank=False,
+        null=False,
+    )
+
+    def __str__(self) -> str:
+        return self.file_name
+
+    def delete(self, using=None, keep_parents=False) -> tuple[int, dict[str, int]]:
+        print("HEREH")
+        shutil.rmtree(Path(self.file.path).parent)
+        return super().delete(using, keep_parents)
