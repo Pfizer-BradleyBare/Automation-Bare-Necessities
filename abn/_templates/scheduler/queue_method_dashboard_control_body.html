@@ -5,12 +5,12 @@
 </div>
 
 <div class="row justify-content-center">
-    {% if state != "complete" %}
+    {% if state != "complete" and state != "aborted" %}
     <div class="col-20">
-        {% if notifications %}
-        <div class="btn btn-info btn-sm" style="width: 180px; font-size: large;" role="button">
+        {% if state == "notifications_pending" %}
+        <a class="btn btn-info btn-sm" href="" style="width: 180px; font-size: large;" role="button">
             Notifications
-        </div>
+        </a>
         {% endif %}
     </div>
 
@@ -35,12 +35,12 @@
             Execution</a>
     </div>
     <div class="col-20">
-        {% if deck_loading %}
-        <div class="btn btn-info btn-sm" style="width: 180px; font-size: large;" role="button">Deck
-            Loading</div>
+        {% if state == "deck_loading_pending" %}
+        <a class="btn btn-info btn-sm" href="" style="width: 180px; font-size: large;" role="button">Deck
+            Loading</a>
         {% endif %}
     </div>
-    {% elif state == "complete" %}
+    {% elif state == "complete" or state == "aborted" %}
     <div class="row justify-content-center">
         <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Start
             Cleanup</a>

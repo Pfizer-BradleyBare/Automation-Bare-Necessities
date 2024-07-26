@@ -4,7 +4,7 @@
         Estimated Start Time: {{time_remaining}}
     </h1>
 </div>
-{% elif state == "running" or state == "paused" or state == "complete" %}
+{% else %}
 {% if state == "running" %}
 <div class="row justify-content-center">
     <h1 class="display-6" style="font-size: x-large">

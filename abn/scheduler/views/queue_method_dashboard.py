@@ -11,11 +11,9 @@ class QueueMethodDashboardView(NavbarView):
             "scheduler/queue_method_dashboard.html",
             self.get_context_data()
             | {
-                "state": "running",
-                "deck_loading": [1],
-                "notifications": [1],
+                "state": "aborted",
                 "filename": filename,
-                "progress": 50,
+                "progress": 100,
                 "time_remaining": "10 days 24 hours 25 minutes",
             },
         )
