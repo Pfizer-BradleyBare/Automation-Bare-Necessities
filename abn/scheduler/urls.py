@@ -19,4 +19,9 @@ urlpatterns = [
         views.QueueMethodErrorView.as_view(),
         name="queue_method_error",
     ),
+    path(
+        "queue/method/<str:filename>/",
+        views.QueueMethodDashboardView.as_view(),
+        name="queue_method_dashboard",
+    ),
 ]

@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
@@ -19,7 +21,7 @@ class QueueMethodView(NavbarView):
         raw_phone_numbers = request.POST["input-phone-numbers"]
         raw_completion_time = request.POST["input-completion-time"]
         raw_method_file = request.FILES["input-method-file"]
-        method_file_name = raw_method_file.name
+        method_file_name = Path(raw_method_file.name).stem
 
         if not QueuedMethod.objects.filter(file_name=method_file_name).exists():
             QueuedMethod(

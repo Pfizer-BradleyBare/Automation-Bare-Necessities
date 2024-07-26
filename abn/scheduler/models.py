@@ -10,10 +10,9 @@ def get_upload_path(instance, filename):
 
 
 class QueuedMethod(models.Model):
-    file_name = models.CharField(
+    filename = models.CharField(
         max_length=100,
         unique=True,
-        primary_key=True,
         blank=False,
         null=False,
     )
@@ -29,9 +28,8 @@ class QueuedMethod(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.file_name
+        return self.filename
 
     def delete(self, using=None, keep_parents=False) -> tuple[int, dict[str, int]]:
-        print("HEREH")
-        shutil.rmtree(Path(self.file.path).parent)
+        shutil.rmtree(Path(self.file.path).parent, ignore_errors=True)
         return super().delete(using, keep_parents)
