@@ -16,6 +16,19 @@ class QueuedMethod(models.Model):
         blank=False,
         null=False,
     )
+    state = models.CharField(
+        max_length=12,
+        choices=(
+            ("Deck Loading", "Deck Loading"),
+            ("Notification", "Notification"),
+            ("In Queue", "In Queue"),
+            ("Running", "Running"),
+            ("Paused", "Paused"),
+            ("Complete", "Complete"),
+            ("Aborted", "Aborted"),
+        ),
+        default="In Queue",
+    )
     creation_time = models.DateTimeField(auto_now_add=True, editable=False)
     emails = models.CharField(max_length=100, blank=False, null=False)
     phone_numbers = models.CharField(max_length=100, blank=True)

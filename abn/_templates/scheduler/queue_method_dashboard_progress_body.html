@@ -1,7 +1,7 @@
-{% if state == "not running" %}
+{% if state == "in queue" %}
 <div class="row justify-content-center">
     <h1 class="display-6" style="font-size: x-large">
-        Estimated Start Time: {{time_remaining}}
+        Estimated Start Time: {{start_time}}
     </h1>
 </div>
 {% else %}

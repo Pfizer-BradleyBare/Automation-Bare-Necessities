@@ -37,7 +37,7 @@
                     <div class="col-85">
                         <input type="email" class="form-control" id="input-emails" name="input-emails" multiple="true"
                             placeholder="Comma delimited list of emails. Ex. Email1@pfizer.com, Email2@gmail.com"
-                            required>
+                            required value="{{emails}}">
                         <small id="input-emails-help" class="form-text text-muted">
                             You must enter at least one email.
                         </small>
@@ -47,8 +47,9 @@
                     <label for="input-phone-numbers" class="col-15 col-form-label">Phone Numbers</label>
                     <div class="col-85">
                         <input type="tel" class="form-control" id="input-phone-numbers" name="input-phone-numbers"
-                            placeholder="Comma delimited list of phone numbers. Ex. 1234567890, 123-456-7890">
-                        <small id="input-phone-numbers-help" class="form-text text-muted">
+                            placeholder="Comma delimited list of phone numbers. Ex. 1234567890, 123-456-7890"
+                            value="{{phone_numbers}}">
+                        <small id=" input-phone-numbers-help" class="form-text text-muted">
                             Phone numbers are optional.
                         </small>
                     </div>
@@ -57,7 +58,7 @@
                     <label for="input-completion-time" class="col-15 col-form-label">Completion Time</label>
                     <div class="col-85">
                         <input type="datetime-local" class="form-control" id="input-completion-time"
-                            name="input-completion-time" placeholder="" required>
+                            name="input-completion-time" required value="{{completion_time}}">
                         <small id="input-completion-time-help" class="form-text text-muted">
                             ABN will attempt to complete the method near the completion time. If not possible, ABN
                             will complete as soon as possible.

@@ -7,7 +7,7 @@
 <div class="row justify-content-center">
     {% if state != "complete" and state != "aborted" %}
     <div class="col-20">
-        {% if state == "notifications_pending" %}
+        {% if state == "notification" %}
         <a class="btn btn-info btn-sm" href="" style="width: 180px; font-size: large;" role="button">
             Notifications
         </a>
@@ -19,8 +19,9 @@
             Method</a>
     </div>
 
-    {% if state == "running" or state == "paused" %}
+
     <div class="col-20">
+        {% if state == "running" or state == "paused" %}
         {% if state == "paused" %}
         <a class="btn btn-success btn-sm" href="" style="width: 180px; font-size: large;" role="button">Resume
             Execution</a>
@@ -28,22 +29,34 @@
         <a class="btn btn-warning btn-sm" href="" style="width: 180px; font-size: large;" role="button">Pause
             Execution</a>
         {% endif %}
+        {% endif %}
     </div>
-    {% endif %}
+
     <div class="col-20">
+        {% if state == "paused" or state == "in queue" %}
         <a class="btn btn-danger btn-sm" href="" style="width: 180px; font-size: large;" role="button">Abort
             Execution</a>
+        {% endif %}
     </div>
     <div class="col-20">
-        {% if state == "deck_loading_pending" %}
+        {% if state == "deck loading" %}
         <a class="btn btn-info btn-sm" href="" style="width: 180px; font-size: large;" role="button">Deck
             Loading</a>
         {% endif %}
     </div>
     {% elif state == "complete" or state == "aborted" %}
-    <div class="row justify-content-center">
-        <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Start
-            Cleanup</a>
+    <div class="col">
+        <div class="row justify-content-center">
+            <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Start
+                Cleanup</a>
+        </div>
+        {% if state == "aborted" %}
+        <br>
+        <div class="row justify-content-center">
+            <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">I Changed My
+                Mind</a>
+        </div>
+        {% endif %}
     </div>
     {% endif %}
 </div>

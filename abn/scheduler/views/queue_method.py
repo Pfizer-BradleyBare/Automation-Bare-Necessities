@@ -1,7 +1,9 @@
+import datetime
 from pathlib import Path
 
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
+from django.utils import timezone
 
 from abn.views import NavbarView
 from scheduler.models import QueuedMethod
@@ -27,7 +29,10 @@ class QueueMethodView(NavbarView):
             QueuedMethod(
                 emails=raw_emails,
                 phone_numbers=raw_phone_numbers,
-                completion_time=raw_completion_time,
+                completion_time=datetime.datetime.strptime(
+                    raw_completion_time,
+                    "%Y-%m-%dT%H:%M",
+                ).astimezone(timezone.get_current_timezone()),
                 file=raw_method_file,
                 file_name=method_file_name,
             ).save()
