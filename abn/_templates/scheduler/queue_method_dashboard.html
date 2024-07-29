@@ -15,13 +15,8 @@
             <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
                 {{ filename }}
             </div>
-            <hr>
-            {% include 'scheduler/queue_method_dashboard_status_body.html' %}
-            <hr>
-            {% include 'scheduler/queue_method_dashboard_progress_body.html' %}
-            <hr>
-            {% include 'scheduler/queue_method_dashboard_control_body.html' %}
-            <hr>
+
+            {% include 'scheduler/queue_method_dashboard_body.html' %}
 
             <div class="row justify-content-center">
                 <h1 class="display-6" style="font-size: x-large">

@@ -1,0 +1,10 @@
+<div id="dashboard-body" hx-get="{% url 'scheduler:queue_method_dashboard_body' filename=filename %}"
+    hx-trigger="every 1s" hx-target="#dashboard-body" hx-swap="outerHTML">
+    <hr>
+    {% include 'scheduler/queue_method_dashboard_status_body.html' %}
+    <hr>
+    {% include 'scheduler/queue_method_dashboard_progress_body.html' %}
+    <hr>
+    {% include 'scheduler/queue_method_dashboard_control_body.html' %}
+    <hr>
+</div>

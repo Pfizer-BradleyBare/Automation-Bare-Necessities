@@ -25,13 +25,28 @@ urlpatterns = [
         name="queue_method_dashboard",
     ),
     path(
+        "queue/method/<str:filename>/body",
+        views.QueueMethodDashboardBodyView.as_view(),
+        name="queue_method_dashboard_body",
+    ),
+    path(
         "queue/method/<str:filename>/abort",
         views.QueueMethodDashboardAbortView.as_view(),
         name="queue_method_dashboard_abort",
     ),
     path(
         "queue/method/<str:filename>/edit",
-        views.QueueMethodDashboardAbortView.as_view(),
+        views.QueueMethodDashboardEditView.as_view(),
         name="queue_method_dashboard_edit",
+    ),
+    path(
+        "queue/method/<str:filename>/pause",
+        views.QueueMethodDashboardPauseView.as_view(),
+        name="queue_method_dashboard_pause",
+    ),
+    path(
+        "queue/method/<str:filename>/resume",
+        views.QueueMethodDashboardResumeView.as_view(),
+        name="queue_method_dashboard_resume",
     ),
 ]

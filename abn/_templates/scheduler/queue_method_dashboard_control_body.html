@@ -17,7 +17,8 @@
 
     <div class="col-20">
         {% if state != "running" %}
-        <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Edit
+        <a class="btn btn-primary btn-sm" href="{% url 'scheduler:queue_method_dashboard_edit' filename=filename %}"
+            style="width: 180px; font-size: large;" role="button">Edit
             Method</a>
         {% endif %}
     </div>
@@ -27,10 +28,14 @@
     <div class="col-20">
         {% if state == "running" or state == "paused" %}
         {% if state == "paused" %}
-        <a class="btn btn-success btn-sm" href="" style="width: 180px; font-size: large;" role="button">Resume
+        <a class="btn btn-success btn-sm" href="" hx-target="#dashboard-body" hx-swap="outerHTML"
+            hx-get="{% url 'scheduler:queue_method_dashboard_resume' filename=filename %}"
+            style="width: 180px; font-size: large;" role="button">Resume
             Execution</a>
         {% else %}
-        <a class="btn btn-warning btn-sm" href="" style="width: 180px; font-size: large;" role="button">Pause
+        <a class="btn btn-warning btn-sm" href="" hx-target="#dashboard-body" hx-swap="outerHTML"
+            hx-get="{% url 'scheduler:queue_method_dashboard_pause' filename=filename %}"
+            style="width: 180px; font-size: large;" role="button">Pause
             Execution</a>
         {% endif %}
         {% endif %}
@@ -38,7 +43,8 @@
 
     <div class="col-20">
         {% if state != "running" %}
-        <a class="btn btn-danger btn-sm" href="" style="width: 180px; font-size: large;" role="button">Abort
+        <a class="btn btn-danger btn-sm" href="{% url 'scheduler:queue_method_dashboard_abort' filename=filename %}"
+            style="width: 180px; font-size: large;" role="button">Abort
             Execution</a>
         {% endif %}
     </div>

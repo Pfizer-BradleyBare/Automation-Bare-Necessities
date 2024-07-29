@@ -26,7 +26,7 @@ class QueuedMethod(models.Model):
             ("Complete", "Complete"),
             ("Aborted", "Aborted"),
         ),
-        default="In Queue",
+        default="Running",
     )
     creation_time = models.DateTimeField(auto_now_add=True, editable=False)
     emails = models.CharField(max_length=100, blank=False, null=False)
