@@ -21,7 +21,6 @@ class QueuedMethod(models.Model):
         choices=(
             ("Deck Loading", "Deck Loading"),
             ("Notification", "Notification"),
-            ("In Queue", "In Queue"),
             ("Running", "Running"),
             ("Paused", "Paused"),
             ("Complete", "Complete"),
