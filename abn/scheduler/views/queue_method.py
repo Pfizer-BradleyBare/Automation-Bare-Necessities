@@ -25,7 +25,7 @@ class QueueMethodView(NavbarView):
         raw_method_file = request.FILES["input-method-file"]
         method_file_name = Path(raw_method_file.name).stem
 
-        if not QueuedMethod.objects.filter(file_name=method_file_name).exists():
+        if not QueuedMethod.objects.filter(filename=method_file_name).exists():
             QueuedMethod(
                 emails=raw_emails,
                 phone_numbers=raw_phone_numbers,
@@ -34,7 +34,7 @@ class QueueMethodView(NavbarView):
                     "%Y-%m-%dT%H:%M",
                 ).astimezone(timezone.get_current_timezone()),
                 file=raw_method_file,
-                file_name=method_file_name,
+                filename=method_file_name,
             ).save()
 
             return redirect("scheduler:queue_method_success")

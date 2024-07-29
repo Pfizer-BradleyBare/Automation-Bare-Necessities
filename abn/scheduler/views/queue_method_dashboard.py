@@ -41,6 +41,7 @@ class QueueMethodDashboardView(NavbarView):
             request.POST["input-completion-time"],
             "%Y-%m-%dT%H:%M",
         ).astimezone(timezone.get_current_timezone())
+
         queued_method.save()
 
         return redirect("scheduler:queue_method_dashboard", filename)
