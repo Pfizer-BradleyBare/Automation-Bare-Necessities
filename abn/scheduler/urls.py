@@ -24,4 +24,14 @@ urlpatterns = [
         views.QueueMethodDashboardView.as_view(),
         name="queue_method_dashboard",
     ),
+    path(
+        "queue/method/<str:filename>/abort",
+        views.QueueMethodDashboardAbortView.as_view(),
+        name="queue_method_dashboard_abort",
+    ),
+    path(
+        "queue/method/<str:filename>/edit",
+        views.QueueMethodDashboardAbortView.as_view(),
+        name="queue_method_dashboard_edit",
+    ),
 ]

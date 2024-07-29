@@ -14,10 +14,14 @@
         {% endif %}
     </div>
 
+
     <div class="col-20">
+        {% if state != "running" %}
         <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Edit
             Method</a>
+        {% endif %}
     </div>
+
 
 
     <div class="col-20">
@@ -33,7 +37,7 @@
     </div>
 
     <div class="col-20">
-        {% if state == "paused" or state == "in queue" %}
+        {% if state != "running" %}
         <a class="btn btn-danger btn-sm" href="" style="width: 180px; font-size: large;" role="button">Abort
             Execution</a>
         {% endif %}
