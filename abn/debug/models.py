@@ -2,24 +2,26 @@ from django.db import models
 from scheduler.models import QueuedMethod
 
 
+class LogSourceOptions(models.IntegerChoices):
+    PLH = 1
+    ABN = 2
+
+
+class LogLevelOptions(models.IntegerChoices):
+    DEBUG = 1
+    INFO = 2
+    WARNING = 3
+    CRITICAL = 4
+    ERROR = 5
+
+
 class TraceEntry(models.Model):
     time_stamp = models.DateTimeField(auto_now_add=True)
-    log_source = models.CharField(
-        max_length=3,
-        choices=(
-            ("PLH", "PLH"),
-            ("ABN", "ABN"),
-        ),
+    log_source = models.IntegerField(
+        choices=LogSourceOptions.choices,
     )
-    log_level = models.CharField(
-        max_length=10,
-        choices=(
-            ("DEBUG", "DEBUG"),
-            ("INFO", "INFO"),
-            ("WARNING", "WARNING"),
-            ("CRITICAL", "CRITICAL"),
-            ("ERROR", "ERROR"),
-        ),
+    log_level = models.IntegerField(
+        choices=LogLevelOptions.choices,
     )
     device_identifier = models.CharField(max_length=100)
     method = models.ForeignKey(to=QueuedMethod, on_delete=models.CASCADE)
