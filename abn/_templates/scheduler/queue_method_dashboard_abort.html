@@ -8,7 +8,35 @@
 
 <div class="container">
     <div class="jumbotron">
-
+        <div class="container">
+            <div class="row justify-content-center">
+                <h1 class="display-3">Abort Method</h1>
+            </div>
+            <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+                {{ filename }}
+            </div>
+            <hr>
+            <div class="row justify-content-center">
+                <p class="" style="font-size: larger;">You are aborting method execution. Please type the method name as shown below to confirm.</p>
+            </div>
+            <div class="row justify-content-center">
+                <p class="" style="font-size: larger;">NOTE: You cannot requeue and resume the method. You will have to restart from the beginning.</p>
+            </div>
+            <div class="row justify-content-center">
+                <p class="" style="font-size: larger;">{{filename}}</p>
+            </div>
+            <hr>
+            <form method="post">{% csrf_token %}
+                <div class="form-group row justify-content-center">
+                    <div class="col-50">
+                        <input type="text" class="form-control" id="input-emails" name="input-method_name" pattern="{{regex_filename}}" required autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group row justify-content-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Abort Method Execution</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}
