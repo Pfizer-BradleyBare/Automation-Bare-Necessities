@@ -21,12 +21,13 @@ class QueuedMethod(models.Model):
         choices=(
             ("Deck Loading", "Deck Loading"),
             ("Notification", "Notification"),
+            ("Reading", "Reading"),
             ("Running", "Running"),
             ("Paused", "Paused"),
             ("Complete", "Complete"),
             ("Aborted", "Aborted"),
         ),
-        default="Running",
+        default="Reading",
     )
     creation_time = models.DateTimeField(auto_now_add=True, editable=False)
     emails = models.CharField(max_length=100, blank=False, null=False)
