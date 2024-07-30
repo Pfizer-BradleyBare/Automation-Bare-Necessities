@@ -1,5 +1,5 @@
 from abn.views import NavbarView
-from debug.models import TraceEntry
+from debug.models import LogLevelOptions, LogSourceOptions, TraceEntry
 
 
 class IndexContextView(NavbarView):
@@ -14,8 +14,8 @@ class IndexContextView(NavbarView):
         kwargs.setdefault("device_identifier", "")
         kwargs.setdefault("debug_message", "")
 
-        log_source = kwargs.get("log_source")
-        log_level = kwargs.get("log_level")
+        log_source = str(kwargs.get("log_source"))
+        log_level = str(kwargs.get("log_level"))
         method_name = kwargs.get("method_name")
         device_identifier = kwargs.get("device_identifier")
         debug_message = kwargs.get("debug_message")
@@ -23,9 +23,9 @@ class IndexContextView(NavbarView):
         query = TraceEntry.objects
 
         if log_source != "ALL":
-            query = query.filter(log_source=log_source)
+            query = query.filter(log_source=LogSourceOptions[log_source])
         if log_level != "ALL":
-            query = query.filter(log_level=log_level)
+            query = query.filter(log_level__gte=LogLevelOptions[log_level])
         if method_name != "":
             query = query.filter(method__filename__icontains=method_name)
         if device_identifier != "":
@@ -40,8 +40,8 @@ class IndexContextView(NavbarView):
                 [
                     [
                         object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),
-                        object.log_source,
-                        object.log_level,
+                        LogSourceOptions(object.log_source).label.upper(),
+                        LogLevelOptions(object.log_level).label.upper(),
                         object.method.filename,
                         object.device_identifier,
                         object.message,
