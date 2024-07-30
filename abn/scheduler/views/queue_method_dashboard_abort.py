@@ -11,10 +11,12 @@ from .queue_method_dashboard_context import QueueMethodDashboardContextView
 class QueueMethodDashboardAbortView(QueueMethodDashboardContextView):
     def get_context_data(self, **kwargs) -> dict:
         def regex_escape_fixed_string(string):
-            "escape fixed string for regex"
+            "Escape fixed string for regex"
             return re.sub(r"[][(){}?*+.^$]", lambda m: "\\" + m.group(), string)
 
-        return super().get_context_data(**kwargs) | {"regex_filename":regex_escape_fixed_string(kwargs.get("filename"))}
+        return super().get_context_data(**kwargs) | {
+            "regex_filename": regex_escape_fixed_string(kwargs.get("filename")),
+        }
 
     def get(self, request: HttpRequest, filename: str):
         return render(

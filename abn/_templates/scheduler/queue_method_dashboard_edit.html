@@ -8,7 +8,49 @@
 
 <div class="container">
     <div class="jumbotron">
+        <div class="container">
+            <div class="row justify-content-center">
+                <h1 class="display-3">Edit Method</h1>
+            </div>
+            <div class="row justify-content-center" style="font-weight: bold; font-size: larger">
+                {{ filename }}
+            </div>
+            <hr>
+            <div class="row justify-content-center">
+                <p class="" style="font-size: larger;">Please download your method file below to make edits. Optionally,
+                    you may cancel.</p>
+            </div>
+            <div class="row justify-content-center">
+                <p class="" style="font-size: larger; font-weight: bold;">NOTE: Please do not forget to test your
+                    method edits: <a class="btn btn-primary btn-sm" href="{% url 'method:test' %}" role="button">Test
+                        Method</a>
+                </p>
+            </div>
+            <br>
+            <div class="row justify-content-center">
+                <a class="col-26 btn btn-primary btn-lg"
+                    href="{% url 'scheduler:queue_method_dashboard_edit_download' filename=filename %}"
+                    role="button">Download
+                    Method</a>
+                <div class="col-5"></div>
+                <a class="col-26 btn btn-primary btn-lg"
+                    href="{% url 'scheduler:queue_method_dashboard' filename=filename %}" role="button">Cancel Edit
+                    Method</a>
+            </div>
+            <hr>
+            <form method="post">{% csrf_token %}
 
+                <div class="row justify-content-center">
+                    <div class="col-85">
+                        {% include 'file_input.html' %}
+                    </div>
+                </div>
+                <hr style="visibility: hidden;">
+                <div class="form-group row justify-content-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -40,6 +40,11 @@ urlpatterns = [
         name="queue_method_dashboard_edit",
     ),
     path(
+        "queue/method/<str:filename>/edit/download",
+        views.QueueMethodDashboardEditDownloadView.as_view(),
+        name="queue_method_dashboard_edit_download",
+    ),
+    path(
         "queue/method/<str:filename>/pause",
         views.QueueMethodDashboardPauseView.as_view(),
         name="queue_method_dashboard_pause",

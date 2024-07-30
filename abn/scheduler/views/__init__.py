@@ -6,6 +6,7 @@ from .queue_method_dashboard import QueueMethodDashboardView
 from .queue_method_dashboard_abort import QueueMethodDashboardAbortView
 from .queue_method_dashboard_body import QueueMethodDashboardBodyView
 from .queue_method_dashboard_edit import QueueMethodDashboardEditView
+from .queue_method_dashboard_edit_download import QueueMethodDashboardEditDownloadView
 from .queue_method_dashboard_pause import QueueMethodDashboardPauseView
 from .queue_method_dashboard_resume import QueueMethodDashboardResumeView
 from .queue_method_error import QueueMethodErrorView
@@ -24,4 +25,5 @@ __all__ = [
     "QueueMethodDashboardPauseView",
     "QueueMethodDashboardResumeView",
     "QueueMethodDashboardBodyView",
+    "QueueMethodDashboardEditDownloadView",
 ]
