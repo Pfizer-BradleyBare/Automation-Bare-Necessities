@@ -27,7 +27,7 @@ class IndexContextView(NavbarView):
         if log_level != "ALL":
             query = query.filter(log_level__gte=LogLevelOptions[log_level])
         if method_name != "":
-            query = query.filter(method__filename__icontains=method_name)
+            query = query.filter(method__file__icontains=method_name)
         if device_identifier != "":
             query = query.filter(device_identifier__icontains=device_identifier)
         if debug_message != "":
