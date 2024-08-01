@@ -42,7 +42,7 @@ class IndexContextView(NavbarView):
                         object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),
                         LogSourceOptions(object.log_source).label.upper(),
                         LogLevelOptions(object.log_level).label.upper(),
-                        object.method.filename,
+                        str(object.method),
                         object.device_identifier,
                         object.message,
                     ]

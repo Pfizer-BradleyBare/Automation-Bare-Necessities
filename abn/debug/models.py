@@ -1,5 +1,5 @@
 from django.db import models
-from scheduler.models import QueuedMethod
+from method.models import UserMethod
 
 
 class LogSourceOptions(models.IntegerChoices):
@@ -24,7 +24,7 @@ class TraceEntry(models.Model):
         choices=LogLevelOptions.choices,
     )
     device_identifier = models.CharField(max_length=100)
-    method = models.ForeignKey(to=QueuedMethod, on_delete=models.CASCADE)
+    method = models.ForeignKey(to=UserMethod, on_delete=models.CASCADE)
     message = models.TextField()
 
     class Meta:

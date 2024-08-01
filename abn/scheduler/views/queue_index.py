@@ -1,15 +1,15 @@
 from django.http import HttpRequest
 from django.shortcuts import render
+from method.models import ExecutingMethod
 
 from abn.views import NavbarView
-from scheduler.models import QueuedMethod
 
 
 class QueueIndexView(NavbarView):
     def get_context_data(self, **kwargs) -> dict:
         context = {
             "rows": sorted(
-                [m.filename for m in QueuedMethod.objects.all()],
+                [str(m) for m in ExecutingMethod.objects.all()],
                 key=lambda x: x.lower(),
             ),
         }
