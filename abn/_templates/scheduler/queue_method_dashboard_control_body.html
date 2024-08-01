@@ -38,7 +38,9 @@
             style="width: 180px; font-size: large;" role="button">Pause
             Execution</a>
         {% elif state == "complete" or state == "aborted" %}
-        <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Start
+        <a class="btn btn-primary btn-sm" href="" hx-target="#dashboard-body" hx-swap="outerHTML"
+            hx-get="{% url 'scheduler:queue_method_dashboard_cleanup' filename=filename %}"
+            style="width: 180px; font-size: large;" role="button">Start
             Cleanup</a>
         {% elif state == "cleanup"%}
         <br>
@@ -55,8 +57,12 @@
 
     <div class="col-20">
         {% if deck_loading_pending and state != "aborted" and state != "complete" %}
-        <a class="btn btn-info btn-sm" href="" style="width: 180px; font-size: large;" role="button">Deck
-            Loading</a>
+        <a class="btn btn-info btn-sm" href="" style="width: 180px; font-size: large;" role="button">
+            {% if state == "cleanup" %}
+            Deck Unloading
+            {% else %}
+            Deck Loading
+            {% endif %}</a>
         {% endif %}
     </div>
 

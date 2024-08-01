@@ -54,4 +54,9 @@ urlpatterns = [
         views.QueueMethodDashboardResumeView.as_view(),
         name="queue_method_dashboard_resume",
     ),
+    path(
+        "queue/method/<str:filename>/cleanup",
+        views.QueueMethodDashboardCleanupView.as_view(),
+        name="queue_method_dashboard_cleanup",
+    ),
 ]

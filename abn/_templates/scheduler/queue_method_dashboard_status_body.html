@@ -41,7 +41,11 @@
     <div class="col-20">
         {% if deck_loading_pending and state != "aborted" and state != "complete" %}
         <div class="btn btn-danger btn-sm" style=" font-size: large;" role="button">
+            {% if state == "cleanup" %}
+            Deck Unloading Pending
+            {% else %}
             Deck Loading Pending
+            {% endif %}
         </div>
         {% endif %}
 
