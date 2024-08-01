@@ -5,9 +5,10 @@
 </div>
 
 <div class="row justify-content-center">
-    {% if state != "complete" and state != "aborted" %}
+
+
     <div class="col-20">
-        {% if state == "notification" %}
+        {% if notifications_pending and state != "aborted" and state != "complete" %}
         <a class="btn btn-info btn-sm" href="" style="width: 180px; font-size: large;" role="button">
             Notifications
         </a>
@@ -16,7 +17,7 @@
 
 
     <div class="col-20">
-        {% if state != "running" %}
+        {% if state == "paused" or state == "waiting on user" %}
         <a class="btn btn-primary btn-sm" href="{% url 'scheduler:queue_method_dashboard_edit' filename=filename %}"
             style="width: 180px; font-size: large;" role="button">Edit
             Method</a>
@@ -26,47 +27,35 @@
 
 
     <div class="col-20">
-        {% if state == "running" or state == "paused" %}
         {% if state == "paused" %}
         <a class="btn btn-success btn-sm" href="" hx-target="#dashboard-body" hx-swap="outerHTML"
             hx-get="{% url 'scheduler:queue_method_dashboard_resume' filename=filename %}"
             style="width: 180px; font-size: large;" role="button">Resume
             Execution</a>
-        {% else %}
+        {% elif state == "running" %}
         <a class="btn btn-warning btn-sm" href="" hx-target="#dashboard-body" hx-swap="outerHTML"
             hx-get="{% url 'scheduler:queue_method_dashboard_pause' filename=filename %}"
             style="width: 180px; font-size: large;" role="button">Pause
             Execution</a>
-        {% endif %}
+        {% elif state == "complete" or state == "aborted" %}
+        <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Start
+            Cleanup</a>
         {% endif %}
     </div>
 
     <div class="col-20">
-        {% if state != "running" %}
+        {% if state == "paused" or state == "reading" or state == "waiting on user" %}
         <a class="btn btn-danger btn-sm" href="{% url 'scheduler:queue_method_dashboard_abort' filename=filename %}"
             style="width: 180px; font-size: large;" role="button">Abort
             Execution</a>
         {% endif %}
     </div>
+
     <div class="col-20">
-        {% if state == "deck loading" %}
+        {% if deck_loading_pending and state != "aborted" and state != "complete" %}
         <a class="btn btn-info btn-sm" href="" style="width: 180px; font-size: large;" role="button">Deck
             Loading</a>
         {% endif %}
     </div>
-    {% elif state == "complete" or state == "aborted" %}
-    <div class="col">
-        <div class="row justify-content-center">
-            <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Start
-                Cleanup</a>
-        </div>
-        {% if state == "aborted_HIDE" %}
-        <br>
-        <div class="row justify-content-center">
-            <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">I Changed My
-                Mind</a>
-        </div>
-        {% endif %}
-    </div>
-    {% endif %}
+
 </div>

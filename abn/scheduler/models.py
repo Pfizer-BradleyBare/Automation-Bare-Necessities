@@ -17,13 +17,12 @@ class QueuedMethod(models.Model):
         null=False,
     )
     state = models.CharField(
-        max_length=12,
+        max_length=15,
         choices=(
-            ("Deck Loading", "Deck Loading"),
-            ("Notification", "Notification"),
             ("Reading", "Reading"),
             ("Running", "Running"),
             ("Paused", "Paused"),
+            ("Waiting on User", "Waiting on User"),
             ("Complete", "Complete"),
             ("Aborted", "Aborted"),
         ),

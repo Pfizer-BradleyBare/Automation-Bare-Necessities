@@ -5,26 +5,18 @@
 </div>
 
 <div class="row justify-content-center">
-    {% if state != "complete" and state != "aborted" %}
-
-    {% if state == "in queue" %}
+    {% if state == "reading" %}
     <div class="btn btn-success btn-sm" style="width: 200px; font-size: large;" role="button">
-        In Queue</div>
+        Reading</div>
     {% elif state == "running" %}
     <div class="btn btn-success btn-sm" style="width: 200px; font-size: large;" role="button">
         Running</div>
     {% elif state == "paused" %}
     <div class="btn btn-warning btn-sm" style="width: 200px; font-size: large;" role="button">
         Paused</div>
-    {% elif state == "notifications" %}
-    <div class="btn btn-danger btn-sm" style="width: 200px; font-size: large;" role="button">
-        Notifications Pending
-    </div>
-    {% elif state == "deck loading" %}
-    <div class="btn btn-danger btn-sm" style="width: 200px; font-size: large;" role="button">Deck
-        Loading Pending</div>
-    {% endif %}
-
+    {% elif state == "waiting on user" %}
+    <div class="btn btn-warning btn-sm" style="width: 200px; font-size: large;" role="button">
+        Waiting on User</div>
     {% elif state == "complete" %}
     <div class="btn btn-success btn-sm" style="width: 200px; font-size: large;" role="button">
         Execution Complete</div>
@@ -32,4 +24,23 @@
     <div class="btn btn-danger btn-sm" style="width: 200px; font-size: large;" role="button">
         Execution Aborted</div>
     {% endif %}
+</div>
+<div class="row justify-content-center" style="margin-top: 10px;">
+    <div class="col-20">
+        {% if notifications_pending and state != "aborted" and state != "complete" %}
+        <div class="btn btn-danger btn-sm" style=" font-size: large;" role="button">
+            Notifications Pending
+        </div>
+        {% endif %}
+
+    </div>
+    <div class="col-3"></div>
+    <div class="col-20">
+        {% if deck_loading_pending and state != "aborted" and state != "complete" %}
+        <div class="btn btn-danger btn-sm" style=" font-size: large;" role="button">
+            Deck Loading Pending
+        </div>
+        {% endif %}
+
+    </div>
 </div>
