@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import TestMessage, TestMethod
+from .models import ExecutingMethod, TestingMethod
 
-admin.site.register(TestMessage)
-admin.site.register(TestMethod)
+admin.site.register(TestingMethod)
+admin.site.register(ExecutingMethod)

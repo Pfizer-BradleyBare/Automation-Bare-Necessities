@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
 from abn.views import NavbarView
-from method.models import TestMethod
+from method.models import UserMethod
 
 
 class TestIndexView(NavbarView):
@@ -19,11 +19,11 @@ class TestIndexView(NavbarView):
         raw_method_file = request.FILES["input-method-file"]
         method_file_name = Path(raw_method_file.name).stem
 
-        query = TestMethod.objects.filter(filename=method_file_name)
+        query = UserMethod.objects.filter(filename=method_file_name)
         if query.exists():
             test_method = query.get()
             test_method.delete()
 
-        TestMethod(filename=method_file_name, file=raw_method_file).save()
+        UserMethod(filename=method_file_name, file=raw_method_file).save()
 
         return redirect("method:progress", method_file_name)
