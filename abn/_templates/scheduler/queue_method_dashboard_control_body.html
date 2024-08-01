@@ -40,6 +40,8 @@
         {% elif state == "complete" or state == "aborted" %}
         <a class="btn btn-primary btn-sm" href="" style="width: 180px; font-size: large;" role="button">Start
             Cleanup</a>
+        {% elif state == "cleanup"%}
+        <br>
         {% endif %}
     </div>
 

@@ -54,6 +54,7 @@ class ExecutingMethod(UserMethod):
             ("Waiting on User", "Waiting on User"),
             ("Complete", "Complete"),
             ("Aborted", "Aborted"),
+            ("Cleanup", "Cleanup"),
         ),
         default="Reading",
     )
