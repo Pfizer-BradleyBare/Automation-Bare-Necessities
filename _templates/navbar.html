@@ -1,6 +1,6 @@
 {% load static %}
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="{% url 'home' %}">
+    <a class="navbar-brand" href="{% url 'abn:index' %}">
         {% if abn_state == "stop" %}
         <img src="{% static 'images/navbar/abn-persimmon.png' %}" width="65" height="65" alt=""
             style="border-radius: 25%;">
@@ -17,7 +17,7 @@
     <div class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" style="font-size: 22.5px" id="navbar-home">
-                <a class="nav-link" href="{% url 'home' %}">Home</a>
+                <a class="nav-link" href="{% url 'abn:index' %}">Home</a>
             </li>
             <li class="nav-item dropdown" style="font-size: 22.5px">
                 <a class="nav-link dropdown-toggle" href="" id="navbar-dropdown-scheduler" role="button"

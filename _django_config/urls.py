@@ -20,12 +20,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from abn.views import IndexView
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("config/", include("plh_config.urls")),
-    path("", IndexView.as_view(), name="home"),
+    path("", include("abn.urls", namespace="abn")),
     path("scheduler/", include("scheduler.urls", namespace="scheduler")),
     path("method/", include("method.urls", namespace="method")),
     path("trace/", include("debug.urls", namespace="trace")),
