@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-45">
                     <h1 class="display-3 text-nowrap">ABN is
-                        {% if abn %}
+                        {% if abn_state == "run" %}
                         <span class="text-success ">Running</span>
                     </h1>
                     {% else %}
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            {% if abn %}
+            {% if abn_state == "run" %}
             <p>ABN is <span class="text-success" style="font-weight: bold;">running</span>. You can <span
                     class="text-danger" style="font-weight: bold;">Halt ABN</span> to temporarily freeze method
                 execution <span style="font-weight: bold;">OR</span> use the links in the <span
@@ -35,7 +35,7 @@
 
             {% endif %}
 
-            {% if abn %}
+            {% if abn_state == "run" %}
             <a class="btn btn-danger btn-lg" href="{% url 'abn:stop' %}" role="button">Halt ABN</a>
             {% else %}
             <a class="col-16 btn btn-success btn-lg" href="{% url 'abn:start' %}" role="button">Start ABN</a>

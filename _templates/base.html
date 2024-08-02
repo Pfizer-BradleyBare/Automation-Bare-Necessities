@@ -42,7 +42,7 @@
 
     {% block abn_independant_content %}
 
-    {% if not abn %}
+    {% if abn_state != "run" %}
 
     <div class="container">
         <div class="jumbotron">
