@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block abn_independant_content %}
 <script>
     document.getElementById("navbar-home").classList.add("active")
@@ -6,24 +7,31 @@
 
 
 <div class="container">
-    <div class="jumbotron" style="padding-bottom: 20px;">
+    <div class="jumbotron" style="padding-bottom: 20px; margin-bottom: 20px;">
         <div class="container">
-            
+
             <div class="row">
                 <div class="col-45">
-                    <h1 class="display-3 text-nowrap">ABN is 
+                    <h1 class="display-3 text-nowrap">ABN is
                         {% if abn_state == "run" %}
-                        <span class="text-success ">Running</span></h1>
-                        {% else %}
-                        <span class="text-danger ">Halted</span></h1>
-                        {% endif %}
+                        <span class="text-success ">Running</span>
+                    </h1>
+                    {% else %}
+                    <span class="text-danger ">Halted</span></h1>
+                    {% endif %}
                 </div>
             </div>
 
             {% if abn_state == "run" %}
-            <p>ABN is <span class="text-success" style="font-weight: bold;">running</span>. You can <span class="text-danger" style="font-weight: bold;">Halt ABN</span> to temporarily freeze method execution <span style="font-weight: bold;">OR</span> use the links in the <span style="font-weight: bold;">Navigation Bar</span> to interact with ABN. </p>
+            <p>ABN is <span class="text-success" style="font-weight: bold;">running</span>. You can <span
+                    class="text-danger" style="font-weight: bold;">Halt ABN</span> to temporarily freeze method
+                execution <span style="font-weight: bold;">OR</span> use the links in the <span
+                    style="font-weight: bold;">Navigation Bar</span> to interact with ABN. </p>
             {% else %}
-            <p>ABN is <span class="text-danger" style="font-weight: bold;">halted</span>. You can <span class="text-success" style="font-weight: bold;">Start ABN</span> to resume execution of methods in the queue <span style="font-weight: bold;">OR</span> <span class="text-primary" style="font-weight: bold;">Configure ABN</span> to add or remove device functionality.</p>
+            <p>ABN is <span class="text-danger" style="font-weight: bold;">halted</span>. You can <span
+                    class="text-success" style="font-weight: bold;">Start ABN</span> to resume execution of methods in
+                the queue <span style="font-weight: bold;">OR</span> <span class="text-primary"
+                    style="font-weight: bold;">Configure ABN</span> to add or remove device functionality.</p>
 
             {% endif %}
 
@@ -31,46 +39,74 @@
             <a class="btn btn-danger btn-lg" href="#" role="button">Halt ABN</a>
             {% else %}
             <a class="col-16 btn btn-success btn-lg" href="#" role="button">Start ABN</a>
-            <a class="col-16 btn btn-primary btn-lg" href="{% url 'config_admin:index' %}" role="button">Configure ABN</a>
+            <a class="col-16 btn btn-primary btn-lg" href="{% url 'config_admin:index' %}" role="button">Configure
+                ABN</a>
             {% endif %}
-
-            <hr>
-            <br>
-
-            <div class="row justify-content-center">
-                <h3>
-                Continue scrolling to learn more about ABN!
-                </h3>
-            </div>
-            
         </div>
     </div>
 
     <!-- Example row of columns -->
+    <div class="row justify-content-center">
+        <h3>
+            Sounds Like a Lotta Hoopla Over Automation... What is ABN?
+        </h3>
+    </div>
+    <hr>
     <div class="row">
         <div class="col-33">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.
-                Donec sed odio dui. </p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <h2>Low Code Automation</h2>
+            <img src="{% static 'images/low_code_automation.png' %}" width="340" height="65" alt="">
+            <p> ABN methods are built using color coded blocks in a consecutive format. These blocks provide the full
+                functionality of your
+                automation system without the low level minutae. Additionally, you can create psuedo parallel
+                processes within a
+                single method file to enable complex DOE work. </p>
         </div>
         <div class="col-34">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.
-                Donec sed odio dui. </p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <h2>System Agnostic</h2>
+            <img src="{% static 'images/system_agnostic.png' %}" width="340" height="50" alt="">
+
+            <p style="margin-top: 15px;"> ABN is fully independant of your automation system. Methods are built using a
+                low code excel based
+                editor
+                then translated to your automation system on the fly. This allows you, the analyst, to focus on
+                science while ABN focuses on robust automation. </p>
         </div>
         <div class="col-33">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta
-                felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum
-                massa justo sit amet risus.</p>
-            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+            <h2>Full Service</h2>
+            <img src="{% static 'images/full_service.png' %}" width="340" height="65" alt="">
+            <p>ABN will completely handle all aspects of your automated method. Deck loading, error handling,
+                preheating / precooling, pipette selection, and more. However, if desired you will still have complete
+                control over all
+                aspects of your method.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-33">
+            <h2>Method Multithreading</h2>
+            <img src="{% static 'images/method_multithreading.png' %}" width="340" height="65" alt="">
+            <p>ABN has the possibility to schedule methods and orchastrate resources of larger automation systems. You
+                can define your desired completion time and then ABN will complete methods around your schedule, not the
+                other
+                way around.
+            </p>
+        </div>
+        <div class="col-34">
+            <h2>Worklist Interface</h2>
+            <img src="{% static 'images/worklist_interface.png' %}" width="340" height="50" alt="">
+            <p style="margin-top: 15px;"> ABN Blocks can interface directly to a sample worklist, allowing blocks to
+                treat
+                samples uniquely during execution. This is a simpler option to parallel processing for DOE workflows on
+                automated systems.</p>
+        </div>
+        <div class="col-33">
+            <h2>Enhanced Notifications</h2>
+            <img src="{% static 'images/enhanced_notifications.png' %}" width="340" height="65" alt="">
+            <p>ABN notifications enhance what is normally possible on automated systems. Emaila and text notifications
+                are available with response support. Tell the notification how you would like to proceed then ABN will
+                continue as instructed.</p>
         </div>
     </div>
 </div>
-<a class="dropdown-item" id="navbar-dropdown-scheduler-config"
-href="{% url 'config_admin:index' %}">Config</a>
-    {% endblock %}
+
+{% endblock %}
