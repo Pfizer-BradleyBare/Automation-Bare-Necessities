@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/file_input.css' %}">
+{% endblock %}
+{% block abn_dependant_content %}
+
+
+<div class="container">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row justify-content-center">
+                <h1 class="display-3">Halt ABN</h1>
+            </div>
+            <hr>
+            <br>
+            <div class="row justify-content-center">
+                <p class="" style="font-size: larger;">You are halting ABN. Please enter the secret code below to
+                    confirm</p>
+            </div>
+            <hr>
+            <form method="post">{% csrf_token %}
+                <div class="form-group row justify-content-center">
+                    <div class="col-50">
+                        <input type="text" class="form-control" id="input-emails" name="input-method_name"
+                            pattern="Sounds Like a Lotta Hoopla Over Automation\.\.\. What is ABN\?" required
+                            autocomplete="off" hx-validate="true">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-26 form-group row justify-content-center">
+                        <button type="submit" class="col-100 btn btn-primary btn-lg">Halt ABN</button>
+                    </div>
+                    <div class="col-5"></div>
+                    <div class="col-26 form-group row justify-content-center">
+                        <a class="col-100 btn btn-primary btn-lg" href="{% url 'abn:index' %}" role="button">Cancel</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

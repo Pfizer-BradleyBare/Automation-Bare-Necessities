@@ -4,20 +4,36 @@
         <div class="col-45">
             <h1 class="display-3 text-nowrap">ABN is
                 {% if abn_state == "run" %}
+
                 <span class="text-success ">Running</span>
+
+                {% elif abn_state == "start" %}
+
+                <span class="text-warning ">Starting</span>
+
+                {% else %}
+
+                <span class="text-danger ">Halted</span>
+
+                {% endif %}
             </h1>
-            {% else %}
-            <span class="text-danger ">Halted</span></h1>
-            {% endif %}
         </div>
     </div>
 
     {% if abn_state == "run" %}
-    <p>ABN is <span class="text-success" style="font-weight: bold;">running</span>. You can <!-- <span class="text-danger"
-        </span> style="font-weight: bold;">Halt ABN</span> to temporarily freeze method
-        execution <span style="font-weight: bold;">OR</span> --> use the links in the <span
+
+    <p>ABN is <span class="text-success" style="font-weight: bold;">running</span>. You can <span class="text-danger"
+            style="font-weight: bold;">Halt ABN</span> to temporarily freeze method
+        execution <span style="font-weight: bold;">OR</span> use the links in the <span
             style="font-weight: bold;">Navigation Bar</span> to interact with ABN. </p>
+
+    {% elif abn_state == "start" %}
+
+    <p>ABN is <span class="text-warning" style="font-weight: bold;">starting</span>. Please be patient. You can monitor
+        the progress by viewing the trace. </p>
+
     {% else %}
+
     <p>ABN is <span class="text-danger" style="font-weight: bold;">halted</span>. You can <span class="text-success"
             style="font-weight: bold;">Start ABN</span> to resume execution of methods in
         the queue <span style="font-weight: bold;">OR</span> <span class="text-primary"
@@ -26,13 +42,20 @@
     {% endif %}
 
     {% if abn_state == "run" %}
-    <!-- <a class="btn btn-danger btn-lg" style="color: white;" hx-get="{% url 'abn:stop' %}" hx-target="#abn-status"
-        hx-swap="outerHTML" role="button">Halt ABN</a> -->
+
+    <a class="btn btn-danger btn-lg" style="color: white;" href="{% url 'abn:stop' %}" role="button">Halt ABN</a>
+
+    {% elif abn_state == "start" %}
+
+    <a class="btn btn-primary btn-lg" style="color: white;" href="{% url 'trace:index' %}" role="button">View Trace</a>
+
     {% else %}
+
     <a class="col-16 btn btn-success btn-lg" style="color: white;" hx-get="{% url 'abn:start' %}"
         hx-target="#abn-status" hx-swap="outerHTML" role="button">Start
         ABN</a>
     <a class="col-16 btn btn-primary btn-lg" href="{% url 'config_admin:index' %}" role="button">Configure
         ABN</a>
+
     {% endif %}
 </div>
