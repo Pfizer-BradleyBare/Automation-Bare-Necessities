@@ -42,7 +42,7 @@
 
     {% block abn_independant_content %}
 
-    {% if abn_state == "stop" %}
+    {% if not abn %}
 
     <div class="container">
         <div class="jumbotron">
@@ -71,8 +71,8 @@
     {% endif %}
 
     {% endblock %}
-    
-    
+
+
 
 
 </body>
