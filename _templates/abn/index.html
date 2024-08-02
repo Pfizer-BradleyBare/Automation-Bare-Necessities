@@ -1,40 +1,71 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block abn_independant_content %}
 <script>
     document.getElementById("navbar-home").classList.add("active")
 </script>
 
-<div class="jumbotron">
-    <div class="container">
-        <h1 class="display-3">Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a
-            jumbotron and three supporting pieces of content. Use it as a starting point to create something more
-            unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+
+<div class="container">
+    <div class="jumbotron" style="padding-bottom: 20px;">
+        <div class="container">
+            
+            <div class="row">
+                <div class="col-45">
+                    <h1 class="display-3 text-nowrap">ABN is 
+                        {% if abn_state == "run" %}
+                        <span class="text-success ">Running</span></h1>
+                        {% else %}
+                        <span class="text-danger ">Not Running</span></h1>
+                        {% endif %}
+                </div>
+            </div>
+
+            <p>ABN is <span class="text-danger" style="font-weight: bold;">not running</span>. You can <span class="text-success" style="font-weight: bold;">Start ABN</span> to start execution of methods in the queue or <span class="text-primary" style="font-weight: bold;">Configure ABN</span> using the buttons below.</p>
+
+            {% if abn_state == "run" %}
+            <a class="btn btn-danger btn-lg" href="#" role="button">Stop ABN</a>
+            {% else %}
+            <a class="col-16 btn btn-success btn-lg" href="#" role="button">Start ABN</a>
+            <a class="col-16 btn btn-primary btn-lg" href="{% url 'config_admin:index' %}" role="button">Configure ABN</a>
+            {% endif %}
+
+            <hr>
+            <br>
+
+            <div class="row justify-content-center">
+                <h3>
+                Continue scrolling to learn more!
+                </h3>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-33">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.
+                Donec sed odio dui. </p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-34">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.
+                Donec sed odio dui. </p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        </div>
+        <div class="col-33">
+            <h2>Heading</h2>
+            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta
+                felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum
+                massa justo sit amet risus.</p>
+            <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        </div>
     </div>
 </div>
-
-<!-- Example row of columns -->
-<div class="row">
-    <div class="col-33">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-            condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.
-            Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-34">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-            condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod.
-            Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div>
-    <div class="col-33">
-        <h2>Heading</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta
-            felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum
-            massa justo sit amet risus.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-    </div>
+<a class="dropdown-item" id="navbar-dropdown-scheduler-config"
+href="{% url 'config_admin:index' %}">Config</a>
     {% endblock %}

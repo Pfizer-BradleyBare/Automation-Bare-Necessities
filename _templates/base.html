@@ -40,11 +40,39 @@
     {% include 'navbar.html' %}
     {% endblock %}
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    {% block content %}
-    {% endblock %}
-    <!-- /container -->
+    {% block abn_independant_content %}
 
+    {% if abn_state == "stop" %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-33">
+                        <img src="{% static 'images/navbar/ABN-cartoon.png' %}" class="float-start" alt=""
+                            style="border-radius: 25%;">
+                    </div>
+                    <div class="col-sm-58">
+                        <h1 class="display-4">ABN is Not Running</h1>
+                        <hr style="visibility: hidden;">
+                        <p><a class="btn btn-primary btn-lg" href="{% url 'home' %}" role="button">Go Home</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+
+    {% block abn_dependant_content %}
+
+    {% endblock %}
+
+    {% endif %}
+
+    {% endblock %}
+    
+    
 
 
 </body>
