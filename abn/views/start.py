@@ -11,5 +11,5 @@ from .navbar import NavbarView
 class StartView(NavbarView):
     def get(self, request: HttpRequest):
 
-        abn.state = True
-        return redirect("abn:index")
+        abn.state = "run"
+        return redirect("abn:index_status")

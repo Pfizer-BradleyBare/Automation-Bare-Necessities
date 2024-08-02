@@ -1,0 +1,38 @@
+<div class="container" id="abn-status" hx-get="{% url 'abn:index_status' %}" hx-trigger="every 1s" hx-swap="outerHTML">
+
+    <div class="row">
+        <div class="col-45">
+            <h1 class="display-3 text-nowrap">ABN is
+                {% if abn_state == "run" %}
+                <span class="text-success ">Running</span>
+            </h1>
+            {% else %}
+            <span class="text-danger ">Halted</span></h1>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if abn_state == "run" %}
+    <p>ABN is <span class="text-success" style="font-weight: bold;">running</span>. You can <!-- <span class="text-danger"
+        </span> style="font-weight: bold;">Halt ABN</span> to temporarily freeze method
+        execution <span style="font-weight: bold;">OR</span> --> use the links in the <span
+            style="font-weight: bold;">Navigation Bar</span> to interact with ABN. </p>
+    {% else %}
+    <p>ABN is <span class="text-danger" style="font-weight: bold;">halted</span>. You can <span class="text-success"
+            style="font-weight: bold;">Start ABN</span> to resume execution of methods in
+        the queue <span style="font-weight: bold;">OR</span> <span class="text-primary"
+            style="font-weight: bold;">Configure ABN</span> to add or remove device functionality.</p>
+
+    {% endif %}
+
+    {% if abn_state == "run" %}
+    <!-- <a class="btn btn-danger btn-lg" style="color: white;" hx-get="{% url 'abn:stop' %}" hx-target="#abn-status"
+        hx-swap="outerHTML" role="button">Halt ABN</a> -->
+    {% else %}
+    <a class="col-16 btn btn-success btn-lg" style="color: white;" hx-get="{% url 'abn:start' %}"
+        hx-target="#abn-status" hx-swap="outerHTML" role="button">Start
+        ABN</a>
+    <a class="col-16 btn btn-primary btn-lg" href="{% url 'config_admin:index' %}" role="button">Configure
+        ABN</a>
+    {% endif %}
+</div>

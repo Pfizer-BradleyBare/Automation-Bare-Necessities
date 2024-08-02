@@ -10,5 +10,5 @@ from .navbar import NavbarView
 
 class StopView(NavbarView):
     def get(self, request: HttpRequest):
-        abn.state = False
+        abn.state = "stop"
         return redirect("abn:index")

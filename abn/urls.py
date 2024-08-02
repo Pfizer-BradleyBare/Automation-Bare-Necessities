@@ -6,6 +6,7 @@ app_name = "abn"
 
 urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
+    path("status", views.IndexStatusView.as_view(), name="index_status"),
     path("brand", views.NavbarBrandView.as_view(), name="brand"),
     path("start", views.StartView.as_view(), name="start"),
     path("stop", views.StopView.as_view(), name="stop"),
