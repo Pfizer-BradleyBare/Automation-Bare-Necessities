@@ -12,6 +12,8 @@ from .navbar import NavbarView
 class StartView(NavbarView):
     def get(self, request: HttpRequest):
 
+        abn.state = "start"
+
         load_config()
 
         abn.state = "run"

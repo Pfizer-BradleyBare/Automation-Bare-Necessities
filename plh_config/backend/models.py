@@ -31,9 +31,9 @@ class HamiltonBackendBase(BackendBase):
 class VantageTrackGripperEntryExit(HamiltonBackendBase): ...
 
 
-class MicrolabStar(HamiltonBackendBase): ...
+class MicrolabSTAR(HamiltonBackendBase): ...
 
 
 class Stunner(BackendBase):
     ip_address = models.CharField(max_length=50)
-    port = models.SmallIntegerField
+    port = models.SmallIntegerField()
