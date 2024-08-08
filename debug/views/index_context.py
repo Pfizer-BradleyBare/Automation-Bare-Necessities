@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from abn.views import NavbarView
 from debug.models import LogLevelOptions, LogSourceOptions, Trace
 
@@ -37,7 +39,9 @@ class IndexContextView(NavbarView):
             "rows": sorted(
                 [
                     [
-                        object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),
+                        object.time_stamp.astimezone(
+                            timezone.get_current_timezone()
+                        ).strftime("%b %d, %Y, %I:%M %p"),
                         LogSourceOptions(object.log_source).label.upper(),
                         LogLevelOptions(object.log_level).label.upper(),
                         object.meta_info,

@@ -3,6 +3,7 @@ import datetime
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.utils import timezone
+
 from method.models import ExecutingMethod
 
 from .queue_method_dashboard_context import QueueMethodDashboardContextView

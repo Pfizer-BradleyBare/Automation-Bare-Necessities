@@ -1,6 +1,9 @@
 import sys
+from datetime import datetime
+from typing import cast
 
 from django.apps import AppConfig
+from django.utils import timezone
 from loguru import logger
 
 
@@ -10,7 +13,7 @@ def logger_callable(info):
     record = info.record
 
     message = record["message"]
-    time = record["time"]
+    time = cast(datetime, record["time"]).astimezone(timezone.get_current_timezone())
     level = record["level"].name
 
     extra = record["extra"]
