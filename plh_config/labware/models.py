@@ -19,6 +19,7 @@ class LabwareBase(PolymorphicModel):
 
     x_length = models.FloatField()
     y_length = models.FloatField()
+    z_length = models.FloatField()
 
     transport_open_offset = models.FloatField()
     transport_close_offset = models.FloatField()
@@ -29,7 +30,10 @@ class LabwareBase(PolymorphicModel):
         max_length=12,
         choices=(("Numeric", "Numeric"), ("Alphanumeric", "Alphanumeric")),
     )
-
+    labware_definition_direction = models.CharField(
+        max_length=12,
+        choices=(("Rowwise", "Rowwise"), ("Columnwise", "Columnwise")),
+    )
     labware_defintion_columns = models.SmallIntegerField()
     labware_defintion_rows = models.SmallIntegerField()
 

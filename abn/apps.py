@@ -7,5 +7,7 @@ class AbnConfig(AppConfig):
     name = "abn"
 
     def ready(self) -> None:
+        import plh
+        plh
 
         logger.enable("plh")
