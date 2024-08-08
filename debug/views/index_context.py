@@ -29,7 +29,7 @@ class IndexContextView(NavbarView):
         if method_name != "":
             query = query.filter(method__file__icontains=method_name)
         if device_identifier != "":
-            query = query.filter(device_identifier__icontains=device_identifier)
+            query = query.filter(device__icontains=device_identifier)
         if debug_message != "":
             query = query.filter(message__icontains=debug_message)
 
@@ -43,7 +43,7 @@ class IndexContextView(NavbarView):
                         LogSourceOptions(object.log_source).label.upper(),
                         LogLevelOptions(object.log_level).label.upper(),
                         str(object.method),
-                        object.device_identifier,
+                        object.device,
                         object.message,
                     ]
                     for object in objects

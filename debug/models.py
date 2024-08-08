@@ -1,5 +1,4 @@
 from django.db import models
-from method.models import UserMethod
 
 
 class LogSourceOptions(models.IntegerChoices):
@@ -23,8 +22,8 @@ class TraceEntry(models.Model):
     log_level = models.IntegerField(
         choices=LogLevelOptions.choices,
     )
-    device_identifier = models.CharField(max_length=100)
-    method = models.ForeignKey(to=UserMethod, on_delete=models.CASCADE)
+    device = models.CharField(max_length=100)
+    method = models.CharField(max_length=100)
     message = models.TextField()
 
     class Meta:
