@@ -18,6 +18,8 @@ class StartView(NavbarView):
         abn.state = "start"
 
         logger = logger.bind(source="ABN")
+        logger = logger.bind(test="Hello this is a test")
+        logger = logger.bind(test1="This is another test")
         logger.info("Starting ABN")
 
         load_config()

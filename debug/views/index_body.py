@@ -13,8 +13,7 @@ class IndexBodyView(IndexContextView):
             self.get_context_data(
                 log_source=request.POST["input-log-source"],
                 log_level=request.POST["input-log-level"],
-                method_name=request.POST["input-method-name"],
-                device_identifier=request.POST["input-device-identifier"],
+                meta_info=request.POST["input-extra-info"],
                 debug_message=request.POST["input-debug-message"],
             ),
         )

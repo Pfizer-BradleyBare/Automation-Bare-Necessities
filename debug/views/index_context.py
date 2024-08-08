@@ -1,5 +1,5 @@
 from abn.views import NavbarView
-from debug.models import LogLevelOptions, LogSourceOptions, TraceEntry
+from debug.models import LogLevelOptions, LogSourceOptions, Trace
 
 
 class IndexContextView(NavbarView):
@@ -10,28 +10,26 @@ class IndexContextView(NavbarView):
 
         kwargs.setdefault("log_source", "ALL")
         kwargs.setdefault("log_level", "ALL")
-        kwargs.setdefault("method_name", "")
-        kwargs.setdefault("device_identifier", "")
+        kwargs.setdefault("meta_info", "")
         kwargs.setdefault("debug_message", "")
 
         log_source = str(kwargs.get("log_source"))
         log_level = str(kwargs.get("log_level"))
-        method_name = kwargs.get("method_name")
-        device_identifier = kwargs.get("device_identifier")
+        meta_info = kwargs.get("meta_info")
         debug_message = kwargs.get("debug_message")
 
-        query = TraceEntry.objects
+        query = Trace.objects
 
         if log_source != "ALL":
             query = query.filter(log_source=LogSourceOptions[log_source])
         if log_level != "ALL":
             query = query.filter(log_level__gte=LogLevelOptions[log_level])
-        if method_name != "":
-            query = query.filter(method__file__icontains=method_name)
-        if device_identifier != "":
-            query = query.filter(device__icontains=device_identifier)
+        if meta_info != "":
+            for meta_info in str(meta_info).split(","):
+                query = query.filter(meta_info__icontains=meta_info.strip())
         if debug_message != "":
-            query = query.filter(message__icontains=debug_message)
+            for debug_message in str(debug_message).split(","):
+                query = query.filter(message__icontains=debug_message.strip())
 
         objects = query.all()[:num_objects]
 
@@ -42,8 +40,7 @@ class IndexContextView(NavbarView):
                         object.time_stamp.strftime("%b %d, %Y, %I:%M %p"),
                         LogSourceOptions(object.log_source).label.upper(),
                         LogLevelOptions(object.log_level).label.upper(),
-                        str(object.method),
-                        object.device,
+                        object.meta_info,
                         object.message,
                     ]
                     for object in objects

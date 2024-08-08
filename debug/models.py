@@ -14,7 +14,7 @@ class LogLevelOptions(models.IntegerChoices):
     ERROR = 5
 
 
-class TraceEntry(models.Model):
+class Trace(models.Model):
     time_stamp = models.DateTimeField(auto_now_add=True)
     log_source = models.IntegerField(
         choices=LogSourceOptions.choices,
@@ -22,8 +22,7 @@ class TraceEntry(models.Model):
     log_level = models.IntegerField(
         choices=LogLevelOptions.choices,
     )
-    device = models.CharField(max_length=100)
-    method = models.CharField(max_length=100)
+    meta_info = models.TextField()
     message = models.TextField()
 
     class Meta:

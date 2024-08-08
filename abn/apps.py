@@ -1,35 +1,35 @@
 import sys
-from datetime import datetime
 
 from django.apps import AppConfig
 from loguru import logger
 
 
 def logger_callable(info):
-    from debug.models import TraceEntry
+    from debug.models import LogLevelOptions, LogSourceOptions, Trace
 
-    message = info["message"]
-    time = info["time"]["timestamp"]
-    level = info["level"]["name"]
+    record = info.record
+
+    message = record["message"]
+    time = record["time"]
+    level = record["level"].name
+
+    extra = record["extra"]
 
     try:
-        source = info["extra"]["source"]
+        source = extra["source"]
+        del extra["source"]
     except KeyError:
         source = "PLH"
 
-    try:
-        method = info["extra"]["method"]
-    except KeyError:
-        method = "None"
+    meta_info = ", ".join(extra.values())
 
-    try:
-        device = info["extra"]["device"]
-    except KeyError:
-        device = "None"
-
-    print("HERE")
-
-    TraceEntry(log_source=source,log_level=level,device=device,method=method,message=message,time_stamp=datetime.fromtimestamp(time)).save()
+    Trace(
+        log_source=LogSourceOptions[source],
+        log_level=LogLevelOptions[level],
+        meta_info=meta_info,
+        message=message,
+        time_stamp=time,
+    ).save()
 
 
 class AbnConfig(AppConfig):
@@ -38,6 +38,7 @@ class AbnConfig(AppConfig):
 
     def ready(self) -> None:
         import plh
+
         plh
 
         logger.enable("plh")
