@@ -1,38 +1,6 @@
 import sys
-from datetime import datetime
-from typing import cast
 
 from django.apps import AppConfig
-from django.utils import timezone
-from loguru import logger
-
-
-def logger_callable(info):
-    from debug.models import LogLevelOptions, LogSourceOptions, Trace
-
-    record = info.record
-
-    message = record["message"]
-    time = cast(datetime, record["time"]).astimezone(timezone.get_current_timezone())
-    level = record["level"].name
-
-    extra = record["extra"]
-
-    try:
-        source = extra["source"]
-        del extra["source"]
-    except KeyError:
-        source = "PLH"
-
-    meta_info = ", ".join(extra.values())
-
-    Trace(
-        log_source=LogSourceOptions[source],
-        log_level=LogLevelOptions[level],
-        meta_info=meta_info,
-        message=message,
-        time_stamp=time,
-    ).save()
 
 
 class AbnConfig(AppConfig):
@@ -41,13 +9,16 @@ class AbnConfig(AppConfig):
 
     def ready(self) -> None:
         import plh
+        from loguru import logger
 
-        plh
+        from debug.loguru_sink import loguru_sink_callable
 
-        logger.enable("plh")
+        # Import here because technically should not happen until django is fully loaded.
+
+        logger.enable(plh.__name__)
 
         logger.remove()
         logger.add(sys.stderr, level="DEBUG")
-        logger.add(logger_callable, level="DEBUG", serialize=True)
+        logger.add(loguru_sink_callable, level="DEBUG", serialize=True)
 
         return super().ready()
