@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     "polymorphic",
     "plh_config",
     "plh_config.backend",
-    "plh_config.liquid_handler_deck",
     "plh_config.carrier",
     "plh_config.deck_location",
     "plh_config.labware",
