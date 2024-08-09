@@ -36,21 +36,18 @@ class IndexContextView(NavbarView):
         objects = query.all()[:num_objects]
 
         context = {
-            "rows": sorted(
+            "rows": [
                 [
-                    [
-                        object.time_stamp.astimezone(
-                            timezone.get_current_timezone()
-                        ).strftime("%b %d, %Y, %I:%M %p"),
-                        LogSourceOptions(object.log_source).label.upper(),
-                        LogLevelOptions(object.log_level).label.upper(),
-                        object.meta_info,
-                        object.message,
-                    ]
-                    for object in objects
-                ],
-                key=lambda x: x[0],
-            ),
+                    object.time_stamp.astimezone(
+                        timezone.get_current_timezone(),
+                    ).strftime("%b %d, %Y, %I:%M %p"),
+                    LogSourceOptions(object.log_source).label.upper(),
+                    LogLevelOptions(object.log_level).label.upper(),
+                    object.meta_info,
+                    object.message,
+                ]
+                for object in objects
+            ],
         }
 
         return super().get_context_data(**kwargs) | context
