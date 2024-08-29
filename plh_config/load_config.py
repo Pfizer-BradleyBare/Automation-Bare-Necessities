@@ -19,7 +19,7 @@ from plh_config.transport.models import TransportBase
 
 def load_config():
 
-    #backend
+    # backend
 
     json = defaultdict(list)
     for item in BackendBase.objects.all():
@@ -27,7 +27,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.backend.load(json)
 
-    #carrier
+    # carrier
 
     json = defaultdict(list)
     for item in CarrierBase.objects.all():
@@ -35,7 +35,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.carrier.load(json)
 
-    #carrier loader
+    # carrier loader
 
     json = defaultdict(list)
     for item in CarrierLoaderBase.objects.all():
@@ -43,7 +43,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.carrier_loader.load(json)
 
-    #labware
+    # labware
 
     json = defaultdict(list)
     for item in LabwareBase.objects.all():
@@ -54,12 +54,17 @@ def load_config():
         layout_rows = item.labware_defintion_rows
         layout_cols = item.labware_defintion_columns
 
-        additional_config["layout"] = {"type":layout_type,"direction":layout_direction,"columns":layout_cols,"rows":layout_rows}
+        additional_config["layout"] = {
+            "type": layout_type,
+            "direction": layout_direction,
+            "columns": layout_cols,
+            "rows": layout_rows,
+        }
 
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.labware.load(json)
 
-    #transport
+    # transport
 
     json = defaultdict(list)
     for item in TransportBase.objects.all():
@@ -67,7 +72,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.transport.load(json)
 
-    #deck location
+    # deck location
 
     json = defaultdict(list)
     for item in DeckLocationBase.objects.all():
@@ -78,7 +83,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.deck_location.load(json)
 
-    #layout item
+    # layout item
 
     json = defaultdict(list)
     for item in LayoutItemBase.objects.all():
@@ -90,7 +95,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.layout_item.load(json)
 
-    #tip
+    # tip
 
     json = defaultdict(list)
     for item in TipBase.objects.all():
@@ -98,7 +103,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.tip.load(json)
 
-    #closeable container
+    # closeable container
 
     json = defaultdict(list)
     for item in CloseableContainerBase.objects.all():
@@ -106,7 +111,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.closeable_container.load(json)
 
-    #heat cool shake
+    # heat cool shake
 
     json = defaultdict(list)
     for item in HeatCoolShakeBase.objects.all():
@@ -114,7 +119,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.heat_cool_shake.load(json)
 
-    #pipette
+    # pipette
 
     json = defaultdict(list)
     for item in PipetteBase.objects.all():
@@ -122,7 +127,7 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.pipette.load(json)
 
-    #storage device
+    # storage device
 
     json = defaultdict(list)
     for item in StorageDeviceBase.objects.all():
@@ -130,11 +135,10 @@ def load_config():
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.storage_device.load(json)
 
-    #centrifuge
+    # centrifuge
 
     json = defaultdict(list)
     for item in CentrifugeBase.objects.all():
         additional_config = {}
         json[type(item).__name__].append(vars(item) | additional_config)
     implementation.centrifuge.load(json)
-
