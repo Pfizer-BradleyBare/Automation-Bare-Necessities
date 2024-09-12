@@ -366,147 +366,6 @@ block.middle_child = None
 block.right_child = None
 
 
-def walk(top_node: Block | None, bottom_node: Block) -> bool:
-    if top_node is None:
-        return False
-
-    if top_node is bottom_node:
-        print(top_node)
-        return True
-
-    left_depth = walk(top_node.left_child, bottom_node)
-    middle_depth = walk(top_node.middle_child, bottom_node)
-    right_depth = walk(top_node.right_child, bottom_node)
-
-    if left_depth or middle_depth or right_depth:
-        print(top_node)
-
-    return left_depth or middle_depth or right_depth
-
-
-def total_depth(root: Block | None) -> int:
-    if root is None:
-        return 0
-    left_depth = total_depth(root.left_child)
-    middle_depth = total_depth(root.middle_child)
-    right_depth = total_depth(root.right_child)
-    return 1 + max(left_depth, middle_depth, right_depth)
-
-
-def node_max_depth(top_node: Block | None, bottom_node: Block) -> int:
-    if top_node is None:
-        return -999999999999
-
-    if top_node is bottom_node:
-        return 1
-
-    left_depth = node_max_depth(top_node.left_child, bottom_node)
-    middle_depth = node_max_depth(top_node.middle_child, bottom_node)
-    right_depth = node_max_depth(top_node.right_child, bottom_node)
-    return 1 + max(left_depth, middle_depth, right_depth)
-
-
-def pad_nodes(root: Block, top_node: Block, bottom_node: Block):
-    top_depth = node_max_depth(root, top_node)
-    bottom_depth = node_max_depth(root, bottom_node)
-
-    num_padding = bottom_depth - top_depth - 1
-
-    if num_padding == 0:
-        return
-
-    if top_node.left_child is not None:
-        direction = "left"
-
-    elif top_node.right_child is not None:
-        direction = "right"
-
-    working_node = top_node
-    for i in range(num_padding):
-        pad = Block("pad")
-
-        working_node.left_child = None
-        working_node.middle_child = pad
-        working_node.right_child = None
-
-        pad.left_parent = None
-        pad.middle_parent = working_node
-        pad.right_child = None
-
-        working_node = pad
-
-    # Do we left or right pad at the end?
-    if direction == "left":
-        working_node.left_child = bottom_node
-        bottom_node.right_parent = working_node
-
-    elif direction == "right":
-        working_node.right_child = bottom_node
-        bottom_node.left_parent = working_node
-
-
-def find_paths(root: Block):
-    # Helper function to find paths recursively
-    def find_paths_recursive(node: Block | None, current_path, all_paths):
-        if node is None:
-            return
-
-        # Add the current node to the path
-        current_path.append(node)
-
-        # If it's a leaf node, add the path to the list of all paths
-        if (
-            node.left_child is None
-            and node.middle_child is None
-            and node.right_child is None
-        ):
-            all_paths.append(list(current_path))
-        else:
-            # Recur for left, middle, and right children
-            find_paths_recursive(node.left_child, current_path, all_paths)
-            find_paths_recursive(node.middle_child, current_path, all_paths)
-            find_paths_recursive(node.right_child, current_path, all_paths)
-
-        # Remove the current node from the path (backtracking)
-        current_path.pop()
-
-    # List to store all paths
-    all_paths = []
-
-    # Call the helper function with initial parameters
-    find_paths_recursive(root, [], all_paths)
-
-    return all_paths
-
-
-def assign_layers(root: Block | None) -> list[list[Block]]:
-    if not root:
-        return []
-
-    visited = []
-    layers: list[list[Block]] = []
-    queue: list[tuple[Block, int]] = [(root, 0)]  # (node, layer)
-
-    while queue:
-        node, layer = queue.pop()
-
-        if layer == len(layers):
-            layers.append([])
-
-        if node not in visited:
-            layers[layer].append(node)
-            visited.append(node)
-
-        if node.left_child:
-            queue.append((node.left_child, layer + 1))
-        if node.middle_child:
-            queue.append((node.middle_child, layer + 1))
-        if node.right_child:
-            queue.append((node.right_child, layer + 1))
-
-    return layers
-
-
 def get_branch_nodes(root: Block | None) -> list[Block]:
     if root is None:
         return []
@@ -536,6 +395,18 @@ def get_branch_nodes(root: Block | None) -> list[Block]:
             stack.append(node.right_child)
 
     return result
+
+
+def get_first_branch_node(root: Block | None) -> Block | None:
+
+    while True:
+        if root is None:
+            return None
+
+        if root.left_child is not None and root.right_child is not None:
+            return root
+
+        root = root.middle_child
 
 
 def get_end_of_branch(branching_node: Block) -> Block | None:
@@ -608,28 +479,67 @@ def get_end_of_branch(branching_node: Block) -> Block | None:
         return common[0]
 
 
-print([node.repr() for node in get_branch_nodes(block1)])
+def get_left_side_sub_branches(branching_node: Block) -> list[Block]:
+    walk_node: Block | None = branching_node.left_child
+    branch_nodes: list[Block] = []
+    while True:
+
+        if (
+            walk_node is not None
+            and walk_node.left_child is not None
+            and walk_node.right_child is not None
+        ):
+            branch_nodes.append(walk_node)
+            walk_node = get_end_of_branch(walk_node)
+            continue
+
+        if walk_node is None:
+            break
+
+        if walk_node.middle_child is not None:
+            walk_node = walk_node.middle_child
+        elif walk_node.right_child is not None:
+            break
+
+    return branch_nodes
+
+
+def get_right_side_sub_branches(branching_node: Block) -> list[Block]:
+    walk_node: Block | None = branching_node.right_child
+    branch_nodes: list[Block] = []
+    while True:
+
+        if (
+            walk_node is not None
+            and walk_node.left_child is not None
+            and walk_node.right_child is not None
+        ):
+            branch_nodes.append(walk_node)
+            walk_node = get_end_of_branch(walk_node)
+            continue
+
+        if walk_node is None:
+            break
+
+        if walk_node.middle_child is not None:
+            walk_node = walk_node.middle_child
+        elif walk_node.left_child is not None:
+            break
+
+    return branch_nodes
+
+
+branch_node = get_first_branch_node(block1)
+
+if branch_node is None:
+    quit()
+
+total_branches = 0
+left_side = get_left_side_sub_branches(branch_node)
+right_side = get_right_side_sub_branches(branch_node)
+
+for branch_node in left_side:
+    print(branch_node)
+
+
 quit()
-
-paths = find_paths(block1)
-
-complete_pairs = []
-for path in paths:
-    item1 = path.pop(0)
-    while len(path) != 0:
-        item2 = path.pop(0)
-
-        pair = f"{item1.repr()},{item2.repr()}"
-
-        if pair not in complete_pairs:
-            pad_nodes(block1, item1, item2)
-
-        complete_pairs.append(pair)
-
-        item1 = item2
-
-layers = assign_layers(block1)
-
-layers = [[block.repr() for block in layer] for layer in layers]
-for layer in layers:
-    layer.reverse()
