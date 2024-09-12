@@ -438,13 +438,96 @@ def pad_nodes(root: Block, top_node: Block, bottom_node: Block):
     # Do we left or right pad at the end?
     if direction == "left":
         working_node.left_child = bottom_node
-        bottom_node.right_child = working_node
+        bottom_node.right_parent = working_node
 
     elif direction == "right":
         working_node.right_child = bottom_node
-        bottom_node.left_child = working_node
+        bottom_node.left_parent = working_node
 
 
-pad_nodes(block1, block33, block34)
+def find_paths(root: Block):
+    # Helper function to find paths recursively
+    def find_paths_recursive(node: Block | None, current_path, all_paths):
+        if node is None:
+            return
 
-walk(block33, block34)
+        # Add the current node to the path
+        current_path.append(node)
+
+        # If it's a leaf node, add the path to the list of all paths
+        if (
+            node.left_child is None
+            and node.middle_child is None
+            and node.right_child is None
+        ):
+            all_paths.append(list(current_path))
+        else:
+            # Recur for left, middle, and right children
+            find_paths_recursive(node.left_child, current_path, all_paths)
+            find_paths_recursive(node.middle_child, current_path, all_paths)
+            find_paths_recursive(node.right_child, current_path, all_paths)
+
+        # Remove the current node from the path (backtracking)
+        current_path.pop()
+
+    # List to store all paths
+    all_paths = []
+
+    # Call the helper function with initial parameters
+    find_paths_recursive(root, [], all_paths)
+
+    return all_paths
+
+
+def assign_layers(root: Block | None) -> list[list[Block]]:
+    if not root:
+        return []
+
+    visited = []
+    layers: list[list[Block]] = []
+    queue: list[tuple[Block, int]] = [(root, 0)]  # (node, layer)
+
+    while queue:
+        node, layer = queue.pop()
+
+        if layer == len(layers):
+            layers.append([])
+
+        if node not in visited:
+            layers[layer].append(node)
+            visited.append(node)
+
+        if node.left_child:
+            queue.append((node.left_child, layer + 1))
+        if node.middle_child:
+            queue.append((node.middle_child, layer + 1))
+        if node.right_child:
+            queue.append((node.right_child, layer + 1))
+
+    return layers
+
+
+paths = find_paths(block1)
+
+paths = [[item for item in path] for path in paths]
+
+complete_pairs = []
+for path in paths:
+    item1 = path.pop(0)
+    while len(path) != 0:
+        item2 = path.pop(0)
+
+        pair = f"{item1.repr()},{item2.repr()}"
+
+        if pair not in complete_pairs:
+            pad_nodes(block1, item1, item2)
+
+        complete_pairs.append(pair)
+
+        item1 = item2
+
+layers = assign_layers(block1)
+
+layers = [[block.repr() for block in layer] for layer in layers]
+
+print(layers)
