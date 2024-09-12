@@ -3,8 +3,9 @@ from __future__ import annotations
 
 class Block:
     counter: int = 1
-    def __init__(self) -> None:
-        self.name = f"block{Block.counter}"
+
+    def __init__(self, name_prefix: str = "block") -> None:
+        self.name = f"{name_prefix}{Block.counter}"
         Block.counter += 1
         self.row = 0
         self.column = 0
@@ -34,6 +35,10 @@ class Block:
             middle = None
 
         return f"{self.name}-> left: {left}, right: {right}, middle: {middle}"
+
+    def repr(self) -> str:
+        return self.name
+
 
 block1 = Block()
 block2 = Block()
@@ -361,27 +366,85 @@ block.middle_child = None
 block.right_child = None
 
 
-def assign_columns(block:Block | None) -> tuple[int,int]:
-    if block is None:
-        return 1, -1
+def walk(top_node: Block | None, bottom_node: Block) -> bool:
+    if top_node is None:
+        return False
+
+    if top_node is bottom_node:
+        print(top_node)
+        return True
+
+    left_depth = walk(top_node.left_child, bottom_node)
+    middle_depth = walk(top_node.middle_child, bottom_node)
+    right_depth = walk(top_node.right_child, bottom_node)
+
+    if left_depth or middle_depth or right_depth:
+        print(top_node)
+
+    return left_depth or middle_depth or right_depth
 
 
-    leftleft, leftright = assign_columns(block.left_child)
-    rightleft, rightright = assign_columns(block.right_child)
-
-    print(block)
-    print(leftleft, leftright, rightleft, rightright)
-
-    return min(leftleft-1, rightleft+1), max(leftright-1, rightright+1)
-
-def breadth(block:Block | None):
-    leftextent, rightextent = assign_columns(block)
-    print(leftextent, rightextent)
-    return rightextent-leftextent+1
+def total_depth(root: Block | None) -> int:
+    if root is None:
+        return 0
+    left_depth = total_depth(root.left_child)
+    middle_depth = total_depth(root.middle_child)
+    right_depth = total_depth(root.right_child)
+    return 1 + max(left_depth, middle_depth, right_depth)
 
 
-print(breadth(block1))
+def node_max_depth(top_node: Block | None, bottom_node: Block) -> int:
+    if top_node is None:
+        return -999999999999
+
+    if top_node is bottom_node:
+        return 1
+
+    left_depth = node_max_depth(top_node.left_child, bottom_node)
+    middle_depth = node_max_depth(top_node.middle_child, bottom_node)
+    right_depth = node_max_depth(top_node.right_child, bottom_node)
+    return 1 + max(left_depth, middle_depth, right_depth)
 
 
+def pad_nodes(root: Block, top_node: Block, bottom_node: Block):
+    top_depth = node_max_depth(root, top_node)
+    bottom_depth = node_max_depth(root, bottom_node)
+
+    num_padding = bottom_depth - top_depth - 1
+
+    if num_padding == 0:
+        return
+
+    if top_node.left_child is not None:
+        direction = "left"
+
+    elif top_node.right_child is not None:
+        direction = "right"
+
+    working_node = top_node
+    for i in range(num_padding):
+        pad = Block("pad")
+
+        working_node.left_child = None
+        working_node.middle_child = pad
+        working_node.right_child = None
+
+        pad.left_parent = None
+        pad.middle_parent = working_node
+        pad.right_child = None
+
+        working_node = pad
+
+    # Do we left or right pad at the end?
+    if direction == "left":
+        working_node.left_child = bottom_node
+        bottom_node.right_child = working_node
+
+    elif direction == "right":
+        working_node.right_child = bottom_node
+        bottom_node.left_child = working_node
 
 
+pad_nodes(block1, block33, block34)
+
+walk(block33, block34)
