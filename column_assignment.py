@@ -507,9 +507,111 @@ def assign_layers(root: Block | None) -> list[list[Block]]:
     return layers
 
 
-paths = find_paths(block1)
+def get_branch_nodes(root: Block | None) -> list[Block]:
+    if root is None:
+        return []
 
-paths = [[item for item in path] for path in paths]
+    result = []
+    stack = [root]
+    visited = []
+
+    while stack:
+        node = stack.pop()
+
+        if node not in visited:
+            visited.append(node)
+        else:
+            continue
+
+        # Check if the node has both left and right children
+        if node.left_child is not None and node.right_child is not None:
+            result.append(node)
+
+        # Add children to the stack for further processing
+        if node.left_child is not None:
+            stack.append(node.left_child)
+        if node.middle_child is not None:
+            stack.append(node.middle_child)
+        if node.right_child is not None:
+            stack.append(node.right_child)
+
+    return result
+
+
+def get_end_of_branch(branching_node: Block) -> Block | None:
+    "Left side"
+    walk_node: Block | None = branching_node.left_child
+    left_side_end_branch_Nodes: list[Block] = []
+    while True:
+
+        if (
+            walk_node is not None
+            and walk_node.left_child is not None
+            and walk_node.right_child is not None
+        ):
+            walk_node = get_end_of_branch(walk_node)
+
+        if walk_node is None:
+            break
+
+        if walk_node.middle_child is not None:
+            walk_node = walk_node.middle_child
+        else:
+            if walk_node.left_child is not None:
+                left_side_end_branch_Nodes.append(walk_node.left_child)
+                walk_node = walk_node.left_child
+
+            elif walk_node.right_child is not None:
+                left_side_end_branch_Nodes.append(walk_node.right_child)
+                walk_node = walk_node.right_child
+
+            else:
+                break
+
+    "right side"
+    walk_node: Block | None = branching_node.right_child
+    right_side_end_branch_Nodes: list[Block] = []
+    while True:
+
+        if (
+            walk_node is not None
+            and walk_node.left_child is not None
+            and walk_node.right_child is not None
+        ):
+            walk_node = get_end_of_branch(walk_node)
+
+        if walk_node is None:
+            break
+
+        if walk_node.middle_child is not None:
+            walk_node = walk_node.middle_child
+        else:
+            if walk_node.left_child is not None:
+                right_side_end_branch_Nodes.append(walk_node.left_child)
+                walk_node = walk_node.left_child
+
+            elif walk_node.right_child is not None:
+                right_side_end_branch_Nodes.append(walk_node.right_child)
+                walk_node = walk_node.right_child
+
+            else:
+                break
+    common = [
+        item
+        for item in left_side_end_branch_Nodes
+        if item in right_side_end_branch_Nodes
+    ]
+
+    if len(common) == 0:
+        return None
+    else:
+        return common[0]
+
+
+print([node.repr() for node in get_branch_nodes(block1)])
+quit()
+
+paths = find_paths(block1)
 
 complete_pairs = []
 for path in paths:
@@ -529,5 +631,5 @@ for path in paths:
 layers = assign_layers(block1)
 
 layers = [[block.repr() for block in layer] for layer in layers]
-
-print(layers)
+for layer in layers:
+    layer.reverse()
