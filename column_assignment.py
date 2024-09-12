@@ -18,6 +18,11 @@ class Block:
         self.middle_child: Block | None = None
         self.right_child: Block | None = None
 
+        self.left_sub_branches: list[Block] = []
+        self.right_sub_branches: list[Block] = []
+
+        self.branch_increment: int = -1
+
     def __str__(self) -> str:
         if self.left_child is not None:
             left = self.left_child.name
@@ -529,17 +534,32 @@ def get_right_side_sub_branches(branching_node: Block) -> list[Block]:
     return branch_nodes
 
 
-branch_node = get_first_branch_node(block1)
+branch_nodes = get_branch_nodes(block1)
 
-if branch_node is None:
-    quit()
+for node in branch_nodes:
+    node.left_sub_branches = get_left_side_sub_branches(node)
+    node.right_sub_branches = get_right_side_sub_branches(node)
 
-total_branches = 0
-left_side = get_left_side_sub_branches(branch_node)
-right_side = get_right_side_sub_branches(branch_node)
+for node in branch_nodes:
+    print(node)
+    print([node.repr() for node in node.left_sub_branches])
+    print([node.repr() for node in node.right_sub_branches])
 
-for branch_node in left_side:
-    print(branch_node)
 
+for _ in range(100):
+    for node in branch_nodes:
+        try:
+            right_max = max([node.branch_increment for node in node.right_sub_branches])
+        except ValueError:
+            right_max = 0
+
+        try:
+            left_max = max([node.branch_increment for node in node.left_sub_branches])
+        except ValueError:
+            left_max = 0
+
+        node.branch_increment = right_max + left_max + 1
+
+print(block1.branch_increment)
 
 quit()
