@@ -117,9 +117,6 @@ blocks.append(block30)
 blocks.append(block31)
 blocks.append(block32)
 blocks.append(block33)
-blocks.append(block34)
-blocks.append(block35)
-blocks.append(block36)
 
 block = block1
 block.left_parent = None
@@ -247,7 +244,7 @@ block.middle_parent = block15
 block.right_parent = None
 block.left_child = None
 block.middle_child = None
-block.right_child = block34
+block.right_child = None
 
 block = block17
 block.left_parent = block1
@@ -381,30 +378,6 @@ block = block33
 block.left_parent = block31
 block.middle_parent = None
 block.right_parent = block32
-block.left_child = block34
-block.middle_child = None
-block.right_child = None
-
-block = block34
-block.left_parent = block16
-block.middle_parent = None
-block.right_parent = block33
-block.left_child = None
-block.middle_child = block35
-block.right_child = None
-
-block = block35
-block.left_parent = None
-block.middle_parent = block34
-block.right_parent = None
-block.left_child = None
-block.middle_child = block36
-block.right_child = None
-
-block = block36
-block.left_parent = None
-block.middle_parent = block35
-block.right_parent = None
 block.left_child = None
 block.middle_child = None
 block.right_child = None
@@ -472,17 +445,11 @@ def get_end_of_branch(branching_node: Block) -> Block | None:
 
         if walk_node.middle_child is not None:
             walk_node = walk_node.middle_child
+        elif walk_node.right_child is not None:
+            left_side_end_branch_Nodes.append(walk_node.right_child)
+            walk_node = walk_node.right_child
         else:
-            if walk_node.left_child is not None:
-                left_side_end_branch_Nodes.append(walk_node.left_child)
-                walk_node = walk_node.left_child
-
-            elif walk_node.right_child is not None:
-                left_side_end_branch_Nodes.append(walk_node.right_child)
-                walk_node = walk_node.right_child
-
-            else:
-                break
+            break
 
     "right side"
     walk_node: Block | None = branching_node.right_child
@@ -501,17 +468,12 @@ def get_end_of_branch(branching_node: Block) -> Block | None:
 
         if walk_node.middle_child is not None:
             walk_node = walk_node.middle_child
+        elif walk_node.left_child is not None:
+            right_side_end_branch_Nodes.append(walk_node.left_child)
+            walk_node = walk_node.left_child
+
         else:
-            if walk_node.left_child is not None:
-                right_side_end_branch_Nodes.append(walk_node.left_child)
-                walk_node = walk_node.left_child
-
-            elif walk_node.right_child is not None:
-                right_side_end_branch_Nodes.append(walk_node.right_child)
-                walk_node = walk_node.right_child
-
-            else:
-                break
+            break
     common = [
         item
         for item in left_side_end_branch_Nodes
@@ -544,7 +506,11 @@ def get_left_side_sub_branches(branching_node: Block) -> list[Block]:
 
         if walk_node.middle_child is not None:
             walk_node = walk_node.middle_child
-        elif walk_node.right_child is not None:
+        elif walk_node.right_child is not None or (
+            walk_node.left_child is None
+            and walk_node.middle_child is None
+            and walk_node.right_child is None
+        ):
             break
 
     return branch_nodes
@@ -570,7 +536,11 @@ def get_right_side_sub_branches(branching_node: Block) -> list[Block]:
 
         if walk_node.middle_child is not None:
             walk_node = walk_node.middle_child
-        elif walk_node.left_child is not None:
+        elif walk_node.left_child is not None or (
+            walk_node.left_child is None
+            and walk_node.middle_child is None
+            and walk_node.right_child is None
+        ):
             break
 
     return branch_nodes
@@ -584,9 +554,7 @@ def assign_columns(first_branch_node: Block | None, column_number: int = 0):
 
     # middle up
     walk_node = first_branch_node
-    while True:
-        if walk_node is None:
-            break
+    while walk_node is not None:
 
         walk_node.column = column_number
 
@@ -594,9 +562,7 @@ def assign_columns(first_branch_node: Block | None, column_number: int = 0):
 
     # middle down
     walk_node = get_end_of_branch(first_branch_node)
-    while True:
-        if walk_node is None:
-            break
+    while walk_node is not None:
 
         walk_node.column = column_number
 
@@ -608,9 +574,7 @@ def assign_columns(first_branch_node: Block | None, column_number: int = 0):
     # left down
     walk_node = first_branch_node.left_child
 
-    while True:
-        if walk_node is None:
-            break
+    while walk_node is not None:
 
         walk_node.column = column_number - column_number_change
 
@@ -622,9 +586,7 @@ def assign_columns(first_branch_node: Block | None, column_number: int = 0):
     # right down
     walk_node = first_branch_node.right_child
 
-    while True:
-        if walk_node is None:
-            break
+    while walk_node is not None:
 
         walk_node.column = column_number + column_number_change
 
