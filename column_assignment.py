@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+blocks: list[Block] = []
+
 
 class Block:
     counter: int = 1
@@ -82,13 +84,15 @@ block34 = Block()
 block35 = Block()
 block36 = Block()
 
+blocks.append(block1)
+
 block = block1
 block.left_parent = None
 block.middle_parent = None
 block.right_parent = None
-block.left_child = block2
+block.left_child = None
 block.middle_child = None
-block.right_child = block17
+block.right_child = None
 
 block = block2
 block.left_parent = None
@@ -372,6 +376,7 @@ block.right_child = None
 
 
 def get_branch_nodes(root: Block | None) -> list[Block]:
+    """Uses breadth first search to find all the blocks that are branches (ie. have both a left and right child)."""
     if root is None:
         return []
 
@@ -387,11 +392,9 @@ def get_branch_nodes(root: Block | None) -> list[Block]:
         else:
             continue
 
-        # Check if the node has both left and right children
         if node.left_child is not None and node.right_child is not None:
             result.append(node)
 
-        # Add children to the stack for further processing
         if node.left_child is not None:
             stack.append(node.left_child)
         if node.middle_child is not None:
@@ -403,7 +406,6 @@ def get_branch_nodes(root: Block | None) -> list[Block]:
 
 
 def get_first_branch_node(root: Block | None) -> Block | None:
-
     while True:
         if root is None:
             return None
@@ -415,6 +417,9 @@ def get_first_branch_node(root: Block | None) -> Block | None:
 
 
 def get_end_of_branch(branching_node: Block) -> Block | None:
+    """Traverses the left and right side of a branch to find the node that both sides have in common.
+    The first node that both sides have in common is the node that ends the branch.
+    """
     "Left side"
     walk_node: Block | None = branching_node.left_child
     left_side_end_branch_Nodes: list[Block] = []
@@ -485,6 +490,7 @@ def get_end_of_branch(branching_node: Block) -> Block | None:
 
 
 def get_left_side_sub_branches(branching_node: Block) -> list[Block]:
+    """Gets the sub branches under the input branch on the left side only"""
     walk_node: Block | None = branching_node.left_child
     branch_nodes: list[Block] = []
     while True:
@@ -510,6 +516,7 @@ def get_left_side_sub_branches(branching_node: Block) -> list[Block]:
 
 
 def get_right_side_sub_branches(branching_node: Block) -> list[Block]:
+    """Gets the sub branches under the input branch on the right side only"""
     walk_node: Block | None = branching_node.right_child
     branch_nodes: list[Block] = []
     while True:
@@ -534,32 +541,89 @@ def get_right_side_sub_branches(branching_node: Block) -> list[Block]:
     return branch_nodes
 
 
+def assign_columns(first_branch_node: Block | None, column_number: int = 0):
+    if first_branch_node is None:
+        return
+
+    column_number_change = 2**first_branch_node.branch_increment
+
+    # middle up
+    walk_node = first_branch_node
+    while True:
+        if walk_node is None:
+            break
+
+        walk_node.column = column_number
+
+        walk_node = walk_node.middle_parent
+
+    # middle down
+    walk_node = get_end_of_branch(first_branch_node)
+    while True:
+        if walk_node is None:
+            break
+
+        walk_node.column = column_number
+
+        if walk_node.left_child is not None and walk_node.right_child is not None:
+            assign_columns(walk_node, column_number)
+
+        walk_node = walk_node.middle_child
+
+    # left down
+    walk_node = first_branch_node.left_child
+
+    while True:
+        if walk_node is None:
+            break
+
+        walk_node.column = column_number - column_number_change
+
+        if walk_node.left_child is not None and walk_node.right_child is not None:
+            assign_columns(walk_node, column_number - column_number_change)
+
+        walk_node = walk_node.middle_child
+
+    # right down
+    walk_node = first_branch_node.right_child
+
+    while True:
+        if walk_node is None:
+            break
+
+        walk_node.column = column_number + column_number_change
+
+        if walk_node.left_child is not None and walk_node.right_child is not None:
+            assign_columns(walk_node, column_number + column_number_change)
+
+        walk_node = walk_node.middle_child
+
+
 branch_nodes = get_branch_nodes(block1)
 
-for node in branch_nodes:
-    node.left_sub_branches = get_left_side_sub_branches(node)
-    node.right_sub_branches = get_right_side_sub_branches(node)
-
-for node in branch_nodes:
-    print(node)
-    print([node.repr() for node in node.left_sub_branches])
-    print([node.repr() for node in node.right_sub_branches])
-
-
-for _ in range(100):
+if len(branch_nodes) != 0:
     for node in branch_nodes:
-        try:
-            right_max = max([node.branch_increment for node in node.right_sub_branches])
-        except ValueError:
-            right_max = 0
+        node.left_sub_branches = get_left_side_sub_branches(node)
+        node.right_sub_branches = get_right_side_sub_branches(node)
 
-        try:
-            left_max = max([node.branch_increment for node in node.left_sub_branches])
-        except ValueError:
-            left_max = 0
+    for _ in range(100):
+        for node in branch_nodes:
+            right_max = max(
+                [node.branch_increment for node in node.right_sub_branches],
+                default=0,
+            )
 
-        node.branch_increment = right_max + left_max + 1
+            left_max = max(
+                [node.branch_increment for node in node.left_sub_branches],
+                default=0,
+            )
 
-print(block1.branch_increment)
+            node.branch_increment = max(right_max, left_max) + 1
 
-quit()
+    assign_columns(get_first_branch_node(block1))
+
+offset = min([block.column for block in blocks]) - 2
+
+for block in blocks:
+    block.column -= offset
+    print(block.name, block.column)
