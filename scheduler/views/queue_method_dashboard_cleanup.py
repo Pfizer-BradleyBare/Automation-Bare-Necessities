@@ -1,5 +1,6 @@
 from django.http import HttpRequest
 from django.shortcuts import render
+
 from method.models import ExecutingMethod
 
 from .queue_method_dashboard_context import QueueMethodDashboardContextView

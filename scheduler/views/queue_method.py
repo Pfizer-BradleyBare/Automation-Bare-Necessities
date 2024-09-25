@@ -4,9 +4,9 @@ from pathlib import Path
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.utils import timezone
-from method.models import ExecutingMethod
 
 from abn.views import NavbarView
+from method.models import ExecutingMethod
 
 
 class QueueMethodView(NavbarView):

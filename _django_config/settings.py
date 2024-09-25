@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     "debug",
     "abn",
     "method",
+    "solution",
+    "block",
     "deck",
     "scheduler",
 ]

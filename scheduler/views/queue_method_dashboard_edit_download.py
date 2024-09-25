@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from django.http import FileResponse, HttpRequest
+
 from method.models import ExecutingMethod
 
 from .queue_method_dashboard_context import QueueMethodDashboardContextView

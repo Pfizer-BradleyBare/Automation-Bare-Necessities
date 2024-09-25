@@ -1,8 +1,4 @@
-import shutil
-from pathlib import Path
-
 from django.apps import AppConfig
-from django.conf import settings
 
 
 class MethodConfig(AppConfig):
@@ -10,6 +6,12 @@ class MethodConfig(AppConfig):
     name = "method"
 
     def ready(self) -> None:
-        path = Path(settings.BASE_DIR) / "_abn_methods"
+        ...
+        # source_path = Path(
+        #    "\\\\amer.pfizer.com\\pfizerfiles\\Research\\CHV\\btxpharmsci\\xAdmin\\AutomationBareNecessities\\Methods",
+        # )
+        # destination_path = Path(settings.BASE_DIR) / "_abn_methods"
 
-        shutil.rmtree(path, ignore_errors=True)
+        # shutil.rmtree(destination_path, ignore_errors=True)
+
+        # shutil.copytree(source_path, destination_path, dirs_exist_ok=True)

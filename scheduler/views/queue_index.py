@@ -1,8 +1,8 @@
 from django.http import HttpRequest
 from django.shortcuts import render
-from method.models import ExecutingMethod
 
 from abn.views import NavbarView
+from method.models import ExecutingMethod
 
 
 class QueueIndexView(NavbarView):

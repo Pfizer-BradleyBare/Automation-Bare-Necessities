@@ -1,7 +1,7 @@
 from django.utils import timezone
-from method.models import ExecutingMethod
 
 from abn.views import NavbarView
+from method.models import ExecutingMethod
 
 
 class QueueMethodDashboardContextView(NavbarView):
