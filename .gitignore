@@ -1,4 +1,4 @@
 *.pyc
 __pycache__
 settings.json
-_abn_
+_abn_methods
