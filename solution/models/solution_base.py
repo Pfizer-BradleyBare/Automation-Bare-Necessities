@@ -1,12 +1,16 @@
 from __future__ import annotations
 
-import random
-
 from django.db import models
 
 
 def get_solutions():
-    return ((i, str(i)) for i in range(random.randint(1, 20)))
+    from .predefined_solution import PredefinedSolution
+    from .solution_component import SolutionComponent
+
+    items = list(SolutionComponent.objects.all())
+    items += list(PredefinedSolution.objects.all())
+
+    return sorted(((i.name, i.name) for i in items), key=lambda x: x[0])
 
 
 class SolutionBase(models.Model):
@@ -177,3 +181,9 @@ class SolutionBase(models.Model):
         blank=True,
         null=True,
     )
+
+    class meta:
+        abstract = True
+
+    def __str__(self) -> str:
+        return self.name
