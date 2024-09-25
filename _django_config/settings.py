@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "plh_config.pipette",
     "debug",
     "abn",
-    "excel",
+    "worklist",
     "method",
     "solution",
     "block",
