@@ -3,16 +3,6 @@ from __future__ import annotations
 from django.db import models
 
 
-def get_solutions():
-    from .predefined_solution import PredefinedSolution
-    from .solution_component import SolutionComponent
-
-    items = list(SolutionComponent.objects.all())
-    items += list(PredefinedSolution.objects.all())
-
-    return sorted(((i.name, i.name) for i in items), key=lambda x: x[0])
-
-
 class SolutionBase(models.Model):
     name = models.CharField(max_length=255, unique=True)
     storage_condition = models.CharField(
@@ -58,7 +48,6 @@ class SolutionBase(models.Model):
 
     component_1_name = models.CharField(
         max_length=255,
-        choices=get_solutions,  # type:ignore This works in Django5.0 but Pylance does not think so
         blank=True,
         null=True,
     )
@@ -72,7 +61,6 @@ class SolutionBase(models.Model):
 
     component_2_name = models.CharField(
         max_length=255,
-        choices=get_solutions,  # type:ignore This works in Django5.0 but Pylance does not think so
         blank=True,
         null=True,
     )
@@ -86,7 +74,6 @@ class SolutionBase(models.Model):
 
     component_3_name = models.CharField(
         max_length=255,
-        choices=get_solutions,  # type:ignore This works in Django5.0 but Pylance does not think so
         blank=True,
         null=True,
     )
@@ -100,7 +87,6 @@ class SolutionBase(models.Model):
 
     component_4_name = models.CharField(
         max_length=255,
-        choices=get_solutions,  # type:ignore This works in Django5.0 but Pylance does not think so
         blank=True,
         null=True,
     )
@@ -114,7 +100,6 @@ class SolutionBase(models.Model):
 
     component_5_name = models.CharField(
         max_length=255,
-        choices=get_solutions,  # type:ignore This works in Django5.0 but Pylance does not think so
         blank=True,
         null=True,
     )
@@ -128,7 +113,6 @@ class SolutionBase(models.Model):
 
     component_6_name = models.CharField(
         max_length=255,
-        choices=get_solutions,  # type:ignore This works in Django5.0 but Pylance does not think so
         blank=True,
         null=True,
     )
@@ -142,7 +126,6 @@ class SolutionBase(models.Model):
 
     component_7_name = models.CharField(
         max_length=255,
-        choices=get_solutions,  # type:ignore This works in Django5.0 but Pylance does not think so
         blank=True,
         null=True,
     )
@@ -156,7 +139,6 @@ class SolutionBase(models.Model):
 
     component_8_name = models.CharField(
         max_length=255,
-        choices=get_solutions,  # type:ignore This works in Django5.0 but Pylance does not think so
         blank=True,
         null=True,
     )
@@ -170,7 +152,6 @@ class SolutionBase(models.Model):
 
     component_9_name = models.CharField(
         max_length=255,
-        choices=get_solutions,  # type:ignore This works in Django5.0 but Pylance does not think so
         blank=True,
         null=True,
     )
