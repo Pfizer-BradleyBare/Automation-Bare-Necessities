@@ -4,9 +4,6 @@ from ..block_base import BlockBase
 
 
 class SplitWorklist(BlockBase):
-    block_name = "Split Worklist"
-    block_category = "Pathways"
-
     left_container_name = models.CharField(max_length=255)
     left_container_type = models.CharField(max_length=255, default="")
 

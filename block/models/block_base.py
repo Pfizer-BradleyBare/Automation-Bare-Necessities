@@ -15,8 +15,6 @@ def default_none() -> Any:
 
 class BlockBase(PolymorphicModel):
     block_subclasses: ClassVar[dict[str, type[BlockBase]]] = {}
-    block_name: str = "BlockBase"
-    block_category: str = "__IGNORE__"
 
     method = models.ForeignKey(to=UserMethodBase, on_delete=models.CASCADE)
     row = models.IntegerField()
@@ -75,7 +73,7 @@ class BlockBase(PolymorphicModel):
         raise NotImplementedError
 
     def __init_subclass__(cls: type[BlockBase]) -> None:
-        cls.block_subclasses[cls.block_name] = cls
+        cls.block_subclasses[cls.__name__] = cls
 
     def __str__(self) -> str:
-        return f"{self.method}: {self.row}|{self.column} -> {self.block_name} "
+        return f"{self.method}: {self.row}|{self.column} -> {type(self).__name__} "
