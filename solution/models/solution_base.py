@@ -14,7 +14,7 @@ def get_solutions():
 
 
 class SolutionBase(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, unique=True)
     storage_condition = models.CharField(
         max_length=8,
         choices=(("Ambient", "Ambient"), ("Cold", "Cold")),
