@@ -2,7 +2,7 @@ from django.db import models
 
 from excel.definitions import BlockDefinitionExcelDefinition
 
-from ..block_base import BlockBase
+from ..block_base import DROPDOWN_CONTAINER_NAMES, BlockBase
 
 
 class SplitWorklist(BlockBase):
@@ -25,7 +25,7 @@ class SplitWorklist(BlockBase):
             label="Left Container Name",
             advanced=False,
             default_value="",
-            dropdown_items="%%get_container_names_as_string",
+            dropdown_items=f"{DROPDOWN_CONTAINER_NAMES}",
             free_text=True,
         )
 
@@ -33,7 +33,7 @@ class SplitWorklist(BlockBase):
             label="Right Container Name",
             advanced=False,
             default_value="",
-            dropdown_items="%%get_container_names_as_string",
+            dropdown_items=f"{DROPDOWN_CONTAINER_NAMES}",
             free_text=True,
         )
 

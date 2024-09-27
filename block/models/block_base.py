@@ -9,6 +9,21 @@ from polymorphic.models import PolymorphicModel
 from excel.definitions import BlockDefinitionExcelDefinition
 from method.models import UserMethodBase
 
+DROPDOWN_CONTAINER_NAMES = "%%get_container_names_as_string"
+DROPDOWN_PREFIXED_CONTAINER_NAMES = "%%get_prefixed_container_names_as_string"
+DROPDOWN_PREDEFINED_SOLUTION_NAMES = "%%get_loaded_solution_names_as_string"
+DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES = (
+    "%%get_prefixed_loaded_solution_names_as_string"
+)
+DROPDOWN_USER_DEFINED_SOLUTION_NAMES = "%%get_defined_solution_names_as_string"
+DROPDOWN_PREFIXED_USER_DEFINED_SOLUTION_NAMES = (
+    "%%get_prefixed_defined_solution_names_as_string"
+)
+DROPDOWN_WORKLIST_COLUMN_NAMES = "%%get_worklist_column_names_as_string"
+DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES = (
+    "%%get_prefixed_worklist_column_names_as_string"
+)
+
 
 class BlockBase(PolymorphicModel):
     block_subclasses: ClassVar[dict[str, type[BlockBase]]] = {}
