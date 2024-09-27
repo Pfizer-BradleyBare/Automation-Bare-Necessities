@@ -8,6 +8,8 @@ from .models.constraints import (
     SampleNumberMax,
     SampleNumberMin,
 )
+from .models.heat_cool_shake import Incubate, IncubateAndShake, Shake
+from .models.liquid_handling import Dilute, Pipette
 from .models.meta_data import Author, Category, INXNumber, Modality, Scale
 from .models.pathways import ActivateContainer, Merge, SplitWorklist
 
@@ -30,3 +32,10 @@ admin.site.register(Modality)
 admin.site.register(Category)
 admin.site.register(INXNumber)
 admin.site.register(Scale)
+
+admin.site.register(Pipette)
+admin.site.register(Dilute)
+
+admin.site.register(Incubate)
+admin.site.register(Shake)
+admin.site.register(IncubateAndShake)

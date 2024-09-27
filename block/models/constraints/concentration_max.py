@@ -14,7 +14,7 @@ class ConcentrationMax(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Concentration Max",
             category="Constraints",
-            hexidecimal_color="66cf22",
+            hexidecimal_color="FD6F3B",
         )
 
         definition.add_parameter(

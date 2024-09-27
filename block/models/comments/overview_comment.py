@@ -14,7 +14,7 @@ class OverviewComment(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Overview Comment",
             category="Comments",
-            hexidecimal_color="66cf22",
+            hexidecimal_color="FFD02E",
         )
 
         definition.add_parameter(

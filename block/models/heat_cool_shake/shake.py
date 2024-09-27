@@ -5,20 +5,20 @@ from excel.definitions import BlockDefinitionExcelDefinition
 from ..block_base import BlockBase
 
 
-class SampleNumberMax(BlockBase):
+class Shake(BlockBase):
 
-    constraint_text = models.TextField()
+    shaking_rpm = models.FloatField()
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(
-            name="Sample Number Max",
-            category="Constraints",
-            hexidecimal_color="FF8C55",
+            name="Shake",
+            category="Heat Cool Shake",
+            hexidecimal_color="66cf22",
         )
 
         definition.add_parameter(
-            label="Sample Number Max",
+            label="Shaking RPM",
             advanced=False,
             default_value="",
             dropdown_items="",

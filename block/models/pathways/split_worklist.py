@@ -19,7 +19,7 @@ class SplitWorklist(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Split Worklist",
             category="Pathways",
-            hexidecimal_color="f3c721",
+            hexidecimal_color="6DCE87",
         )
 
         definition.add_parameter(

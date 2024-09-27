@@ -14,7 +14,7 @@ class SilentComment(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Silent Comment",
             category="Comments",
-            hexidecimal_color="66cf22",
+            hexidecimal_color="FED777",
         )
 
         definition.add_parameter(
