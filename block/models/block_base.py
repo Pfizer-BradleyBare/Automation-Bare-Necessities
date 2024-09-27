@@ -1,16 +1,13 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import Any, ClassVar
+from typing import ClassVar
 
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
+from excel.definitions import BlockDefinitionExcelDefinition
 from method.models import UserMethodBase
-
-
-def default_none() -> Any:
-    return None
 
 
 class BlockBase(PolymorphicModel):
@@ -63,6 +60,10 @@ class BlockBase(PolymorphicModel):
         blank=True,
         related_name="+",
     )
+
+    @abstractmethod
+    def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
+        raise NotImplementedError
 
     @abstractmethod
     def validate(self):
