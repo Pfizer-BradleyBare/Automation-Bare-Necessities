@@ -76,8 +76,8 @@ class BlockBase(PolymorphicModel):
         related_name="+",
     )
 
-    @abstractmethod
     @classmethod
+    @abstractmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         raise NotImplementedError
 

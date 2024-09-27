@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import pathlib
+
+from django.conf import settings
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from loguru import logger
 
-logger
 import abn
+from excel.definitions import write_definitions
 from plh_config.load_config import load_config
 
 from .navbar import NavbarView
@@ -13,7 +16,10 @@ from .navbar import NavbarView
 
 class StartView(NavbarView):
     def get(self, request: HttpRequest):
-        global logger
+
+        write_definitions(pathlib.Path(settings.BASE_DIR) / "method_template.xlsm")
+
+        return redirect("abn:index_status")
 
         abn.state = "start"
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import itertools
 from dataclasses import dataclass, field
 
 import xlwings
@@ -48,4 +49,40 @@ class BlockDefinitionExcelDefinition:
 def write_block_definitions_sheet(sheet: xlwings.Sheet):
     from block.models import BlockBase
 
-    print(BlockBase.block_subclasses)
+    cells = []
+
+    for block in BlockBase.block_subclasses.values():
+        definition = block.get_excel_definition()
+
+        cells.append(["Block Definition"])
+        cells.append(["name", "category", "hexidecimal_color"])
+        cells.append(
+            [definition.name, definition.category, definition.hexidecimal_color],
+        )
+
+        cells.append(["Parameter Definitions"])
+        cells.append(
+            ["label", "advanced", "default_value", "dropdown_items", "free_text"],
+        )
+
+        cells += [
+            [
+                parameter.label,
+                parameter.advanced,
+                parameter.default_value,
+                parameter.dropdown_items,
+                parameter.free_text,
+            ]
+            for parameter in definition.parameters
+        ]
+
+        cells.append([])
+
+    cells = list(zip(*itertools.zip_longest(*cells, fillvalue=None)))
+
+    num_rows = len(cells)
+    num_cols = 5
+
+    sheet.clear()
+    sheet.clear_formats()
+    sheet.range((1, 1), (num_rows, num_cols)).value = cells

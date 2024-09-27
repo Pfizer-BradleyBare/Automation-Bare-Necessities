@@ -160,6 +160,7 @@ class SolutionBase(models.Model):
             volatility=self.volatility,
             viscosity=self.viscosity,
             homogeneity=self.homogeneity,
+            storage_condition=self.storage_condition,
         )
 
         if (
