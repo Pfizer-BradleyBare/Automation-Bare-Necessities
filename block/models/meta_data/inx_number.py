@@ -9,7 +9,8 @@ class INXNumber(BlockBase):
 
     meta_data_text = models.TextField()
 
-    def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
+    @classmethod
+    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(
             name="INX Number",
             category="Meta Data",

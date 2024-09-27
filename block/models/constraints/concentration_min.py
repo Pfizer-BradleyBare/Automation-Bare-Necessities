@@ -9,7 +9,8 @@ class ConcentrationMin(BlockBase):
 
     constraint_text = models.TextField()
 
-    def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
+    @classmethod
+    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(
             name="Concentration Min",
             category="Constraints",

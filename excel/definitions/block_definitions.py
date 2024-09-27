@@ -45,4 +45,7 @@ class BlockDefinitionExcelDefinition:
         )
 
 
-def write_block_definitions_sheet(sheet: xlwings.Sheet): ...
+def write_block_definitions_sheet(sheet: xlwings.Sheet):
+    from block.models import BlockBase
+
+    print(BlockBase.block_subclasses)

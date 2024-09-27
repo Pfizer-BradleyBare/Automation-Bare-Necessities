@@ -9,7 +9,8 @@ class Merge(BlockBase):
     container_name = models.CharField(max_length=255)
     container_type = models.CharField(max_length=255, default="")
 
-    def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
+    @classmethod
+    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(
             name="Merge",
             category="Pathways",

@@ -10,7 +10,8 @@ class RuntimeComment(BlockBase):
     comment_text = models.TextField()
     wait_for_user_confirmation = models.CharField(max_length=100, blank=True)
 
-    def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
+    @classmethod
+    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(
             name="Runtime Comment",
             category="Comments",

@@ -9,7 +9,8 @@ class ActivateContainer(BlockBase):
     name = models.CharField(max_length=255)
     type = models.CharField(max_length=255, default="")
 
-    def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
+    @classmethod
+    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(
             name="Activate Container",
             category="Pathways",

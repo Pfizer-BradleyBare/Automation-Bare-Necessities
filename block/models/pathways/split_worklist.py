@@ -14,7 +14,8 @@ class SplitWorklist(BlockBase):
 
     container_choice = models.CharField(max_length=255)
 
-    def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
+    @classmethod
+    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(
             name="Split Worklist",
             category="Pathways",

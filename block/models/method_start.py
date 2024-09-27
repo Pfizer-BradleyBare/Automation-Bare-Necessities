@@ -5,7 +5,8 @@ from .block_base import BlockBase
 
 class MethodStart(BlockBase):
 
-    def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
+    @classmethod
+    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         return BlockDefinitionExcelDefinition(
             name="--Method Start--",
             category="__IGNORE__",
