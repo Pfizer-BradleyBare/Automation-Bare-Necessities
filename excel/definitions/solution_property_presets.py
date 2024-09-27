@@ -41,4 +41,6 @@ def write_solution_property_presets_sheet(sheet: xlwings.Sheet):
     if num_rows != 0:
         sheet.clear()
         sheet.clear_formats()
-        sheet.range((1, 1), (num_rows, num_cols)).value = cells
+        sheet_range = sheet.range((1, 1), (num_rows, num_cols))
+        sheet_range.value = cells
+        sheet_range.autofit()

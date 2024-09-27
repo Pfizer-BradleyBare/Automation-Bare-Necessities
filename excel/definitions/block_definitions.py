@@ -85,4 +85,6 @@ def write_block_definitions_sheet(sheet: xlwings.Sheet):
 
     sheet.clear()
     sheet.clear_formats()
-    sheet.range((1, 1), (num_rows, num_cols)).value = cells
+    sheet_range = sheet.range((1, 1), (num_rows, num_cols))
+    sheet_range.value = cells
+    sheet_range.autofit()

@@ -95,7 +95,9 @@ def write_solution_definitions_sheet(sheet: xlwings.Sheet):
     if num_rows != 0:
         sheet.clear()
         sheet.clear_formats()
-        sheet.range((1, 1), (num_rows, num_cols)).value = cells
+        sheet_range = sheet.range((1, 1), (num_rows, num_cols))
+        sheet_range.value = cells
+        sheet_range.autofit()
 
 
 def write_solution_components_sheet(sheet: xlwings.Sheet):
@@ -119,4 +121,6 @@ def write_solution_components_sheet(sheet: xlwings.Sheet):
     if num_rows != 0:
         sheet.clear()
         sheet.clear_formats()
-        sheet.range((1, 1), (num_rows, num_cols)).value = cells
+        sheet_range = sheet.range((1, 1), (num_rows, num_cols))
+        sheet_range.value = cells
+        sheet_range.autofit()
