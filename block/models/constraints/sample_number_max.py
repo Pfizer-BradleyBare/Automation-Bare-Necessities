@@ -7,7 +7,7 @@ from ..block_base import BlockBase
 
 class SampleNumberMax(BlockBase):
 
-    author = models.TextField()
+    constraint_text = models.TextField()
 
     def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(

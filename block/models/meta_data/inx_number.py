@@ -7,7 +7,7 @@ from ..block_base import BlockBase
 
 class INXNumber(BlockBase):
 
-    inx_number = models.TextField()
+    meta_data_text = models.TextField()
 
     def get_excel_definition(self) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(
