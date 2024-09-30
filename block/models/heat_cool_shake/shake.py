@@ -7,7 +7,7 @@ from ..block_base import BlockBase
 
 class Shake(BlockBase):
 
-    shaking_rpm = models.FloatField()
+    shaking_rpm = models.CharField(max_length=255)
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:

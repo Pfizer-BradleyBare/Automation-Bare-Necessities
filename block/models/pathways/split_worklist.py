@@ -7,10 +7,10 @@ from ..block_base import DROPDOWN_CONTAINER_NAMES, BlockBase
 
 class SplitWorklist(BlockBase):
     left_container_name = models.CharField(max_length=255)
-    left_container_type = models.CharField(max_length=255, default="")
+    left_container_type = models.CharField(max_length=255, blank=True)
 
     right_container_name = models.CharField(max_length=255)
-    right_container_type = models.CharField(max_length=255, default="")
+    right_container_type = models.CharField(max_length=255, blank=True)
 
     container_choice = models.CharField(max_length=255)
 

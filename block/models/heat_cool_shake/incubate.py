@@ -7,7 +7,7 @@ from ..block_base import BlockBase
 
 class Incubate(BlockBase):
 
-    temperature = models.FloatField()
+    temperature = models.CharField(max_length=255)
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:

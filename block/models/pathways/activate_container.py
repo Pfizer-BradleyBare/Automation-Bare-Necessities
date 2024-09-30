@@ -7,7 +7,7 @@ from ..block_base import DROPDOWN_CONTAINER_NAMES, BlockBase
 
 class ActivateContainer(BlockBase):
     name = models.CharField(max_length=255)
-    type = models.CharField(max_length=255, default="")
+    type = models.CharField(max_length=255, blank=True)
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:

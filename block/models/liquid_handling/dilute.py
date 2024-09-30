@@ -14,12 +14,12 @@ from ..block_base import (
 class Dilute(BlockBase):
 
     solution = models.CharField(max_length=255)
-    target_concentration = models.FloatField()
-    target_volume = models.FloatField()
+    target_concentration = models.CharField(max_length=255)
+    target_volume = models.CharField(max_length=255)
 
-    min_aspirate_mix_cycles = models.IntegerField(blank=True, null=True)
-    min_dispense_mix_cycles = models.IntegerField(blank=True, null=True)
-    max_source_volume = models.FloatField(blank=True, null=True)
+    min_aspirate_mix_cycles = models.CharField(max_length=255, blank=True)
+    min_dispense_mix_cycles = models.CharField(max_length=255, blank=True)
+    max_source_volume = models.CharField(max_length=255, blank=True)
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:

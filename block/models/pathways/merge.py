@@ -7,7 +7,7 @@ from ..block_base import DROPDOWN_CONTAINER_NAMES, BlockBase
 
 class Merge(BlockBase):
     container_name = models.CharField(max_length=255)
-    container_type = models.CharField(max_length=255, default="")
+    container_type = models.CharField(max_length=255, blank=True)
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:

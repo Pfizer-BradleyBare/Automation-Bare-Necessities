@@ -14,10 +14,10 @@ from ..block_base import (
 class Pipette(BlockBase):
 
     solution = models.CharField(max_length=255)
-    volume = models.FloatField()
+    volume = models.CharField(max_length=255)
 
-    min_aspirate_mix_cycles = models.IntegerField(blank=True, null=True)
-    min_dispense_mix_cycles = models.IntegerField(blank=True, null=True)
+    min_aspirate_mix_cycles = models.CharField(max_length=255, blank=True)
+    min_dispense_mix_cycles = models.CharField(max_length=255, blank=True)
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
