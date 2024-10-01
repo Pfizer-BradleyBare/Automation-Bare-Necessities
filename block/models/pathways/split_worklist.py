@@ -2,7 +2,11 @@ from django.db import models
 
 from excel.definitions import BlockDefinitionExcelDefinition
 
-from ..block_base import DROPDOWN_CONTAINER_NAMES, BlockBase
+from ..block_base import (
+    DROPDOWN_CONTAINER_NAMES,
+    DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES,
+    BlockBase,
+)
 
 
 class SplitWorklist(BlockBase):
@@ -19,7 +23,8 @@ class SplitWorklist(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Split Worklist",
             category="Pathways",
-            hexidecimal_color="6DCE87",
+            hexidecimal_color="A0DAA9",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(
@@ -55,10 +60,10 @@ class SplitWorklist(BlockBase):
         )
 
         definition.add_parameter(
-            label="Right Container Type",
-            advanced=True,
-            default_value="TODO",
-            dropdown_items="TODO",
+            label="Container Choice",
+            advanced=False,
+            default_value="",
+            dropdown_items=f"Both (Full Volume),Both (Half Volume),{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=False,
         )
 

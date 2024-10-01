@@ -24,7 +24,8 @@ class Pipette(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Pipette",
             category="Liquid Handling",
-            hexidecimal_color="66cf22",
+            hexidecimal_color="007BB2",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

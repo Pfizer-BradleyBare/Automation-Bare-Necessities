@@ -14,7 +14,8 @@ class Shake(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Shake",
             category="Heat Cool Shake",
-            hexidecimal_color="66cf22",
+            hexidecimal_color="C5CB57",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

@@ -14,7 +14,8 @@ class Incubate(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Incubate",
             category="Heat Cool Shake",
-            hexidecimal_color="66cf22",
+            hexidecimal_color="7F8FBE",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

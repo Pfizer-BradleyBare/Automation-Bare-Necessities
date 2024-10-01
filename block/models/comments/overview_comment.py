@@ -15,6 +15,7 @@ class OverviewComment(BlockBase):
             name="Overview Comment",
             category="Comments",
             hexidecimal_color="FFD02E",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

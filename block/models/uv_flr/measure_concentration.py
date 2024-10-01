@@ -15,7 +15,8 @@ class MeasureConcentration(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Measure Concentration",
             category="UV / FLR",
-            hexidecimal_color="66cf22",
+            hexidecimal_color="EDC0AA",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

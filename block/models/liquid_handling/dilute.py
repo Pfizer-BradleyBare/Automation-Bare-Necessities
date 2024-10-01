@@ -26,7 +26,8 @@ class Dilute(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Dilute",
             category="Liquid Handling",
-            hexidecimal_color="66cf22",
+            hexidecimal_color="38A4D0",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

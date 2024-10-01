@@ -10,5 +10,6 @@ class MethodStart(BlockBase):
         return BlockDefinitionExcelDefinition(
             name="--Method Start--",
             category="__IGNORE__",
-            hexidecimal_color="AACA97",
+            hexidecimal_color="2CAE66",
+            text_hexidecimal_color="000000",
         )

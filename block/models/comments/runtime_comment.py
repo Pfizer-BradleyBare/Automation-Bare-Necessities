@@ -15,7 +15,8 @@ class RuntimeComment(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Runtime Comment",
             category="Comments",
-            hexidecimal_color="ffd551",
+            hexidecimal_color="F7EF70",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

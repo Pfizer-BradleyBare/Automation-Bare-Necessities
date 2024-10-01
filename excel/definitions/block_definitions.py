@@ -20,6 +20,7 @@ class BlockDefinitionExcelDefinition:
     name: str
     category: str
     hexidecimal_color: str
+    text_hexidecimal_color: str
 
     parameters: list[_BlockParameterExcelDefinition] = field(
         init=False,
@@ -55,9 +56,16 @@ def write_block_definitions_sheet(sheet: xlwings.Sheet):
         definition = block.get_excel_definition()
 
         cells.append(["Block Definition"])
-        cells.append(["name", "category", "hexidecimal_color"])
         cells.append(
-            [definition.name, definition.category, definition.hexidecimal_color],
+            ["name", "category", "hexidecimal_color", "text_hexidecimal_color"],
+        )
+        cells.append(
+            [
+                definition.name,
+                definition.category,
+                definition.hexidecimal_color,
+                definition.text_hexidecimal_color,
+            ],
         )
 
         cells.append(["Parameter Definitions"])

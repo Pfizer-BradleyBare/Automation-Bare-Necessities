@@ -14,7 +14,8 @@ class Scale(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Scale",
             category="Meta Data",
-            hexidecimal_color="66cf22",
+            hexidecimal_color="B085B7",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

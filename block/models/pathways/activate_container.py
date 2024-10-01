@@ -14,7 +14,8 @@ class ActivateContainer(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Activate Container",
             category="Pathways",
-            hexidecimal_color="2BAE66",
+            hexidecimal_color="6DCE87",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

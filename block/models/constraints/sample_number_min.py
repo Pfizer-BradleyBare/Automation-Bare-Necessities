@@ -14,7 +14,8 @@ class SampleNumberMin(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Sample Number Min",
             category="Constraints",
-            hexidecimal_color="FF8C55",
+            hexidecimal_color="FFA74F",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(

@@ -14,7 +14,8 @@ class Merge(BlockBase):
         definition = BlockDefinitionExcelDefinition(
             name="Merge",
             category="Pathways",
-            hexidecimal_color="6DCE87",
+            hexidecimal_color="A0DAA9",
+            text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(
