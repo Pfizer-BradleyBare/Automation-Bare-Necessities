@@ -7,6 +7,7 @@ from ..block_base import BlockBase
 
 class Incubate(BlockBase):
 
+    time = models.CharField(max_length=255)
     temperature = models.CharField(max_length=255)
 
     @classmethod
@@ -16,6 +17,14 @@ class Incubate(BlockBase):
             category="Heat Cool Shake",
             hexidecimal_color="7F8FBE",
             text_hexidecimal_color="000000",
+        )
+
+        definition.add_parameter(
+            label="Time (min)",
+            advanced=False,
+            default_value="",
+            dropdown_items="",
+            free_text=True,
         )
 
         definition.add_parameter(
