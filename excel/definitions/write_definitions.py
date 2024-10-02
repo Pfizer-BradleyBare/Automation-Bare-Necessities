@@ -19,6 +19,14 @@ def write_definitions(excel_book_path: Path):
         excel_book_path,
     ) as book:
 
+        try:
+            book.app.macro("abn_v3_workbook")()
+        except pythoncom.com_error:
+            print(
+                "Cannot add macros to workbook. Not a valid workbook or macros are not enabled.",
+            )
+            return
+
         write_solution_property_presets_sheet(
             book.sheets["__SolutionPropertyPresets"],
         )
