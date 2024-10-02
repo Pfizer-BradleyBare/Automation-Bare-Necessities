@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render
 
-from method.models import ExecutingMethod
+from method.models import ExecutingMethodWorkbook
 
 from .queue_method_dashboard_context import QueueMethodDashboardContextView
 
@@ -9,7 +9,7 @@ from .queue_method_dashboard_context import QueueMethodDashboardContextView
 class QueueMethodDashboardResumeView(QueueMethodDashboardContextView):
     def get(self, request: HttpRequest, filename: str):
 
-        queued_method = ExecutingMethod.objects.get(file__icontains=filename)
+        queued_method = ExecutingMethodWorkbook.objects.get(file__icontains=filename)
         if queued_method.state == "Paused":
             queued_method.state = "Running"
 

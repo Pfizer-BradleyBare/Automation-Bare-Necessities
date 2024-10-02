@@ -23,7 +23,7 @@ def write_definitions(excel_book_path: Path):
             book.app.macro("abn_v3_workbook")()
         except pythoncom.com_error:
             print(
-                "Cannot add macros to workbook. Not a valid workbook or macros are not enabled.",
+                "Cannot run ABN validation macro. Not a valid workbook or macros are not enabled.",
             )
             return
 

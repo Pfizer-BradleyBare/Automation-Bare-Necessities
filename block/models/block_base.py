@@ -7,7 +7,7 @@ from django.db import models
 from polymorphic.models import PolymorphicModel
 
 from excel.definitions import BlockDefinitionExcelDefinition
-from method.models import UserMethodBase
+from method.models import UserMethodWorkbookBase
 
 DROPDOWN_CONTAINER_NAMES = "%%get_container_names_as_string"
 DROPDOWN_PREFIXED_CONTAINER_NAMES = "%%get_prefixed_container_names_as_string"
@@ -28,7 +28,7 @@ DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES = (
 class BlockBase(PolymorphicModel):
     block_subclasses: ClassVar[dict[str, type[BlockBase]]] = {}
 
-    method = models.ForeignKey(to=UserMethodBase, on_delete=models.CASCADE)
+    method = models.ForeignKey(to=UserMethodWorkbookBase, on_delete=models.CASCADE)
     row = models.IntegerField()
     column = models.IntegerField()
 

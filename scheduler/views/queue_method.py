@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 
 from abn.views import NavbarView
-from method.models import ExecutingMethod
+from method.models import ExecutingMethodWorkbook
 
 
 class QueueMethodView(NavbarView):
@@ -25,10 +25,10 @@ class QueueMethodView(NavbarView):
         raw_method_file = request.FILES["input-method-file"]
         method_file_name = Path(raw_method_file.name).stem
 
-        if not ExecutingMethod.objects.filter(
+        if not ExecutingMethodWorkbook.objects.filter(
             file__icontains=method_file_name,
         ).exists():
-            ExecutingMethod(
+            ExecutingMethodWorkbook(
                 emails=raw_emails,
                 phone_numbers=raw_phone_numbers,
                 desired_completion_time=datetime.datetime.strptime(

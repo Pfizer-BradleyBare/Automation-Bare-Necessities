@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ExecutingMethod, TestingMethod
+from .models import ExecutingMethodWorkbook, TestingMethodWorkbook
 
-admin.site.register(TestingMethod)
-admin.site.register(ExecutingMethod)
+admin.site.register(TestingMethodWorkbook)
+admin.site.register(ExecutingMethodWorkbook)

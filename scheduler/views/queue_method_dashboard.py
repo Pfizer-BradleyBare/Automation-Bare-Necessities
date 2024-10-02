@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
-from method.models import ExecutingMethod
+from method.models import ExecutingMethodWorkbook
 
 from .queue_method_dashboard_context import QueueMethodDashboardContextView
 
@@ -19,7 +19,7 @@ class QueueMethodDashboardView(QueueMethodDashboardContextView):
         )
 
     def post(self, request: HttpRequest, filename: str):
-        queued_method = ExecutingMethod.objects.get(file__icontains=filename)
+        queued_method = ExecutingMethodWorkbook.objects.get(file__icontains=filename)
 
         queued_method.emails = request.POST["input-emails"]
         queued_method.phone_numbers = request.POST["input-phone-numbers"]

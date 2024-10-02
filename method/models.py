@@ -44,7 +44,7 @@ class UserMethod(PolymorphicModel):
 class TestingMethod(UserMethod): ...
 
 
-class ExecutingMethod(UserMethod):
+class ExecutingMethodWorkbook(UserMethod):
     state = models.CharField(
         max_length=15,
         choices=(

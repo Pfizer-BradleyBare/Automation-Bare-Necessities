@@ -1,14 +1,14 @@
 from django.utils import timezone
 
 from abn.views import NavbarView
-from method.models import ExecutingMethod
+from method.models import ExecutingMethodWorkbook
 
 
 class QueueMethodDashboardContextView(NavbarView):
     def get_context_data(self, **kwargs) -> dict:
         filename = kwargs.get("filename")
 
-        queued_method = ExecutingMethod.objects.get(file__icontains=filename)
+        queued_method = ExecutingMethodWorkbook.objects.get(file__icontains=filename)
 
         context = {
             "state": queued_method.state.lower(),
