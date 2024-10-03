@@ -70,20 +70,19 @@ def write_solution_definitions_sheet(sheet: xlwings.Sheet):
             ],
         )
 
-        if len(definition.components) != 0:
-            cells.append(["Components"])
-            cells.append(
-                ["name", "amount", "units"],
-            )
+        cells.append(["Components"])
+        cells.append(
+            ["name", "amount", "units"],
+        )
 
-            cells += [
-                [
-                    component.name,
-                    component.amount,
-                    component.unit,
-                ]
-                for component in definition.components
+        cells += [
+            [
+                component.name,
+                component.amount,
+                component.unit,
             ]
+            for component in definition.components
+        ]
 
         cells.append([])
 

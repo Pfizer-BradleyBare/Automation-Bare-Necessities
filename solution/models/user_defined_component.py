@@ -1,11 +1,6 @@
 from __future__ import annotations
 
-from django.db import models
-
-from method.models import UserMethodWorkbookBase
-
-from .component_base import ComponentBase
+from .user_defined_component_base import UserDefinedComponentBase
 
 
-class UserDefinedComponent(ComponentBase):
-    method = models.ForeignKey(to=UserMethodWorkbookBase, on_delete=models.CASCADE)
+class UserDefinedComponent(UserDefinedComponentBase): ...

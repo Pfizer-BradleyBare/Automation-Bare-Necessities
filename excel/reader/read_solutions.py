@@ -7,6 +7,12 @@ import xlwings
 
 def read_solutions(sheet: xlwings.Sheet):
 
+    from solution.models import (
+        PredefinedComponent,
+        SolutionComponent,
+        UserDefinedSolution,
+    )
+
     used_range: list[list[Any]] = cast(list, sheet.used_range.value)[:]
 
     if len(used_range) < 5:
@@ -28,23 +34,35 @@ def read_solutions(sheet: xlwings.Sheet):
             viscosity: str = used_range[row_index + 5][column_index + 4]
             homogeneity: str = used_range[row_index + 6][column_index + 4]
 
-            components: list[dict[str, Any]] = [
-                {
-                    f"component_{i+1}_name": used_range[row_index + 2 + i][
-                        column_index + 0
-                    ],
-                    f"component_{i+1}_amount": used_range[row_index + 2 + i][
-                        column_index + 1
-                    ],
-                    f"component_{i+1}_unit": used_range[row_index + 2 + i][
-                        column_index + 2
-                    ],
-                }
-                for i in range(
-                    8,
+            solution = UserDefinedSolution(
+                name=solution_title,
+                storage_condition=storage_condition,
+                liquid_type=liquid_type,
+                volatility=volatility,
+                viscosity=viscosity,
+                homogeneity=homogeneity,
+            )
+            solution.clean()
+            solution.save()
+
+            for i in range(8):
+                name = used_range[row_index + 2 + i][column_index + 0]
+                amount = used_range[row_index + 2 + i][column_index + 1]
+                unit = used_range[row_index + 2 + i][column_index + 2]
+
+                if name is None or amount is None or unit is None:
+                    continue
+
+                query = PredefinedComponent.objects.filter(name=name)
+
+                if query.exists:
+                    component =
+
+                query = SolutionComponent.objects.filter(
+                    name=name,
+                    amount=amount,
+                    unit=unit,
                 )
-            ]
 
-            components = [component for component in components if components]
-
-            print(components)
+                if query.exists():
+                    solution.components.add(query.get())

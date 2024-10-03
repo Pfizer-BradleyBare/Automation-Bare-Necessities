@@ -17,4 +17,4 @@ class SolutionComponent(models.Model):
         unique_together = ["component", "amount", "unit"]
 
     def __str__(self) -> str:
-        return f"{self.amount} {self.unit} {self.component.name}"
+        return f"{self.amount} {self.unit} {self.component.get_name()}"

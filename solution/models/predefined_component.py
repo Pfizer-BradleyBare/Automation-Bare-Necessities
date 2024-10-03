@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .component_base import ComponentBase
+from .predefined_component_base import PredefinedComponentBase
 
 
-class PredefinedComponent(ComponentBase): ...
+class PredefinedComponent(PredefinedComponentBase): ...

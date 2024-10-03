@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from django.db import models
 from polymorphic.models import PolymorphicModel
 
 
@@ -9,7 +8,5 @@ class ComponentBase(PolymorphicModel):
     Because ease of use for users is imperative.
     """
 
-    name = models.CharField(max_length=255, unique=True)
-
-    def __str__(self) -> str:
-        return self.name
+    def get_name(self) -> str:
+        raise NotImplementedError
