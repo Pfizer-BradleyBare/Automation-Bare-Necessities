@@ -101,17 +101,12 @@ def write_solution_definitions_sheet(sheet: xlwings.Sheet):
 
 
 def write_solution_components_sheet(sheet: xlwings.Sheet):
-    from solution.models import PredefinedSolution
+    from solution.models import PredefinedComponent
 
     cells = []
     cells.append(["Solution Components"])
 
-    for preset in PredefinedSolution.objects.all():
-        definition = preset.get_excel_definition()
-
-        components = {component.name for component in definition.components}
-
-        cells += [[component] for component in components]
+    cells += [[component.name] for component in PredefinedComponent.objects.all()]
 
     cells = list(zip(*itertools.zip_longest(*cells, fillvalue=None)))
 

@@ -17,6 +17,8 @@ from .navbar import NavbarView
 class StartView(NavbarView):
     def get(self, request: HttpRequest):
 
+        print("HERE")
+
         write_definitions(pathlib.Path(settings.BASE_DIR) / "method_template.xlsm")
 
         return redirect("abn:index_status")
