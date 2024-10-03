@@ -16,7 +16,8 @@ class CustomStorage(FileSystemStorage):
 
 
 def upload_to(instance: UserMethodWorkbookBase, filename: str):
-    return f"_db_files/{type(instance).__name__.lower().replace('method','_methods')}/{Path(filename).stem}/{datetime.now().strftime('%Y%m%d%H%M%S')}_{filename}"
+    stem = Path(filename).stem
+    return f"_db_files/{type(instance).__name__.lower().replace('methodworkbook','_method_workbooks')}/{stem}/{datetime.now().strftime('%Y%m%d%H%M%S')}_{stem}.xlsm"
 
 
 class UserMethodWorkbookBase(PolymorphicModel):

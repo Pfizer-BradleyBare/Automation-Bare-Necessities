@@ -9,4 +9,4 @@ class ComponentBase(PolymorphicModel):
     """
 
     def get_name(self) -> str:
-        raise NotImplementedError
+        return f"ComponentBase ({self.pk})"

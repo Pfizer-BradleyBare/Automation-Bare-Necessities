@@ -2,13 +2,16 @@ from __future__ import annotations
 
 import pathlib
 
+import pythoncom
+import xlwings
 from django.conf import settings
+from django.core.files import File
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from loguru import logger
 
 import abn
-from excel.definitions import write_definitions
+from excel.reader.read_solutions import read_solutions
 from plh_config.load_config import load_config
 
 from .navbar import NavbarView
@@ -17,9 +20,26 @@ from .navbar import NavbarView
 class StartView(NavbarView):
     def get(self, request: HttpRequest):
 
-        print("HERE")
+        from method.models import TestingMethodWorkbook
 
-        write_definitions(pathlib.Path(settings.BASE_DIR) / "method_template.xlsm")
+        method = TestingMethodWorkbook(
+            file=File(
+                (pathlib.Path(settings.BASE_DIR) / "method_template.xlsm").open(
+                    "rb",
+                ),
+            ),
+        )
+
+        method.clean()
+        method.save()
+
+        pythoncom.CoInitialize()
+
+        with xlwings.App(visible=False, add_book=False) as app, app.books.open(
+            method.file.path,
+        ) as book:
+
+            read_solutions(method, book.sheets["Solutions"])
 
         return redirect("abn:index_status")
 

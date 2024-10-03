@@ -4,12 +4,16 @@ from typing import Any, cast
 
 import xlwings
 
+from method.models import UserMethodWorkbookBase
 
-def read_solutions(sheet: xlwings.Sheet):
+
+def read_solutions(method: UserMethodWorkbookBase, sheet: xlwings.Sheet):
 
     from solution.models import (
         PredefinedComponent,
+        PredefinedSolution,
         SolutionComponent,
+        UserDefinedComponent,
         UserDefinedSolution,
     )
 
@@ -41,6 +45,7 @@ def read_solutions(sheet: xlwings.Sheet):
                 volatility=volatility,
                 viscosity=viscosity,
                 homogeneity=homogeneity,
+                method=method,
             )
             solution.clean()
             solution.save()
@@ -55,14 +60,43 @@ def read_solutions(sheet: xlwings.Sheet):
 
                 query = PredefinedComponent.objects.filter(name=name)
 
-                if query.exists:
-                    component =
+                if query.exists():
+                    component = query.get()
 
-                query = SolutionComponent.objects.filter(
+                    solution_component, _ = SolutionComponent.objects.get_or_create(
+                        component=component,
+                        amount=amount,
+                        unit=unit,
+                    )
+
+                    solution.components.add(solution_component)
+
+                    continue
+
+                query = PredefinedSolution.objects.filter(name=name)
+
+                if query.exists():
+                    component = query.get()
+
+                    solution_component, _ = SolutionComponent.objects.get_or_create(
+                        component=component,
+                        amount=amount,
+                        unit=unit,
+                    )
+
+                    solution.components.add(solution_component)
+
+                    continue
+
+                component, _ = UserDefinedComponent.objects.get_or_create(
                     name=name,
+                    method=method,
+                )
+
+                solution_component, _ = SolutionComponent.objects.get_or_create(
+                    component=component,
                     amount=amount,
                     unit=unit,
                 )
 
-                if query.exists():
-                    solution.components.add(query.get())
+                solution.components.add(solution_component)
