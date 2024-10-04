@@ -11,7 +11,7 @@ from django.shortcuts import redirect
 from loguru import logger
 
 import abn
-from excel.reader.read_solutions import read_solutions
+from excel.reader.read_method import read_method
 from plh_config.load_config import load_config
 
 from .navbar import NavbarView
@@ -39,7 +39,7 @@ class StartView(NavbarView):
             method.file.path,
         ) as book:
 
-            read_solutions(method, book.sheets["Solutions"])
+            read_method(method, book.sheets["Method"])
 
         return redirect("abn:index_status")
 

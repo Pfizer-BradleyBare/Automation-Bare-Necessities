@@ -17,7 +17,7 @@ def read_solutions(method: UserMethodWorkbookBase, sheet: xlwings.Sheet):
         UserDefinedSolution,
     )
 
-    used_range: list[list[Any]] = cast(list, sheet.used_range.value)[:]
+    used_range: list[list[Any]] = cast(list, sheet.used_range.value)
 
     if len(used_range) < 5:
         return
