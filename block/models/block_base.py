@@ -93,4 +93,4 @@ class BlockBase(PolymorphicModel):
         cls.block_subclasses[cls.__name__] = cls
 
     def __str__(self) -> str:
-        return f"{self.method}: {self.row}|{self.column} -> {type(self).__name__} "
+        return f"{self.method}: {self.row+1}|{self.column+3} -> {type(self).__name__} "
