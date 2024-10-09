@@ -1,6 +1,6 @@
 from django.db import models
 
-from method.models import UserMethodWorkbookBase
+from method.models.user_method import UserMethodWorkbookBase
 
 
 class WorklistColumn(models.Model):

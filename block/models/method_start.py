@@ -5,6 +5,10 @@ from .block_base import BlockBase
 
 class MethodStart(BlockBase):
 
+    def validate(self):
+        """No validation to perform for this step. It is just a starting step."""
+        return
+
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         return BlockDefinitionExcelDefinition(

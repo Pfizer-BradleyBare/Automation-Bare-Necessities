@@ -18,7 +18,7 @@ from .navbar import NavbarView
 class StartView(NavbarView):
     def get(self, request: HttpRequest):
 
-        from method.models import TestingMethodWorkbook
+        from method.models.user_method import TestingMethodWorkbook
 
         method = TestingMethodWorkbook(
             file=File(

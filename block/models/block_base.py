@@ -7,7 +7,8 @@ from django.db import models
 from polymorphic.models import PolymorphicModel
 
 from excel.definitions import BlockDefinitionExcelDefinition
-from method.models import UserMethodWorkbookBase
+from method.models.user_method import UserMethodWorkbookBase
+from plh_config.labware.models import LabwareBase
 
 DROPDOWN_CONTAINER_NAMES = "%%get_container_names_as_string"
 DROPDOWN_PREFIXED_CONTAINER_NAMES = "%%get_prefixed_container_names_as_string"
@@ -23,6 +24,10 @@ DROPDOWN_WORKLIST_COLUMN_NAMES = "%%get_worklist_column_names_as_string"
 DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES = (
     "%%get_prefixed_worklist_column_names_as_string"
 )
+
+
+def DROPDOWN_LABWARE_NAMES() -> str:
+    return ",".join([labware.identifier for labware in LabwareBase.objects.all()])
 
 
 class BlockBase(PolymorphicModel):

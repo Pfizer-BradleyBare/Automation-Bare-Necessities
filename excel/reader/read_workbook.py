@@ -1,7 +1,7 @@
 import pythoncom
 import xlwings
 
-from method.models import UserMethodWorkbookBase
+from method.models.user_method import UserMethodWorkbookBase
 
 from .read_method import read_method
 from .read_solutions import read_solutions

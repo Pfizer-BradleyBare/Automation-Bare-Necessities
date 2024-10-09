@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 
 from abn.views import NavbarView
-from method.models import TestingMethodWorkbook
+from method.models.user_method import TestingMethodWorkbook
 
 
 class TestIndexView(NavbarView):

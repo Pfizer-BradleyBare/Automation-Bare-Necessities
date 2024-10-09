@@ -1,9 +1,3 @@
-from .executing_method_workbook import ExecutingMethodWorkbook
-from .testing_method_workbook import TestingMethodWorkbook
-from .user_method_workbook_base import UserMethodWorkbookBase
+from . import template_method, user_method
 
-__all__ = [
-    "UserMethodWorkbookBase",
-    "TestingMethodWorkbook",
-    "ExecutingMethodWorkbook",
-]
+__all__ = ["template_method", "user_method"]

@@ -4,7 +4,7 @@ from typing import Any, cast
 
 import xlwings
 
-from method.models import UserMethodWorkbookBase
+from method.models.user_method import UserMethodWorkbookBase
 
 
 def read_solutions(method: UserMethodWorkbookBase, sheet: xlwings.Sheet):

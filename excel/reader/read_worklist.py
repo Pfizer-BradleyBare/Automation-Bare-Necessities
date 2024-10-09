@@ -4,7 +4,7 @@ from typing import Any, cast
 
 import xlwings
 
-from method.models import UserMethodWorkbookBase
+from method.models.user_method import UserMethodWorkbookBase
 from worklist.models import WorklistColumn, WorklistColumnValue
 
 
