@@ -4,7 +4,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.utils import timezone
 
-from method.models.user_method import ExecutingMethodWorkbook
+from method.models import ExecutingMethodWorkbook
 
 from .queue_method_dashboard_context import QueueMethodDashboardContextView
 

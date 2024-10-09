@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from django.db import models
 
-from method.models.user_method import UserMethodWorkbookBase
+from method.models import UserMethodWorkbookBase
 
 from .component_base import ComponentBase
 

@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import render
 
 from abn.views import NavbarView
-from method.models.user_method import ExecutingMethodWorkbook
+from method.models import ExecutingMethodWorkbook
 
 
 class QueueIndexView(NavbarView):

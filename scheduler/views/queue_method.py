@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 
 from abn.views import NavbarView
-from method.models.user_method import ExecutingMethodWorkbook
+from method.models import ExecutingMethodWorkbook
 
 
 class QueueMethodView(NavbarView):

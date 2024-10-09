@@ -3,7 +3,7 @@ from typing import Any, cast
 import xlwings
 
 from block.models import BlockBase, MethodStart
-from method.models.user_method import UserMethodWorkbookBase
+from method.models import UserMethodWorkbookBase
 
 
 def read_block(

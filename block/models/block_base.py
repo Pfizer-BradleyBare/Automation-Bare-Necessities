@@ -7,7 +7,7 @@ from django.db import models
 from polymorphic.models import PolymorphicModel
 
 from excel.definitions import BlockDefinitionExcelDefinition
-from method.models.user_method import UserMethodWorkbookBase
+from method.models import UserMethodWorkbookBase
 from plh_config.labware.models import LabwareBase
 
 DROPDOWN_CONTAINER_NAMES = "%%get_container_names_as_string"
