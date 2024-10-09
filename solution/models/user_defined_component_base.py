@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from django.db import models
 
-from method.models import UserMethodWorkbookBase
+from method.models import MethodWorkbookBase
 
 from .component_base import ComponentBase
 
@@ -14,7 +14,7 @@ def NON_POLYMORPHIC_CASCADE(collector, field, sub_objs, using):
 class UserDefinedComponentBase(ComponentBase):
     name = models.CharField(max_length=255)
     method = models.ForeignKey(
-        to=UserMethodWorkbookBase,
+        to=MethodWorkbookBase,
         on_delete=NON_POLYMORPHIC_CASCADE,
     )
 

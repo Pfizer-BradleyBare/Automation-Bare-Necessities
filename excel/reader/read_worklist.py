@@ -4,11 +4,11 @@ from typing import Any, cast
 
 import xlwings
 
-from method.models import UserMethodWorkbookBase
+from method.models import MethodWorkbookBase
 from worklist.models import WorklistColumn, WorklistColumnValue
 
 
-def read_worklist(method: UserMethodWorkbookBase, sheet: xlwings.Sheet):
+def read_worklist(method: MethodWorkbookBase, sheet: xlwings.Sheet):
 
     rows: list[list[Any]] = cast(list, sheet.used_range.value)
 

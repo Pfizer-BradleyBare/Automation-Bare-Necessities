@@ -4,10 +4,10 @@ from typing import Any, cast
 
 import xlwings
 
-from method.models import UserMethodWorkbookBase
+from method.models import MethodWorkbookBase
 
 
-def read_solutions(method: UserMethodWorkbookBase, sheet: xlwings.Sheet):
+def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
 
     from solution.models import (
         PredefinedComponent,

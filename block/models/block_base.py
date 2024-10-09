@@ -7,7 +7,7 @@ from django.db import models
 from polymorphic.models import PolymorphicModel
 
 from excel.definitions import BlockDefinitionExcelDefinition
-from method.models import UserMethodWorkbookBase
+from method.models import MethodWorkbookBase
 from plh_config.labware.models import LabwareBase
 
 DROPDOWN_CONTAINER_NAMES = "%%get_container_names_as_string"
@@ -33,7 +33,7 @@ def DROPDOWN_LABWARE_NAMES() -> str:
 class BlockBase(PolymorphicModel):
     block_subclasses: ClassVar[dict[str, type[BlockBase]]] = {}
 
-    method = models.ForeignKey(to=UserMethodWorkbookBase, on_delete=models.CASCADE)
+    method = models.ForeignKey(to=MethodWorkbookBase, on_delete=models.CASCADE)
     row = models.IntegerField()
     column = models.IntegerField()
 

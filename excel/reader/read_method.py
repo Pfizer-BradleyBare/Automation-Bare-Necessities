@@ -3,11 +3,11 @@ from typing import Any, cast
 import xlwings
 
 from block.models import BlockBase, MethodStart
-from method.models import UserMethodWorkbookBase
+from method.models import MethodWorkbookBase
 
 
 def read_block(
-    method: UserMethodWorkbookBase,
+    method: MethodWorkbookBase,
     sheet: xlwings.Sheet,
     row_index: int,
     column_index: int,
@@ -60,7 +60,7 @@ def read_block(
 
 
 def read_recursive(
-    method: UserMethodWorkbookBase,
+    method: MethodWorkbookBase,
     sheet: xlwings.Sheet,
     row_index: int,
     column_index: int,
@@ -191,7 +191,7 @@ def read_recursive(
         parent_block = block
 
 
-def read_method(method: UserMethodWorkbookBase, sheet: xlwings.Sheet):
+def read_method(method: MethodWorkbookBase, sheet: xlwings.Sheet):
     row_index = 0
     column_index = 0
 

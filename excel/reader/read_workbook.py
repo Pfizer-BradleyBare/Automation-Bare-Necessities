@@ -1,14 +1,14 @@
 import pythoncom
 import xlwings
 
-from method.models import UserMethodWorkbookBase
+from method.models import MethodWorkbookBase
 
 from .read_method import read_method
 from .read_solutions import read_solutions
 from .read_worklist import read_worklist
 
 
-def read_workbook(method: UserMethodWorkbookBase):
+def read_workbook(method: MethodWorkbookBase):
     pythoncom.CoInitialize()
 
     with xlwings.App(visible=False, add_book=False) as app, app.books.open(

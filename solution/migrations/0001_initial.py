@@ -9,123 +9,382 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('contenttypes', '0002_remove_content_type_name'),
-        ('method', '0001_initial'),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("method", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ComponentBase',
+            name="ComponentBase",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('polymorphic_ctype', models.ForeignKey(editable=False, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='polymorphic_%(app_label)s.%(class)s_set+', to='contenttypes.contenttype')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "polymorphic_ctype",
+                    models.ForeignKey(
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="polymorphic_%(app_label)s.%(class)s_set+",
+                        to="contenttypes.contenttype",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
-                'base_manager_name': 'objects',
+                "abstract": False,
+                "base_manager_name": "objects",
             },
         ),
         migrations.CreateModel(
-            name='SolutionPropertyPreset',
+            name="SolutionPropertyPreset",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255, unique=True)),
-                ('liquid_type', models.CharField(choices=[('Aqueous', 'Aqueous'), ('Organic', 'Organic'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('viscosity', models.CharField(choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('volatility', models.CharField(choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('homogeneity', models.CharField(choices=[('Heterogenous', 'Heterogenous'), ('Homogenous', 'Homogenous'), ('Suspension', 'Suspension'), ('Emulsion', 'Emulsion'), ('Auto-determine', 'Auto-determine')], max_length=14)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
+                (
+                    "liquid_type",
+                    models.CharField(
+                        choices=[
+                            ("Aqueous", "Aqueous"),
+                            ("Organic", "Organic"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "viscosity",
+                    models.CharField(
+                        choices=[
+                            ("Low", "Low"),
+                            ("Medium", "Medium"),
+                            ("High", "High"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "volatility",
+                    models.CharField(
+                        choices=[
+                            ("Low", "Low"),
+                            ("Medium", "Medium"),
+                            ("High", "High"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "homogeneity",
+                    models.CharField(
+                        choices=[
+                            ("Heterogenous", "Heterogenous"),
+                            ("Homogenous", "Homogenous"),
+                            ("Suspension", "Suspension"),
+                            ("Emulsion", "Emulsion"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='PredefinedComponentBase',
+            name="PredefinedComponentBase",
             fields=[
-                ('componentbase_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='solution.componentbase')),
-                ('name', models.CharField(max_length=255, unique=True)),
+                (
+                    "componentbase_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="solution.componentbase",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255, unique=True)),
             ],
             options={
-                'abstract': False,
-                'base_manager_name': 'objects',
+                "abstract": False,
+                "base_manager_name": "objects",
             },
-            bases=('solution.componentbase',),
+            bases=("solution.componentbase",),
         ),
         migrations.CreateModel(
-            name='UserDefinedComponentBase',
+            name="UserDefinedComponentBase",
             fields=[
-                ('componentbase_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='solution.componentbase')),
-                ('name', models.CharField(max_length=255)),
-                ('method', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='method.usermethodworkbookbase')),
+                (
+                    "componentbase_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="solution.componentbase",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                (
+                    "method",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="method.MethodWorkbookBase",
+                    ),
+                ),
             ],
             options={
-                'unique_together': {('name', 'method')},
+                "unique_together": {("name", "method")},
             },
-            bases=('solution.componentbase',),
+            bases=("solution.componentbase",),
         ),
         migrations.CreateModel(
-            name='PredefinedComponent',
+            name="PredefinedComponent",
             fields=[
-                ('predefinedcomponentbase_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='solution.predefinedcomponentbase')),
+                (
+                    "predefinedcomponentbase_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="solution.predefinedcomponentbase",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
-                'base_manager_name': 'objects',
+                "abstract": False,
+                "base_manager_name": "objects",
             },
-            bases=('solution.predefinedcomponentbase',),
+            bases=("solution.predefinedcomponentbase",),
         ),
         migrations.CreateModel(
-            name='UserDefinedComponent',
+            name="UserDefinedComponent",
             fields=[
-                ('userdefinedcomponentbase_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='solution.userdefinedcomponentbase')),
+                (
+                    "userdefinedcomponentbase_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="solution.userdefinedcomponentbase",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
-                'base_manager_name': 'objects',
+                "abstract": False,
+                "base_manager_name": "objects",
             },
-            bases=('solution.userdefinedcomponentbase',),
+            bases=("solution.userdefinedcomponentbase",),
         ),
         migrations.CreateModel(
-            name='SolutionComponent',
+            name="SolutionComponent",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.FloatField()),
-                ('unit', models.CharField(choices=[('uL', 'uL'), ('mg', 'mg'), ('units', 'units')], max_length=10)),
-                ('component', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='solution.componentbase')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("amount", models.FloatField()),
+                (
+                    "unit",
+                    models.CharField(
+                        choices=[("uL", "uL"), ("mg", "mg"), ("units", "units")],
+                        max_length=10,
+                    ),
+                ),
+                (
+                    "component",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="solution.componentbase",
+                    ),
+                ),
             ],
             options={
-                'unique_together': {('component', 'amount', 'unit')},
+                "unique_together": {("component", "amount", "unit")},
             },
         ),
         migrations.CreateModel(
-            name='PredefinedSolution',
+            name="PredefinedSolution",
             fields=[
-                ('predefinedcomponentbase_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='solution.predefinedcomponentbase')),
-                ('storage_condition', models.CharField(choices=[('Ambient', 'Ambient'), ('Cold', 'Cold')], max_length=8)),
-                ('liquid_type', models.CharField(choices=[('Aqueous', 'Aqueous'), ('Organic', 'Organic'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('viscosity', models.CharField(choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('volatility', models.CharField(choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('homogeneity', models.CharField(choices=[('Heterogenous', 'Heterogenous'), ('Homogenous', 'Homogenous'), ('Suspension', 'Suspension'), ('Emulsion', 'Emulsion'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('components', models.ManyToManyField(blank=True, to='solution.solutioncomponent')),
+                (
+                    "predefinedcomponentbase_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="solution.predefinedcomponentbase",
+                    ),
+                ),
+                (
+                    "storage_condition",
+                    models.CharField(
+                        choices=[("Ambient", "Ambient"), ("Cold", "Cold")], max_length=8
+                    ),
+                ),
+                (
+                    "liquid_type",
+                    models.CharField(
+                        choices=[
+                            ("Aqueous", "Aqueous"),
+                            ("Organic", "Organic"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "viscosity",
+                    models.CharField(
+                        choices=[
+                            ("Low", "Low"),
+                            ("Medium", "Medium"),
+                            ("High", "High"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "volatility",
+                    models.CharField(
+                        choices=[
+                            ("Low", "Low"),
+                            ("Medium", "Medium"),
+                            ("High", "High"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "homogeneity",
+                    models.CharField(
+                        choices=[
+                            ("Heterogenous", "Heterogenous"),
+                            ("Homogenous", "Homogenous"),
+                            ("Suspension", "Suspension"),
+                            ("Emulsion", "Emulsion"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "components",
+                    models.ManyToManyField(blank=True, to="solution.solutioncomponent"),
+                ),
             ],
             options={
-                'abstract': False,
-                'base_manager_name': 'objects',
+                "abstract": False,
+                "base_manager_name": "objects",
             },
-            bases=('solution.predefinedcomponentbase',),
+            bases=("solution.predefinedcomponentbase",),
         ),
         migrations.CreateModel(
-            name='UserDefinedSolution',
+            name="UserDefinedSolution",
             fields=[
-                ('userdefinedcomponentbase_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='solution.userdefinedcomponentbase')),
-                ('storage_condition', models.CharField(choices=[('Ambient', 'Ambient'), ('Cold', 'Cold')], max_length=8)),
-                ('liquid_type', models.CharField(choices=[('Aqueous', 'Aqueous'), ('Organic', 'Organic'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('viscosity', models.CharField(choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('volatility', models.CharField(choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('homogeneity', models.CharField(choices=[('Heterogenous', 'Heterogenous'), ('Homogenous', 'Homogenous'), ('Suspension', 'Suspension'), ('Emulsion', 'Emulsion'), ('Auto-determine', 'Auto-determine')], max_length=14)),
-                ('components', models.ManyToManyField(blank=True, to='solution.solutioncomponent')),
+                (
+                    "userdefinedcomponentbase_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="solution.userdefinedcomponentbase",
+                    ),
+                ),
+                (
+                    "storage_condition",
+                    models.CharField(
+                        choices=[("Ambient", "Ambient"), ("Cold", "Cold")], max_length=8
+                    ),
+                ),
+                (
+                    "liquid_type",
+                    models.CharField(
+                        choices=[
+                            ("Aqueous", "Aqueous"),
+                            ("Organic", "Organic"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "viscosity",
+                    models.CharField(
+                        choices=[
+                            ("Low", "Low"),
+                            ("Medium", "Medium"),
+                            ("High", "High"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "volatility",
+                    models.CharField(
+                        choices=[
+                            ("Low", "Low"),
+                            ("Medium", "Medium"),
+                            ("High", "High"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "homogeneity",
+                    models.CharField(
+                        choices=[
+                            ("Heterogenous", "Heterogenous"),
+                            ("Homogenous", "Homogenous"),
+                            ("Suspension", "Suspension"),
+                            ("Emulsion", "Emulsion"),
+                            ("Auto-determine", "Auto-determine"),
+                        ],
+                        max_length=14,
+                    ),
+                ),
+                (
+                    "components",
+                    models.ManyToManyField(blank=True, to="solution.solutioncomponent"),
+                ),
             ],
             options={
-                'abstract': False,
-                'base_manager_name': 'objects',
+                "abstract": False,
+                "base_manager_name": "objects",
             },
-            bases=('solution.userdefinedcomponentbase',),
+            bases=("solution.userdefinedcomponentbase",),
         ),
     ]

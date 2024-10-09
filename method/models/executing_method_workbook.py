@@ -2,10 +2,10 @@ from __future__ import annotations
 
 from django.db import models
 
-from .user_method_workbook_base import UserMethodWorkbookBase
+from .method_workbook_base import MethodWorkbookBase
 
 
-class ExecutingMethodWorkbook(UserMethodWorkbookBase):
+class ExecutingMethodWorkbook(MethodWorkbookBase):
     state = models.CharField(
         max_length=15,
         choices=(

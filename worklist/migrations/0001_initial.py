@@ -9,25 +9,53 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('method', '0001_initial'),
+        ("method", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='WorklistColumn',
+            name="WorklistColumn",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=255)),
-                ('method', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='method.usermethodworkbookbase')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=255)),
+                (
+                    "method",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="method.MethodWorkbookBase",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='WorklistColumnValue',
+            name="WorklistColumnValue",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('row', models.IntegerField()),
-                ('value', models.CharField(max_length=255)),
-                ('worklist_column', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='worklist.worklistcolumn')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("row", models.IntegerField()),
+                ("value", models.CharField(max_length=255)),
+                (
+                    "worklist_column",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="worklist.worklistcolumn",
+                    ),
+                ),
             ],
         ),
     ]

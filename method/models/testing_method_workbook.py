@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .user_method_workbook_base import UserMethodWorkbookBase
+from .method_workbook_base import MethodWorkbookBase
 
 
-class TestingMethodWorkbook(UserMethodWorkbookBase): ...
+class TestingMethodWorkbook(MethodWorkbookBase): ...

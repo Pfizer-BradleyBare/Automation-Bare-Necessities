@@ -1,9 +1,9 @@
 from .executing_method_workbook import ExecutingMethodWorkbook
+from .method_workbook_base import MethodWorkbookBase
 from .testing_method_workbook import TestingMethodWorkbook
-from .user_method_workbook_base import UserMethodWorkbookBase
 
 __all__ = [
-    "UserMethodWorkbookBase",
+    "MethodWorkbookBase",
     "TestingMethodWorkbook",
     "ExecutingMethodWorkbook",
 ]
