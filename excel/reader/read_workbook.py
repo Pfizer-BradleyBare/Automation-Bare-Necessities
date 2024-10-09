@@ -3,6 +3,10 @@ import xlwings
 
 from method.models import UserMethodWorkbookBase
 
+from .read_method import read_method
+from .read_solutions import read_solutions
+from .read_worklist import read_worklist
+
 
 def read_workbook(method: UserMethodWorkbookBase):
     pythoncom.CoInitialize()
@@ -18,3 +22,7 @@ def read_workbook(method: UserMethodWorkbookBase):
                 "Cannot run ABN validation macro. Not a valid workbook or macros are not enabled.",
             )
             return
+
+        read_method(method, book.sheets["Method"])
+        read_solutions(method, book.sheets["Solutions"])
+        read_worklist(method, book.sheets["Worklist"])

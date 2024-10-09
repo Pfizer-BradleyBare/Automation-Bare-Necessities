@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import pathlib
 
-import pythoncom
-import xlwings
 from django.conf import settings
 from django.core.files import File
 from django.http import HttpRequest
@@ -11,7 +9,7 @@ from django.shortcuts import redirect
 from loguru import logger
 
 import abn
-from excel.reader.read_method import read_method
+from excel.reader import read_workbook
 from plh_config.load_config import load_config
 
 from .navbar import NavbarView
@@ -33,13 +31,7 @@ class StartView(NavbarView):
         method.clean()
         method.save()
 
-        pythoncom.CoInitialize()
-
-        with xlwings.App(visible=False, add_book=False) as app, app.books.open(
-            method.file.path,
-        ) as book:
-
-            read_method(method, book.sheets["Method"])
+        read_workbook(method)
 
         return redirect("abn:index_status")
 
