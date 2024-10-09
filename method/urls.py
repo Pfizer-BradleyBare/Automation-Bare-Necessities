@@ -6,6 +6,17 @@ app_name = "method"
 
 urlpatterns = [
     path("templates/", views.TemplatesIndexView.as_view(), name="templates"),
+    path(
+        "templates/update",
+        views.TemplatesBlankView.as_view(),
+        name="templates_update",
+    ),
+    path("templates/blank", views.TemplatesBlankView.as_view(), name="templates_blank"),
+    path(
+        "templates/<str:method>",
+        views.TemplatesMethodView.as_view(),
+        name="templates_method",
+    ),
     path("test/", views.TestIndexView.as_view(), name="test"),
     path(
         "test/<str:filename>/",
