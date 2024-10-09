@@ -5,6 +5,7 @@ from . import views
 app_name = "method"
 
 urlpatterns = [
+    path("templates/", views.TemplatesIndexView.as_view(), name="templates"),
     path("test/", views.TestIndexView.as_view(), name="test"),
     path(
         "test/<str:filename>/",

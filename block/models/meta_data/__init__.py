@@ -1,7 +1,7 @@
 from .author import Author
 from .category import Category
-from .inx_number import INXNumber
+from .document_number import DocumentNumber
 from .modality import Modality
-from .scale import Scale
+from .project import Project
 
-__all__ = ["Author", "Category", "INXNumber", "Modality", "Scale"]
+__all__ = ["Author", "Category", "DocumentNumber", "Modality", "Project"]

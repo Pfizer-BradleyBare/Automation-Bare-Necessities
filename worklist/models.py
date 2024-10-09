@@ -9,7 +9,7 @@ class WorklistColumn(models.Model):
     method = models.ForeignKey(to=MethodWorkbookBase, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.name
+        return f"{self.method}|{self.name}"
 
 
 class WorklistColumnValue(models.Model):
@@ -18,4 +18,4 @@ class WorklistColumnValue(models.Model):
     value = models.CharField(max_length=255, null=True)
 
     def __str__(self) -> str:
-        return f"{self.worklist_column.name}:{self.row} -> {self.value}"
+        return f"{self.worklist_column}:{self.row} -> {self.value}"

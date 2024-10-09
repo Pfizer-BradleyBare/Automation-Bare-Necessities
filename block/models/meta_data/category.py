@@ -7,7 +7,7 @@ from ..block_base import BlockBase
 
 class Category(BlockBase):
 
-    meta_data_text = models.TextField()
+    value = models.TextField()
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -19,7 +19,7 @@ class Category(BlockBase):
         )
 
         definition.add_parameter(
-            label="Category",
+            label="Value",
             advanced=False,
             default_value="",
             dropdown_items="",

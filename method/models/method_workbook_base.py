@@ -17,7 +17,7 @@ class CustomStorage(FileSystemStorage):
 
 def upload_to(instance: MethodWorkbookBase, filename: str):
     stem = Path(filename).stem
-    return f"_db_files/{type(instance).__name__.lower().replace('methodworkbook','_method_workbooks')}/{stem}/{datetime.now().strftime('%Y%m%d%H%M%S')}_{stem}.xlsm"
+    return f"_db_files/{type(instance).__name__.lower().replace('methodworkbook','_method_workbooks')}/{stem}/{datetime.now().strftime('%Y%m%d%H%M%S')}_ANCHOR_{stem}.xlsm"
 
 
 class MethodWorkbookBase(PolymorphicModel):
@@ -32,8 +32,20 @@ class MethodWorkbookBase(PolymorphicModel):
 
     def __str__(self) -> str:
         stem = Path(Path(self.file.path).name).stem
-        return stem[stem.find("_") + 1 :]
+        return stem[stem.find("_ANCHOR_") + 8 :]
 
     def delete(self, using=None, keep_parents=False) -> tuple[int, dict[str, int]]:
         shutil.rmtree(Path(self.file.path).parent, ignore_errors=True)
         return super().delete(using, keep_parents)
+
+    def save(self, *args, **kwargs):
+        from excel.reader import read_workbook
+
+        created = False
+        if not self.pk:
+            created = True
+
+        super().save(*args, **kwargs)
+
+        if created is True:
+            read_workbook(self)

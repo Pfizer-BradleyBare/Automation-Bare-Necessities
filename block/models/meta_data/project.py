@@ -5,21 +5,21 @@ from excel.definitions import BlockDefinitionExcelDefinition
 from ..block_base import BlockBase
 
 
-class INXNumber(BlockBase):
+class Project(BlockBase):
 
-    meta_data_text = models.TextField()
+    value = models.TextField()
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         definition = BlockDefinitionExcelDefinition(
-            name="INX Number",
+            name="Project",
             category="Meta Data",
             hexidecimal_color="B085B7",
             text_hexidecimal_color="000000",
         )
 
         definition.add_parameter(
-            label="INX Number",
+            label="Value",
             advanced=False,
             default_value="",
             dropdown_items="",

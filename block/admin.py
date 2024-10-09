@@ -10,7 +10,7 @@ from .models.constraints import (
 )
 from .models.heat_cool_shake import Incubate, IncubateAndShake, Rest, Shake
 from .models.liquid_handling import Dilute, Pipette
-from .models.meta_data import Author, Category, INXNumber, Modality, Scale
+from .models.meta_data import Author, Category, DocumentNumber, Modality, Project
 from .models.pathways import ActivateContainer, Merge, SplitWorklist
 from .models.uv_flr import MeasureConcentration
 
@@ -31,8 +31,8 @@ admin.site.register(ConcentrationMin)
 admin.site.register(Author)
 admin.site.register(Modality)
 admin.site.register(Category)
-admin.site.register(INXNumber)
-admin.site.register(Scale)
+admin.site.register(DocumentNumber)
+admin.site.register(Project)
 
 admin.site.register(Pipette)
 admin.site.register(Dilute)

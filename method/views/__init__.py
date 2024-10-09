@@ -1,3 +1,4 @@
+from .templates_index import TemplatesIndexView
 from .test_index import TestIndexView
 from .test_preparation_list import TestPreparationListView
 from .test_progress import TestProgressView
@@ -8,4 +9,5 @@ __all__ = [
     "TestProgressView",
     "TestProgressBodyView",
     "TestPreparationListView",
+    "TemplatesIndexView",
 ]

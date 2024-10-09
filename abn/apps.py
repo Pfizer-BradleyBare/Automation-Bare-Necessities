@@ -21,4 +21,6 @@ class AbnConfig(AppConfig):
         logger.add(sys.stderr, level="DEBUG")
         logger.add(loguru_sink_callable, level="DEBUG", serialize=True)
 
+        logger.debug("TEST")
+
         return super().ready()

@@ -7,7 +7,7 @@ from ..block_base import BlockBase
 
 class Author(BlockBase):
 
-    meta_data_text = models.TextField()
+    value = models.TextField()
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -19,7 +19,7 @@ class Author(BlockBase):
         )
 
         definition.add_parameter(
-            label="Author",
+            label="Value",
             advanced=False,
             default_value="",
             dropdown_items="",
