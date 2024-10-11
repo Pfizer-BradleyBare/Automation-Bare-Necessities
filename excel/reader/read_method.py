@@ -1,8 +1,10 @@
-from typing import Any, cast
+from typing import Any
+from typing import cast
 
 import xlwings
 
-from block.models import BlockBase, MethodStart
+from block.models import BlockBase
+from block.models import MethodStart
 from method.models import MethodWorkbookBase
 
 
@@ -68,11 +70,11 @@ def read_recursive(
 
     rows: list[list[Any]] = cast(list, sheet.used_range.value)
 
-    parent_block = BlockBase.objects.filter(
+    parent_block = cast(BlockBase,BlockBase.objects.filter(
         method=method,
         row=row_index,
         column=column_index,
-    ).get()
+    ).get())
 
     while True:
 
