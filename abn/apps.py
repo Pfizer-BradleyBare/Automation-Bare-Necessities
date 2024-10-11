@@ -9,6 +9,7 @@ class AbnConfig(AppConfig):
 
     def ready(self) -> None:
         import plh
+
         from loguru import logger
 
         from debug.loguru_sink import loguru_sink_callable
@@ -20,7 +21,5 @@ class AbnConfig(AppConfig):
         logger.remove()
         logger.add(sys.stderr, level="DEBUG")
         logger.add(loguru_sink_callable, level="DEBUG", serialize=True)
-
-        logger.debug("TEST")
 
         return super().ready()
