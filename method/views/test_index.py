@@ -8,6 +8,7 @@ from method.models import TestingMethodWorkbook
 
 
 class TestIndexView(NavbarView):
+
     def get(self, request: HttpRequest):
         return render(
             request,
@@ -24,6 +25,8 @@ class TestIndexView(NavbarView):
             test_method = query.get()
             test_method.delete()
 
-        TestingMethodWorkbook(file=raw_method_file).save()
+        method = TestingMethodWorkbook(file=raw_method_file)
+        method.clean()
+        method.save()
 
         return redirect("method:progress", method_file_name)
