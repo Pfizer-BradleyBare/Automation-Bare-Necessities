@@ -17,7 +17,7 @@ class TemplatesBlankView(NavbarView):
         temp_method_path = (
             Path(settings.BASE_DIR)
             / "_temp"
-            / f"{datetime.now().strftime('%Y%m%d%H%M%S')}_method_template.xlsm"
+            / f"{datetime.now().strftime('%Y%m%d%H%M%S%f')}_method_template.xlsm"
         )
 
         (Path(settings.BASE_DIR) / "_temp").mkdir(exist_ok=True)
