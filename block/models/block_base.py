@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from abc import abstractmethod
 from typing import ClassVar
+from typing import TypeAlias
 
 from django.db import models
 from polymorphic.models import PolymorphicModel
@@ -30,6 +31,8 @@ def DROPDOWN_LABWARE_NAMES() -> str:
     return ",".join([labware.identifier for labware in LabwareBase.objects.all()])
 
 
+BlockBaseType: TypeAlias = "BlockBase"
+
 class BlockBase(PolymorphicModel):
     block_subclasses: ClassVar[dict[str, type[BlockBase]]] = {}
 
@@ -37,44 +40,44 @@ class BlockBase(PolymorphicModel):
     row = models.IntegerField()
     column = models.IntegerField()
 
-    left_parent: models.ForeignKey[BlockBase | None] = models.ForeignKey(
-        to="BlockBase",
+    left_parent = models.ForeignKey(
+        to=BlockBaseType,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
         related_name="+",
     )
-    middle_parent: models.ForeignKey[BlockBase | None] = models.ForeignKey(
-        to="BlockBase",
+    middle_parent = models.ForeignKey(
+        to=BlockBaseType,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
         related_name="+",
     )
-    right_parent: models.ForeignKey[BlockBase | None] = models.ForeignKey(
-        to="BlockBase",
+    right_parent= models.ForeignKey(
+        to=BlockBaseType,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
         related_name="+",
     )
 
-    left_child: models.ForeignKey[BlockBase | None] = models.ForeignKey(
-        to="BlockBase",
+    left_child = models.ForeignKey(
+        to=BlockBaseType,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
         related_name="+",
     )
-    middle_child: models.ForeignKey[BlockBase | None] = models.ForeignKey(
-        to="BlockBase",
+    middle_child = models.ForeignKey(
+        to=BlockBaseType,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
         related_name="+",
     )
-    right_child: models.ForeignKey[BlockBase | None] = models.ForeignKey(
-        to="BlockBase",
+    right_child = models.ForeignKey(
+        to=BlockBaseType,
         on_delete=models.CASCADE,
         null=True,
         blank=True,
