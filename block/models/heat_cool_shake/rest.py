@@ -27,3 +27,8 @@ class Rest(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.time = parameters["Time (min)"]
+        
+        return super().assign_parameters(parameters)

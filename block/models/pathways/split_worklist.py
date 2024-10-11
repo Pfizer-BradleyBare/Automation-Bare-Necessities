@@ -68,3 +68,20 @@ class SplitWorklist(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.left_container_name = parameters["Left Container Name"]
+        self.right_container_name = parameters["Right Container Name"]
+        self.container_choice = parameters["Container Choice"]
+
+        try:
+            self.left_container_type = parameters["Left Container Type"]
+        except KeyError:
+            self.left_container_type = ""
+
+        try:
+            self.right_container_type = parameters["Right Container Type"]
+        except KeyError:
+            self.right_container_type = ""
+
+        return super().assign_parameters(parameters)

@@ -28,7 +28,7 @@ class Shake(BlockBase):
         )
 
         definition.add_parameter(
-            label="Shaking RPM",
+            label="Shaking Speed (RPM)",
             advanced=False,
             default_value="",
             dropdown_items="",
@@ -36,3 +36,9 @@ class Shake(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.time = parameters["Time (min)"]
+        self.shaking_rpm = parameters["Shaking Speed (RPM)"]
+        
+        return super().assign_parameters(parameters)

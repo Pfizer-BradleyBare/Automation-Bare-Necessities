@@ -27,3 +27,8 @@ class ConcentrationMax(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.constraint_text = parameters["Concentration Max"]
+        
+        return super().assign_parameters(parameters)

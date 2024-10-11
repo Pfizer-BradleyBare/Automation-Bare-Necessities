@@ -2,13 +2,11 @@ from django.db import models
 
 from excel.definitions import BlockDefinitionExcelDefinition
 
-from ..block_base import (
-    DROPDOWN_PREFIXED_CONTAINER_NAMES,
-    DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES,
-    DROPDOWN_PREFIXED_USER_DEFINED_SOLUTION_NAMES,
-    DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES,
-    BlockBase,
-)
+from ..block_base import BlockBase
+from ..block_base import DROPDOWN_PREFIXED_CONTAINER_NAMES
+from ..block_base import DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES
+from ..block_base import DROPDOWN_PREFIXED_USER_DEFINED_SOLUTION_NAMES
+from ..block_base import DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES
 
 
 class Dilute(BlockBase):
@@ -79,3 +77,25 @@ class Dilute(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.solution = parameters["Solution"]
+        self.target_concentration = parameters["Target Concentration"]
+        self.target_volume = parameters["Target Volume (uL)"]
+
+        try:
+            self.min_aspirate_mix_cycles = parameters["Min Aspirate Mix Cycles"]
+        except KeyError:
+            self.min_aspirate_mix_cycles = ""
+
+        try:
+            self.min_dispense_mix_cycles = parameters["Min Dispense Mix Cycles"]
+        except KeyError:
+            self.min_aspirate_mix_cycles = ""
+
+        try:
+            self.min_aspirate_mix_cycles = parameters["Max Source Volume (uL)"]
+        except KeyError:
+            self.min_aspirate_mix_cycles = ""
+        
+        return super().assign_parameters(parameters)

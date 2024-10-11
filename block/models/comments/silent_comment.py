@@ -27,3 +27,8 @@ class SilentComment(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.comment_text = parameters["Comment Text"]
+        
+        return super().assign_parameters(parameters)

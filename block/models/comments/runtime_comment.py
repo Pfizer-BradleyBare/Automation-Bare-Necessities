@@ -30,9 +30,19 @@ class RuntimeComment(BlockBase):
         definition.add_parameter(
             label="Wait For User Confirmation",
             advanced=True,
-            default_value="Wait For User Confirmation",
-            dropdown_items="Wait For User Confirmation",
+            default_value="Yes",
+            dropdown_items="Yes",
             free_text=False,
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.comment_text = parameters["Comment Text"]
+        
+        try:
+            self.wait_for_user_confirmation = parameters["Wait For User Confirmation"]
+        except KeyError:
+            self.wait_for_user_confirmation = ""
+        
+        return super().assign_parameters(parameters)

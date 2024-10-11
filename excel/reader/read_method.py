@@ -54,11 +54,12 @@ def read_block(
             if label is None:
                 break
 
-            label = label.lower().replace(" ", "_")
-
             parameters[label] = value
 
-        return BlockBase.block_subclasses[block_type_name](**parameters)
+        block = BlockBase.block_subclasses[block_type_name]()
+        block.assign_parameters(parameters=parameters)
+
+        return block
 
 
 def read_recursive(

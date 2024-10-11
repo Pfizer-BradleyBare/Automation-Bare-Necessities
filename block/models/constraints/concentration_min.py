@@ -27,3 +27,8 @@ class ConcentrationMin(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.constraint_text = parameters["Concentration Min"]
+        
+        return super().assign_parameters(parameters)

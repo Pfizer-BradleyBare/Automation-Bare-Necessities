@@ -28,7 +28,7 @@ class Incubate(BlockBase):
         )
 
         definition.add_parameter(
-            label="Temperature",
+            label="Temperature (C)",
             advanced=False,
             default_value="",
             dropdown_items="",
@@ -36,3 +36,9 @@ class Incubate(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.time = parameters["Time (min)"]
+        self.temperature = parameters["Temperature (C)"]
+        
+        return super().assign_parameters(parameters)

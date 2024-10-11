@@ -17,3 +17,6 @@ class MethodStart(BlockBase):
             hexidecimal_color="2CAE66",
             text_hexidecimal_color="000000",
         )
+    
+    def assign_parameters(self, parameters: dict):
+        return super().assign_parameters(parameters)

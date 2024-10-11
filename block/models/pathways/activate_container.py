@@ -2,7 +2,8 @@ from django.db import models
 
 from excel.definitions import BlockDefinitionExcelDefinition
 
-from ..block_base import DROPDOWN_CONTAINER_NAMES, BlockBase
+from ..block_base import BlockBase
+from ..block_base import DROPDOWN_CONTAINER_NAMES
 
 
 class ActivateContainer(BlockBase):
@@ -34,3 +35,13 @@ class ActivateContainer(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.name = parameters["Name"]
+
+        try:
+            self.type = parameters["Type"]
+        except KeyError:
+            self.type = ""
+
+        return super().assign_parameters(parameters)

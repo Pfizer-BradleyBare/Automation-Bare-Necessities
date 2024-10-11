@@ -7,7 +7,7 @@ from ..block_base import BlockBase
 
 class DocumentNumber(BlockBase):
 
-    value = models.TextField()
+    meta_data_text = models.TextField()
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -19,7 +19,7 @@ class DocumentNumber(BlockBase):
         )
 
         definition.add_parameter(
-            label="Value",
+            label="Document Number",
             advanced=False,
             default_value="",
             dropdown_items="",
@@ -27,3 +27,9 @@ class DocumentNumber(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        
+        self.meta_data_text = parameters["Document Number"]
+
+        return super().assign_parameters(parameters)

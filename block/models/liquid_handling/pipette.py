@@ -14,7 +14,7 @@ from ..block_base import (
 class Pipette(BlockBase):
 
     solution = models.CharField(max_length=255)
-    volume = models.CharField(max_length=255)
+    volume_ul = models.CharField(max_length=255)
 
     min_aspirate_mix_cycles = models.CharField(max_length=255, blank=True)
     min_dispense_mix_cycles = models.CharField(max_length=255, blank=True)
@@ -61,3 +61,19 @@ class Pipette(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.solution = parameters["Solution"]
+        self.volume_ul = parameters["Volume (uL)"]
+
+        try:
+            self.min_aspirate_mix_cycles = parameters["Min Aspirate Mix Cycles"]
+        except KeyError:
+            self.min_aspirate_mix_cycles = ""
+
+        try:
+            self.min_dispense_mix_cycles = parameters["Min Dispense Mix Cycles"]
+        except KeyError:
+            self.min_aspirate_mix_cycles = ""
+        
+        return super().assign_parameters(parameters)

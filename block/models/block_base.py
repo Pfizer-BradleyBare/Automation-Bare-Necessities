@@ -90,6 +90,12 @@ class BlockBase(PolymorphicModel):
         raise NotImplementedError
 
     @abstractmethod
+    def assign_parameters(self,parameters:dict):
+        self.row = parameters["row"]
+        self.column = parameters["column"]
+        self.method = parameters["method"]
+
+    @abstractmethod
     def validate(self):
         raise NotImplementedError
 

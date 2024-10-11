@@ -34,3 +34,13 @@ class Merge(BlockBase):
         )
 
         return definition
+
+    def assign_parameters(self, parameters: dict):
+        self.container_name = parameters["Container Name"]
+
+        try:
+            self.container_type = parameters["Container Type"]
+        except KeyError:
+            self.container_type = ""
+
+        return super().assign_parameters(parameters)
