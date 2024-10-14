@@ -14,22 +14,34 @@ class TemplatesIndexView(NavbarView):
         for method in TemplateMethodWorkbook.objects.all():
             name = str(method)
             authors = ", ".join(
-                [item.value for item in Author.objects.filter(method=method).all()],
+                [
+                    item.meta_data_text
+                    for item in Author.objects.filter(method=method).all()
+                ],
             )
             categories = ", ".join(
-                [item.value for item in Category.objects.filter(method=method).all()],
+                [
+                    item.meta_data_text
+                    for item in Category.objects.filter(method=method).all()
+                ],
             )
             document_numbers = ", ".join(
                 [
-                    item.value
+                    item.meta_data_text
                     for item in DocumentNumber.objects.filter(method=method).all()
                 ],
             )
             modalities = ", ".join(
-                [item.value for item in Modality.objects.filter(method=method).all()],
+                [
+                    item.meta_data_text
+                    for item in Modality.objects.filter(method=method).all()
+                ],
             )
             projects = ", ".join(
-                [item.value for item in Project.objects.filter(method=method).all()],
+                [
+                    item.meta_data_text
+                    for item in Project.objects.filter(method=method).all()
+                ],
             )
 
             rows.append(
