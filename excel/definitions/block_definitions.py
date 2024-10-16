@@ -8,7 +8,6 @@ import xlwings
 
 @dataclass(kw_only=True)
 class BlockDefinitionExcelDefinition:
-
     @dataclass(kw_only=True)
     class _BlockParameterExcelDefinition:
         label: str
@@ -16,6 +15,8 @@ class BlockDefinitionExcelDefinition:
         default_value: str
         dropdown_items: str
         free_text: bool
+        _field_name: str
+        _field_type: type[float | str]
 
     name: str
     category: str
@@ -35,6 +36,8 @@ class BlockDefinitionExcelDefinition:
         default_value: str,
         dropdown_items: str,
         free_text: bool,
+        _field_name: str,
+        _field_type: type[float | str],
     ) -> None:
         self.parameters.append(
             self._BlockParameterExcelDefinition(
@@ -43,6 +46,8 @@ class BlockDefinitionExcelDefinition:
                 default_value=default_value,
                 dropdown_items=dropdown_items,
                 free_text=free_text,
+                _field_name=_field_name,
+                _field_type=_field_type,
             ),
         )
 
@@ -96,3 +101,24 @@ def write_block_definitions_sheet(sheet: xlwings.Sheet):
     sheet_range = sheet.range((1, 1), (num_rows, num_cols))
     sheet_range.value = cells
     sheet_range.autofit()
+
+
+def write_container_labwares_sheet(sheet: xlwings.Sheet):
+    from plh_config.labware.models import PipettableLabware
+
+    cells = []
+    cells.append(["Container Labwares"])
+
+    cells += [[labware.identifier] for labware in PipettableLabware.objects.all()]
+
+    cells = list(zip(*itertools.zip_longest(*cells, fillvalue=None)))
+
+    num_rows = len(cells)
+    num_cols = 1
+
+    if num_rows != 0:
+        sheet.clear()
+        sheet.clear_formats()
+        sheet_range = sheet.range((1, 1), (num_rows, num_cols))
+        sheet_range.value = cells
+        sheet_range.autofit()

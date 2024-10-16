@@ -2,14 +2,12 @@ from django.db import models
 
 from excel.definitions import BlockDefinitionExcelDefinition
 
-from ..block_base import BlockBase
-from ..block_base import DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES
+from ..block_base import DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES, BlockBase
 
 
 class MeasureConcentration(BlockBase):
-
-    output_worklist_column = models.CharField(max_length=255)
-    extinction_coefficient = models.CharField(max_length=255)
+    output_worklist_column = models.CharField(max_length=255, null=True)  # noqa: DJ001
+    extinction_coefficient = models.CharField(max_length=255, null=True)  # noqa: DJ001
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -26,6 +24,8 @@ class MeasureConcentration(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=False,
+            _field_name="output_worklist_column",
+            _field_type=str,
         )
 
         definition.add_parameter(
@@ -34,13 +34,8 @@ class MeasureConcentration(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=False,
+            _field_name="extinction_coefficient",
+            _field_type=str,
         )
 
         return definition
-
-    def assign_parameters(self, parameters: dict):
-
-        self.output_worklist_column = parameters["Output Worklist Column"]
-        self.extinction_coefficient = parameters["Extinction Coefficient"]
-
-        return super().assign_parameters(parameters)

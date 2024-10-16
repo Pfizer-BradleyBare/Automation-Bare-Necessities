@@ -6,9 +6,8 @@ from ..block_base import BlockBase
 
 
 class RuntimeComment(BlockBase):
-
-    comment_text = models.TextField()
-    wait_for_user_confirmation = models.CharField(max_length=100, blank=True)
+    comment_text = models.TextField(null=True)  # noqa:DJ001
+    wait_for_user_confirmation = models.CharField(max_length=100, blank=True, null=True)  # noqa:DJ001)
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -25,6 +24,8 @@ class RuntimeComment(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
+            _field_name="comment_text",
+            _field_type=str,
         )
 
         definition.add_parameter(
@@ -33,16 +34,8 @@ class RuntimeComment(BlockBase):
             default_value="Yes",
             dropdown_items="Yes",
             free_text=False,
+            _field_name="wait_for_user_confirmation",
+            _field_type=str,
         )
 
         return definition
-
-    def assign_parameters(self, parameters: dict):
-        self.comment_text = parameters["Comment Text"]
-        
-        try:
-            self.wait_for_user_confirmation = parameters["Wait For User Confirmation"]
-        except KeyError:
-            self.wait_for_user_confirmation = ""
-        
-        return super().assign_parameters(parameters)

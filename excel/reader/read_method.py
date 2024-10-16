@@ -1,10 +1,8 @@
-from typing import Any
-from typing import cast
+from typing import Any, cast
 
 import xlwings
 
-from block.models import BlockBase
-from block.models import MethodStart
+from block.models import BlockBase, MethodStart
 from method.models import MethodWorkbookBase
 
 
@@ -25,41 +23,40 @@ def read_block(
     if query.exists():
         return query.get()
 
-    else:
-        block_type_name = (
-            cast(str, rows[row_index][column_index])
-            .replace(
-                " (click here to update)",
-                "",
-            )
-            .replace(" ", "")
+    block_type_name = (
+        cast(str, rows[row_index][column_index])
+        .replace(
+            " (click here to update)",
+            "",
         )
+        .replace(" ", "")
+    )
 
-        # extract parameters
-        parameters: dict[str, Any] = {}
+    # extract parameters
+    parameters: dict[str, Any] = {}
 
-        parameters["method"] = method
-        parameters["row"] = row_index
-        parameters["column"] = column_index
+    parameters["method"] = method
+    parameters["row"] = row_index + 1
+    parameters["column"] = column_index + 2
 
-        while True:
-            row_index += 1
+    while True:
+        row_index += 1
 
-            label = cast(str, rows[row_index][column_index])
-            value = rows[row_index][column_index + 1]
+        label = cast(str, rows[row_index][column_index])
+        value = rows[row_index][column_index + 1]
 
-            if label == "Advanced Options":
-                continue
+        if label == "Advanced Options":
+            continue
 
-            if label is None:
-                break
+        if label is None:
+            break
 
-            parameters[label] = value
+        parameters[label] = value
 
-        block = BlockBase.block_subclasses[block_type_name]()
-        block.assign_parameters(parameters=parameters)
+    block = BlockBase.block_subclasses[block_type_name]()
+    block.assign_parameters(**parameters)
 
-        return block
+    return block
 
 
 def read_recursive(
@@ -68,17 +65,18 @@ def read_recursive(
     row_index: int,
     column_index: int,
 ):
-
     rows: list[list[Any]] = cast(list, sheet.used_range.value)
 
-    parent_block = cast(BlockBase,BlockBase.objects.filter(
-        method=method,
-        row=row_index,
-        column=column_index,
-    ).get())
+    parent_block = cast(
+        BlockBase,
+        BlockBase.objects.filter(
+            method=method,
+            row=row_index,
+            column=column_index,
+        ).get(),
+    )
 
     while True:
-
         import time
 
         time.sleep(1)
@@ -89,7 +87,6 @@ def read_recursive(
 
         # Is it possible that there is another middle step coming?
         if rows[row_index + 1][column_index + 1] == "Add Action (click here)":
-
             # Attempt to find a middle block.
             # It's possible there is not one, in which case we catch the index error and end.
             try:
@@ -122,7 +119,6 @@ def read_recursive(
             column_counter = 2
 
             while True:
-
                 try:
                     left_cell_value = rows[row_index + 1][column_index - column_counter]
                 except IndexError:

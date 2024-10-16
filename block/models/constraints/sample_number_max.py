@@ -6,8 +6,7 @@ from ..block_base import BlockBase
 
 
 class SampleNumberMax(BlockBase):
-
-    constraint_text = models.TextField()
+    constraint_text = models.TextField(null=True)  # noqa:DJ001
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -24,12 +23,8 @@ class SampleNumberMax(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
+            _field_name="constraint_text",
+            _field_type=str,
         )
 
         return definition
-
-
-    def assign_parameters(self, parameters: dict):
-        self.constraint_text = parameters["Sample Number Max"]
-        
-        return super().assign_parameters(parameters)

@@ -1,23 +1,26 @@
+from __future__ import annotations
+
 from django.db import models
 
 from excel.definitions import BlockDefinitionExcelDefinition
 
-from ..block_base import BlockBase
-from ..block_base import DROPDOWN_PREFIXED_CONTAINER_NAMES
-from ..block_base import DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES
-from ..block_base import DROPDOWN_PREFIXED_USER_DEFINED_SOLUTION_NAMES
-from ..block_base import DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES
+from ..block_base import (
+    DROPDOWN_PREFIXED_CONTAINER_NAMES,
+    DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES,
+    DROPDOWN_PREFIXED_USER_DEFINED_SOLUTION_NAMES,
+    DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES,
+    BlockBase,
+)
 
 
 class Dilute(BlockBase):
+    solution = models.CharField(max_length=255, null=True)  # noqa: DJ001
+    target_concentration = models.CharField(max_length=255, null=True)  # noqa: DJ001
+    target_volume = models.CharField(max_length=255, null=True)  # noqa: DJ001
 
-    solution = models.CharField(max_length=255)
-    target_concentration = models.CharField(max_length=255)
-    target_volume = models.CharField(max_length=255)
-
-    min_aspirate_mix_cycles = models.CharField(max_length=255, blank=True)
-    min_dispense_mix_cycles = models.CharField(max_length=255, blank=True)
-    max_source_volume = models.CharField(max_length=255, blank=True)
+    min_aspirate_mix_cycles = models.CharField(max_length=255, null=True, blank=True)  # noqa: DJ001
+    min_dispense_mix_cycles = models.CharField(max_length=255, null=True, blank=True)  # noqa: DJ001
+    max_source_volume = models.CharField(max_length=255, null=True, blank=True)  # noqa: DJ001
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -34,6 +37,8 @@ class Dilute(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_CONTAINER_NAMES},{DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES},{DROPDOWN_PREFIXED_USER_DEFINED_SOLUTION_NAMES},{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=False,
+            _field_name="solution",
+            _field_type=str,
         )
 
         definition.add_parameter(
@@ -42,6 +47,8 @@ class Dilute(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=True,
+            _field_name="target_concentration",
+            _field_type=float,
         )
 
         definition.add_parameter(
@@ -50,6 +57,8 @@ class Dilute(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=True,
+            _field_name="target_volume",
+            _field_type=float,
         )
 
         definition.add_parameter(
@@ -58,6 +67,8 @@ class Dilute(BlockBase):
             default_value="10",
             dropdown_items="",
             free_text=True,
+            _field_name="min_aspirate_mix_cycles",
+            _field_type=float,
         )
 
         definition.add_parameter(
@@ -66,6 +77,8 @@ class Dilute(BlockBase):
             default_value="10",
             dropdown_items="",
             free_text=True,
+            _field_name="min_dispense_mix_cycles",
+            _field_type=float,
         )
 
         definition.add_parameter(
@@ -74,28 +87,8 @@ class Dilute(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
+            _field_name="max_source_volume",
+            _field_type=float,
         )
 
         return definition
-
-    def assign_parameters(self, parameters: dict):
-        self.solution = parameters["Solution"]
-        self.target_concentration = parameters["Target Concentration"]
-        self.target_volume = parameters["Target Volume (uL)"]
-
-        try:
-            self.min_aspirate_mix_cycles = parameters["Min Aspirate Mix Cycles"]
-        except KeyError:
-            self.min_aspirate_mix_cycles = ""
-
-        try:
-            self.min_dispense_mix_cycles = parameters["Min Dispense Mix Cycles"]
-        except KeyError:
-            self.min_aspirate_mix_cycles = ""
-
-        try:
-            self.min_aspirate_mix_cycles = parameters["Max Source Volume (uL)"]
-        except KeyError:
-            self.min_aspirate_mix_cycles = ""
-        
-        return super().assign_parameters(parameters)

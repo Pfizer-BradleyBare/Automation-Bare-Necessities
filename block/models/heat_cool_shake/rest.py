@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 
 from excel.definitions import BlockDefinitionExcelDefinition
@@ -6,8 +8,7 @@ from ..block_base import BlockBase
 
 
 class Rest(BlockBase):
-
-    time = models.CharField(max_length=255)
+    time = models.CharField(max_length=255, null=True)  # noqa: DJ001
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -24,11 +25,8 @@ class Rest(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
+            _field_name="time",
+            _field_type=float,
         )
 
         return definition
-
-    def assign_parameters(self, parameters: dict):
-        self.time = parameters["Time (min)"]
-        
-        return super().assign_parameters(parameters)

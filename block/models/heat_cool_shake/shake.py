@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 
 from excel.definitions import BlockDefinitionExcelDefinition
@@ -6,9 +8,8 @@ from ..block_base import BlockBase
 
 
 class Shake(BlockBase):
-
-    time = models.CharField(max_length=255)
-    shaking_rpm = models.CharField(max_length=255)
+    time = models.CharField(max_length=255, null=True)  # noqa: DJ001
+    shaking_rpm = models.CharField(max_length=255, null=True)  # noqa: DJ001
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -25,6 +26,8 @@ class Shake(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
+            _field_name="time",
+            _field_type=float,
         )
 
         definition.add_parameter(
@@ -33,12 +36,8 @@ class Shake(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
+            _field_name="shaking_rpm",
+            _field_type=float,
         )
 
         return definition
-
-    def assign_parameters(self, parameters: dict):
-        self.time = parameters["Time (min)"]
-        self.shaking_rpm = parameters["Shaking Speed (RPM)"]
-        
-        return super().assign_parameters(parameters)

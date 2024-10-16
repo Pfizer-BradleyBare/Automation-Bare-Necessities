@@ -1,14 +1,11 @@
+from __future__ import annotations
+
 from excel.definitions import BlockDefinitionExcelDefinition
 
 from .block_base import BlockBase
 
 
 class MethodStart(BlockBase):
-
-    def validate(self):
-        """No validation to perform for this step. It is just a starting step."""
-        return
-
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         return BlockDefinitionExcelDefinition(
@@ -17,6 +14,3 @@ class MethodStart(BlockBase):
             hexidecimal_color="2CAE66",
             text_hexidecimal_color="000000",
         )
-    
-    def assign_parameters(self, parameters: dict):
-        return super().assign_parameters(parameters)

@@ -6,8 +6,7 @@ from ..block_base import BlockBase
 
 
 class SilentComment(BlockBase):
-
-    comment_text = models.TextField()
+    comment_text = models.TextField(null=True)  # noqa:DJ001
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -24,11 +23,8 @@ class SilentComment(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
+            _field_name="comment_text",
+            _field_type=str,
         )
 
         return definition
-
-    def assign_parameters(self, parameters: dict):
-        self.comment_text = parameters["Comment Text"]
-        
-        return super().assign_parameters(parameters)

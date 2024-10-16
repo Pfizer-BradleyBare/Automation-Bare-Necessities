@@ -1,15 +1,14 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import ClassVar
-from typing import TypeAlias
+from typing import ClassVar, TypeAlias, cast
 
 from django.db import models
+from loguru import logger
 from polymorphic.models import PolymorphicModel
 
 from excel.definitions import BlockDefinitionExcelDefinition
 from method.models import MethodWorkbookBase
-from plh_config.labware.models import LabwareBase
 
 DROPDOWN_CONTAINER_NAMES = "%%get_container_names_as_string"
 DROPDOWN_PREFIXED_CONTAINER_NAMES = "%%get_prefixed_container_names_as_string"
@@ -25,16 +24,18 @@ DROPDOWN_WORKLIST_COLUMN_NAMES = "%%get_worklist_column_names_as_string"
 DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES = (
     "%%get_prefixed_worklist_column_names_as_string"
 )
-
-
-def DROPDOWN_LABWARE_NAMES() -> str:
-    return ",".join([labware.identifier for labware in LabwareBase.objects.all()])
+DROPDOWN_CONTAINER_LABWARE_NAMES = "%%get_container_labware_names_as_string"
+DROPDOWN_PREFIXED_CONTAINER_LABWARE_NAMES = (
+    "%%get_prefixed_container_labware_names_as_string"
+)
 
 
 BlockBaseType: TypeAlias = "BlockBase"
 
+
 class BlockBase(PolymorphicModel):
     block_subclasses: ClassVar[dict[str, type[BlockBase]]] = {}
+    is_valid = True
 
     method = models.ForeignKey(to=MethodWorkbookBase, on_delete=models.CASCADE)
     row = models.IntegerField()
@@ -54,7 +55,7 @@ class BlockBase(PolymorphicModel):
         blank=True,
         related_name="+",
     )
-    right_parent= models.ForeignKey(
+    right_parent = models.ForeignKey(
         to=BlockBaseType,
         on_delete=models.CASCADE,
         null=True,
@@ -89,11 +90,37 @@ class BlockBase(PolymorphicModel):
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
         raise NotImplementedError
 
-    @abstractmethod
-    def assign_parameters(self,parameters:dict):
-        self.row = parameters["row"]
-        self.column = parameters["column"]
-        self.method = parameters["method"]
+    def assign_parameters(
+        self,
+        **kwargs: float | str | MethodWorkbookBase,
+    ):
+        self.row = cast(int, kwargs.get("row"))
+        self.column = cast(int, kwargs.get("column"))
+        self.method = cast(MethodWorkbookBase, kwargs.get("method"))
+
+        bound_logger = logger.bind(
+            source="ABN",
+            method=str(self.method),
+            row=self.row,
+            column=self.column,
+            block=type(self).__name__,
+        )
+
+        definition = self.get_excel_definition()
+
+        for parameter in definition.parameters:
+            key_name = parameter.label
+            field_name = parameter._field_name  # noqa: SLF001
+
+            value = None
+            try:
+                value = kwargs.pop(key_name)
+            except KeyError:
+                bound_logger.critical(
+                    f"{key_name} is missing from the block parameters",  # noqa: G004
+                )
+
+            setattr(self, field_name, value)
 
     @abstractmethod
     def validate(self):

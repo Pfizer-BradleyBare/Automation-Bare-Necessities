@@ -6,8 +6,7 @@ from ..block_base import BlockBase
 
 
 class Category(BlockBase):
-
-    meta_data_text = models.TextField()
+    meta_data_text = models.TextField(null=True)  # noqa:DJ001
 
     @classmethod
     def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
@@ -24,12 +23,8 @@ class Category(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
+            _field_name="meta_data_text",
+            _field_type=str,
         )
 
         return definition
-
-    def assign_parameters(self, parameters: dict):
-        
-        self.meta_data_text = parameters["Category"]
-
-        return super().assign_parameters(parameters)
