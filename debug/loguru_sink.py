@@ -7,7 +7,6 @@ from .models import LogLevelOptions, LogSourceOptions, Trace
 
 
 def loguru_sink_callable(info):
-
     record = info.record
 
     message = record["message"]
@@ -22,7 +21,7 @@ def loguru_sink_callable(info):
     except KeyError:
         source = "PLH"
 
-    meta_info = ", ".join(extra.values())
+    meta_info = ", ".join([f"{key}={value}" for key, value in extra.items()])
 
     Trace(
         log_source=LogSourceOptions[source],
