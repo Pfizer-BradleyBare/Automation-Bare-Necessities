@@ -24,8 +24,8 @@ class RuntimeComment(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
-            _field_name="comment_text",
-            _field_type=str,
+            block_field_name="comment_text",
+            block_field_type=str,
         )
 
         definition.add_parameter(
@@ -34,8 +34,8 @@ class RuntimeComment(BlockBase):
             default_value="Yes",
             dropdown_items="Yes",
             free_text=False,
-            _field_name="wait_for_user_confirmation",
-            _field_type=str,
+            block_field_name="wait_for_user_confirmation",
+            block_field_type=str,
         )
 
         return definition

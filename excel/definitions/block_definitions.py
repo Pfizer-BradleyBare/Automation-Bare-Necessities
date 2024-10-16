@@ -15,8 +15,8 @@ class BlockDefinitionExcelDefinition:
         default_value: str
         dropdown_items: str
         free_text: bool
-        _field_name: str
-        _field_type: type[float | str]
+        block_field_name: str
+        block_field_type: type[float | str]
 
     name: str
     category: str
@@ -36,8 +36,8 @@ class BlockDefinitionExcelDefinition:
         default_value: str,
         dropdown_items: str,
         free_text: bool,
-        _field_name: str,
-        _field_type: type[float | str],
+        block_field_name: str,
+        block_field_type: type[float | str],
     ) -> None:
         self.parameters.append(
             self._BlockParameterExcelDefinition(
@@ -46,8 +46,8 @@ class BlockDefinitionExcelDefinition:
                 default_value=default_value,
                 dropdown_items=dropdown_items,
                 free_text=free_text,
-                _field_name=_field_name,
-                _field_type=_field_type,
+                block_field_name=block_field_name,
+                block_field_type=block_field_type,
             ),
         )
 

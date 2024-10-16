@@ -28,8 +28,8 @@ class Merge(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_CONTAINER_NAMES}",
             free_text=True,
-            _field_name="container_name",
-            _field_type=str,
+            block_field_name="container_name",
+            block_field_type=str,
         )
 
         definition.add_parameter(
@@ -38,8 +38,8 @@ class Merge(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_CONTAINER_LABWARE_NAMES}",
             free_text=False,
-            _field_name="container_type",
-            _field_type=str,
+            block_field_name="container_type",
+            block_field_type=str,
         )
 
         return definition

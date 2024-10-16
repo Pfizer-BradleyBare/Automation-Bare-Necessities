@@ -27,8 +27,8 @@ class IncubateAndShake(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
-            _field_name="time",
-            _field_type=float,
+            block_field_name="time",
+            block_field_type=float,
         )
 
         definition.add_parameter(
@@ -37,8 +37,8 @@ class IncubateAndShake(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
-            _field_name="temperature",
-            _field_type=float,
+            block_field_name="temperature",
+            block_field_type=float,
         )
 
         definition.add_parameter(
@@ -47,8 +47,8 @@ class IncubateAndShake(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
-            _field_name="shaking_rpm",
-            _field_type=float,
+            block_field_name="shaking_rpm",
+            block_field_type=float,
         )
 
         return definition

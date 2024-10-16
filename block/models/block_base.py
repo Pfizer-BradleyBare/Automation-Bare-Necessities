@@ -35,7 +35,7 @@ BlockBaseType: TypeAlias = "BlockBase"
 
 class BlockBase(PolymorphicModel):
     block_subclasses: ClassVar[dict[str, type[BlockBase]]] = {}
-    is_valid = True
+    is_valid: bool = True
 
     method = models.ForeignKey(to=MethodWorkbookBase, on_delete=models.CASCADE)
     row = models.IntegerField()
@@ -110,25 +110,20 @@ class BlockBase(PolymorphicModel):
 
         for parameter in definition.parameters:
             key_name = parameter.label
-            field_name = parameter._field_name  # noqa: SLF001
+            field_name = parameter.block_field_name
 
             value = None
             try:
                 value = kwargs.pop(key_name)
             except KeyError:
+                self.is_valid = False
                 bound_logger.critical(
                     f"{key_name} is missing from the block parameters",  # noqa: G004
                 )
 
             setattr(self, field_name, value)
 
-    @abstractmethod
-    def validate(self):
-        raise NotImplementedError
-
-    @abstractmethod
-    def execute(self):
-        raise NotImplementedError
+    def validate_parameters(self): ...
 
     def __init_subclass__(cls: type[BlockBase]) -> None:
         cls.block_subclasses[cls.__name__] = cls

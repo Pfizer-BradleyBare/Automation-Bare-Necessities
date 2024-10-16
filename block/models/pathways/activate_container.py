@@ -28,8 +28,8 @@ class ActivateContainer(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_CONTAINER_NAMES}",
             free_text=True,
-            _field_name="name",
-            _field_type=str,
+            block_field_name="name",
+            block_field_type=str,
         )
         definition.add_parameter(
             label="Type",
@@ -37,8 +37,8 @@ class ActivateContainer(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_CONTAINER_LABWARE_NAMES}",
             free_text=False,
-            _field_name="type",
-            _field_type=str,
+            block_field_name="type",
+            block_field_type=str,
         )
 
         return definition

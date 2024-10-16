@@ -25,8 +25,8 @@ class Rest(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
-            _field_name="time",
-            _field_type=float,
+            block_field_name="time",
+            block_field_type=float,
         )
 
         return definition

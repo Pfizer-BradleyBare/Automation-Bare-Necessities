@@ -23,8 +23,8 @@ class ConcentrationMin(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
-            _field_name="constraint_text",
-            _field_type=str,
+            block_field_name="constraint_text",
+            block_field_type=str,
         )
 
         return definition

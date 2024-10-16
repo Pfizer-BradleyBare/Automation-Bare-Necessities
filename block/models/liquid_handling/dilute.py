@@ -37,8 +37,8 @@ class Dilute(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_CONTAINER_NAMES},{DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES},{DROPDOWN_PREFIXED_USER_DEFINED_SOLUTION_NAMES},{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=False,
-            _field_name="solution",
-            _field_type=str,
+            block_field_name="solution",
+            block_field_type=str,
         )
 
         definition.add_parameter(
@@ -47,8 +47,8 @@ class Dilute(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=True,
-            _field_name="target_concentration",
-            _field_type=float,
+            block_field_name="target_concentration",
+            block_field_type=float,
         )
 
         definition.add_parameter(
@@ -57,8 +57,8 @@ class Dilute(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=True,
-            _field_name="target_volume",
-            _field_type=float,
+            block_field_name="target_volume",
+            block_field_type=float,
         )
 
         definition.add_parameter(
@@ -67,8 +67,8 @@ class Dilute(BlockBase):
             default_value="10",
             dropdown_items="",
             free_text=True,
-            _field_name="min_aspirate_mix_cycles",
-            _field_type=float,
+            block_field_name="min_aspirate_mix_cycles",
+            block_field_type=float,
         )
 
         definition.add_parameter(
@@ -77,8 +77,8 @@ class Dilute(BlockBase):
             default_value="10",
             dropdown_items="",
             free_text=True,
-            _field_name="min_dispense_mix_cycles",
-            _field_type=float,
+            block_field_name="min_dispense_mix_cycles",
+            block_field_type=float,
         )
 
         definition.add_parameter(
@@ -87,8 +87,8 @@ class Dilute(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
-            _field_name="max_source_volume",
-            _field_type=float,
+            block_field_name="max_source_volume",
+            block_field_type=float,
         )
 
         return definition

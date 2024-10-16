@@ -23,8 +23,8 @@ class Modality(BlockBase):
             default_value="",
             dropdown_items="",
             free_text=True,
-            _field_name="meta_data_text",
-            _field_type=str,
+            block_field_name="meta_data_text",
+            block_field_type=str,
         )
 
         return definition

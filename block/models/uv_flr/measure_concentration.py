@@ -24,8 +24,8 @@ class MeasureConcentration(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=False,
-            _field_name="output_worklist_column",
-            _field_type=str,
+            block_field_name="output_worklist_column",
+            block_field_type=str,
         )
 
         definition.add_parameter(
@@ -34,8 +34,8 @@ class MeasureConcentration(BlockBase):
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=False,
-            _field_name="extinction_coefficient",
-            _field_type=str,
+            block_field_name="extinction_coefficient",
+            block_field_type=str,
         )
 
         return definition
