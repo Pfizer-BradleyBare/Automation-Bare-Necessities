@@ -15,31 +15,31 @@ class TemplatesIndexView(NavbarView):
             name = str(method)
             authors = ", ".join(
                 [
-                    item.meta_data_text
+                    str(item.meta_data_text)
                     for item in Author.objects.filter(method=method).all()
                 ],
             )
             categories = ", ".join(
                 [
-                    item.meta_data_text
+                    str(item.meta_data_text)
                     for item in Category.objects.filter(method=method).all()
                 ],
             )
             document_numbers = ", ".join(
                 [
-                    item.meta_data_text
+                    str(item.meta_data_text)
                     for item in DocumentNumber.objects.filter(method=method).all()
                 ],
             )
             modalities = ", ".join(
                 [
-                    item.meta_data_text
+                    str(item.meta_data_text)
                     for item in Modality.objects.filter(method=method).all()
                 ],
             )
             projects = ", ".join(
                 [
-                    item.meta_data_text
+                    str(item.meta_data_text)
                     for item in Project.objects.filter(method=method).all()
                 ],
             )
