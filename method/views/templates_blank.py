@@ -26,11 +26,9 @@ class TemplatesBlankView(NavbarView):
 
         write_definitions(temp_method_path)
 
-        return FileResponse(
-            open(
-                temp_method_path,
-                "rb",
-            ),
-            as_attachment=True,
-            filename="RENAME_ME_Blank_Template.xlsm",
-        )
+        with temp_method_path.open("rb") as file:
+            return FileResponse(
+                file,
+                as_attachment=True,
+                filename="RENAME_ME_Blank_Template.xlsm",
+            )
