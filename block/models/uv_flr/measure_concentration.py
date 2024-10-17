@@ -2,7 +2,11 @@ from django.db import models
 
 from excel.definitions import BlockDefinitionExcelDefinition
 
-from ..block_base import DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES, BlockBase
+from ..block_base import (
+    DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES,
+    DROPDOWN_WORKLIST_COLUMN_NAMES,
+    BlockBase,
+)
 
 
 class MeasureConcentration(BlockBase):
@@ -22,7 +26,7 @@ class MeasureConcentration(BlockBase):
             label="Output Worklist Column",
             advanced=False,
             default_value="",
-            dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
+            dropdown_items=f"{DROPDOWN_WORKLIST_COLUMN_NAMES}",
             free_text=False,
             block_field_name="output_worklist_column",
             block_field_type=str,
@@ -33,9 +37,9 @@ class MeasureConcentration(BlockBase):
             advanced=False,
             default_value="",
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
-            free_text=False,
+            free_text=True,
             block_field_name="extinction_coefficient",
-            block_field_type=str,
+            block_field_type=float,
         )
 
         return definition

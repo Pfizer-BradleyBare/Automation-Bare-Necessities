@@ -55,6 +55,7 @@ def read_block(
 
     block = BlockBase.block_subclasses[block_type_name]()
     block.assign_parameters(**parameters)
+    block.validate_parameters()
 
     return block
 

@@ -2,12 +2,6 @@ from django.contrib import admin
 
 from .models import MethodStart
 from .models.comments import OverviewComment, RuntimeComment, SilentComment
-from .models.constraints import (
-    ConcentrationMax,
-    ConcentrationMin,
-    SampleNumberMax,
-    SampleNumberMin,
-)
 from .models.heat_cool_shake import Incubate, IncubateAndShake, Rest, Shake
 from .models.liquid_handling import Dilute, Pipette
 from .models.meta_data import Author, Category, DocumentNumber, Modality, Project
@@ -23,10 +17,6 @@ admin.site.register(SilentComment)
 admin.site.register(RuntimeComment)
 admin.site.register(OverviewComment)
 
-admin.site.register(SampleNumberMax)
-admin.site.register(SampleNumberMin)
-admin.site.register(ConcentrationMax)
-admin.site.register(ConcentrationMin)
 
 admin.site.register(Author)
 admin.site.register(Modality)

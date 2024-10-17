@@ -14,7 +14,6 @@ def read_workbook(method: MethodWorkbookBase):
     with xlwings.App(visible=False, add_book=False) as app, app.books.open(
         method.file.path,
     ) as book:
-
         try:
             book.app.macro("abn_v3_workbook")()
         except pythoncom.com_error:
@@ -23,6 +22,6 @@ def read_workbook(method: MethodWorkbookBase):
             )
             return
 
-        read_method(method, book.sheets["Method"])
         read_solutions(method, book.sheets["Solutions"])
         read_worklist(method, book.sheets["Worklist"])
+        read_method(method, book.sheets["Method"])
