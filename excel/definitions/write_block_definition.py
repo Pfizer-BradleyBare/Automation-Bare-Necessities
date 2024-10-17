@@ -1,55 +1,6 @@
-from __future__ import annotations
-
 import itertools
-from dataclasses import dataclass, field
 
 import xlwings
-
-
-@dataclass(kw_only=True)
-class BlockDefinitionExcelDefinition:
-    @dataclass(kw_only=True)
-    class _BlockParameterExcelDefinition:
-        label: str
-        advanced: bool
-        default_value: str
-        dropdown_items: str
-        free_text: bool
-        block_field_name: str
-        block_field_type: type[float | str]
-
-    name: str
-    category: str
-    hexidecimal_color: str
-    text_hexidecimal_color: str
-
-    parameters: list[_BlockParameterExcelDefinition] = field(
-        init=False,
-        default_factory=list,
-    )
-
-    def add_parameter(
-        self,
-        *,
-        label: str,
-        advanced: bool,
-        default_value: str,
-        dropdown_items: str,
-        free_text: bool,
-        block_field_name: str,
-        block_field_type: type[float | str],
-    ) -> None:
-        self.parameters.append(
-            self._BlockParameterExcelDefinition(
-                label=label,
-                advanced=advanced,
-                default_value=default_value,
-                dropdown_items=dropdown_items,
-                free_text=free_text,
-                block_field_name=block_field_name,
-                block_field_type=block_field_type,
-            ),
-        )
 
 
 def write_block_definitions_sheet(sheet: xlwings.Sheet):
@@ -58,7 +9,7 @@ def write_block_definitions_sheet(sheet: xlwings.Sheet):
     cells = []
 
     for block in BlockBase.block_subclasses.values():
-        definition = block.get_excel_definition()
+        definition = block.get_block_definition()
 
         cells.append(["Block Definition"])
         cells.append(

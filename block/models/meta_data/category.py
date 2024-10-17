@@ -1,7 +1,6 @@
 from django.db import models
 
-from excel.definitions import BlockDefinitionExcelDefinition
-
+from ...definition import BlockDefinition
 from ..block_base import BlockBase
 
 
@@ -9,8 +8,8 @@ class Category(BlockBase):
     meta_data_text = models.TextField(null=True)  # noqa:DJ001
 
     @classmethod
-    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
-        definition = BlockDefinitionExcelDefinition(
+    def get_block_definition(cls) -> BlockDefinition:
+        definition = BlockDefinition(
             name="Category",
             category="Meta Data",
             hexidecimal_color="B085B7",

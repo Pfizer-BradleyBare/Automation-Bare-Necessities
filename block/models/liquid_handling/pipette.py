@@ -1,7 +1,6 @@
 from django.db import models
 
-from excel.definitions import BlockDefinitionExcelDefinition
-
+from ...definition import BlockDefinition
 from ..block_base import (
     DROPDOWN_PREFIXED_CONTAINER_NAMES,
     DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES,
@@ -19,8 +18,8 @@ class Pipette(BlockBase):
     min_dispense_mix_cycles = models.CharField(max_length=255, null=True, blank=True)  # noqa: DJ001
 
     @classmethod
-    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
-        definition = BlockDefinitionExcelDefinition(
+    def get_block_definition(cls) -> BlockDefinition:
+        definition = BlockDefinition(
             name="Pipette",
             category="Liquid Handling",
             hexidecimal_color="007BB2",

@@ -1,7 +1,6 @@
 from django.db import models
 
-from excel.definitions import BlockDefinitionExcelDefinition
-
+from ...definition import BlockDefinition
 from ..block_base import (
     DROPDOWN_CONTAINER_LABWARE_NAMES,
     DROPDOWN_CONTAINER_NAMES,
@@ -20,8 +19,8 @@ class SplitWorklist(BlockBase):
     container_choice = models.CharField(max_length=255, null=True)  # noqa: DJ001
 
     @classmethod
-    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
-        definition = BlockDefinitionExcelDefinition(
+    def get_block_definition(cls) -> BlockDefinition:
+        definition = BlockDefinition(
             name="Split Worklist",
             category="Pathways",
             hexidecimal_color="A0DAA9",

@@ -7,11 +7,12 @@ from django.db import models
 from loguru import logger
 from polymorphic.models import PolymorphicModel
 
-from excel.definitions import BlockDefinitionExcelDefinition
 from method.models import MethodWorkbookBase
 from plh_config.labware.models import PipettableLabware
 from solution.models import PredefinedSolution, UserDefinedSolution
 from worklist.models import WorklistColumn, WorklistColumnValue
+
+from ..definition import BlockDefinition
 
 PREFIX_CONTAINER_NAMES = "_CONTAINER: "
 PREFIX_PREDEFINED_SOLUTION_NAMES = ""
@@ -96,7 +97,7 @@ class BlockBase(PolymorphicModel):
 
     @classmethod
     @abstractmethod
-    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
+    def get_block_definition(cls) -> BlockDefinition:
         raise NotImplementedError
 
     def assign_parameters(
@@ -115,7 +116,7 @@ class BlockBase(PolymorphicModel):
             block=type(self).__name__,
         )
 
-        definition = self.get_excel_definition()
+        definition = self.get_block_definition()
 
         for parameter in definition.parameters:
             key_name = parameter.label
@@ -124,19 +125,26 @@ class BlockBase(PolymorphicModel):
 
             try:
                 value = kwargs.pop(key_name)
-                setattr(self, field_name, str(value))
+
+                if value is None:
+                    setattr(self, field_name, None)
+                    self.is_valid = False
+                    bound_logger.critical(
+                        f"Parameter '{key_name}' has no value",  # noqa: G004
+                    )
+                else:
+                    setattr(self, field_name, str(value))
 
             except KeyError:
                 setattr(self, field_name, None)
-
                 if advanced is False:
                     self.is_valid = False
                     bound_logger.critical(
-                        f"{key_name} is missing from the block parameters",  # noqa: G004
+                        f"Block is missing required parameter '{key_name}'",  # noqa: G004
                     )
 
     def validate_parameters(self):
-        definition = self.get_excel_definition()
+        definition = self.get_block_definition()
 
         bound_logger = logger.bind(
             source="ABN",

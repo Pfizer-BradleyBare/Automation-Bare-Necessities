@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from django.db import models
 
-from excel.definitions import BlockDefinitionExcelDefinition
-
+from ...definition import BlockDefinition
 from ..block_base import (
     DROPDOWN_PREFIXED_CONTAINER_NAMES,
     DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES,
@@ -23,8 +22,8 @@ class Dilute(BlockBase):
     max_source_volume = models.CharField(max_length=255, null=True, blank=True)  # noqa: DJ001
 
     @classmethod
-    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
-        definition = BlockDefinitionExcelDefinition(
+    def get_block_definition(cls) -> BlockDefinition:
+        definition = BlockDefinition(
             name="Dilute",
             category="Liquid Handling",
             hexidecimal_color="38A4D0",

@@ -2,8 +2,7 @@ from __future__ import annotations
 
 from django.db import models
 
-from excel.definitions import BlockDefinitionExcelDefinition
-
+from ...definition import BlockDefinition
 from ..block_base import BlockBase
 
 
@@ -13,8 +12,8 @@ class IncubateAndShake(BlockBase):
     shaking_rpm = models.CharField(max_length=255, null=True)  # noqa: DJ001
 
     @classmethod
-    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
-        definition = BlockDefinitionExcelDefinition(
+    def get_block_definition(cls) -> BlockDefinition:
+        definition = BlockDefinition(
             name="Incubate And Shake",
             category="Heat Cool Shake",
             hexidecimal_color="B17D5A",

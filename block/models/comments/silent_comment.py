@@ -1,7 +1,6 @@
 from django.db import models
 
-from excel.definitions import BlockDefinitionExcelDefinition
-
+from ...definition import BlockDefinition
 from ..block_base import BlockBase
 
 
@@ -9,8 +8,8 @@ class SilentComment(BlockBase):
     comment_text = models.TextField(null=True)  # noqa:DJ001
 
     @classmethod
-    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
-        definition = BlockDefinitionExcelDefinition(
+    def get_block_definition(cls) -> BlockDefinition:
+        definition = BlockDefinition(
             name="Silent Comment",
             category="Comments",
             hexidecimal_color="FED877",

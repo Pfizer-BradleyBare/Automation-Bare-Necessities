@@ -1,7 +1,6 @@
 from django.db import models
 
-from excel.definitions import BlockDefinitionExcelDefinition
-
+from ...definition import BlockDefinition
 from ..block_base import BlockBase
 
 
@@ -10,8 +9,8 @@ class RuntimeComment(BlockBase):
     wait_for_user_confirmation = models.CharField(max_length=100, blank=True, null=True)  # noqa:DJ001)
 
     @classmethod
-    def get_excel_definition(cls) -> BlockDefinitionExcelDefinition:
-        definition = BlockDefinitionExcelDefinition(
+    def get_block_definition(cls) -> BlockDefinition:
+        definition = BlockDefinition(
             name="Runtime Comment",
             category="Comments",
             hexidecimal_color="F7EF70",
