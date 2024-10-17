@@ -18,7 +18,7 @@ class Pipette(BlockBase):
     min_dispense_mix_cycles = models.CharField(max_length=255, null=True, blank=True)  # noqa: DJ001
 
     @classmethod
-    def get_block_definition(cls) -> BlockDefinition:
+    def get_definition(cls) -> BlockDefinition:
         definition = BlockDefinition(
             name="Pipette",
             category="Liquid Handling",

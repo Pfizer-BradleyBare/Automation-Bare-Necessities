@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from django.db import models
 
-from excel.definitions import SolutionPropertyPresetExcelDefinition
+from ..definition import SolutionPropertyPresetDefinition
 
 
 class SolutionPropertyPreset(models.Model):
@@ -44,8 +44,8 @@ class SolutionPropertyPreset(models.Model):
         ),
     )
 
-    def get_excel_definition(self) -> SolutionPropertyPresetExcelDefinition:
-        return SolutionPropertyPresetExcelDefinition(
+    def get_definition(self) -> SolutionPropertyPresetDefinition:
+        return SolutionPropertyPresetDefinition(
             name=self.name,
             liquid_type=self.liquid_type,
             volatility=self.volatility,

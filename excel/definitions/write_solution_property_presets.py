@@ -1,16 +1,6 @@
 import itertools
-from dataclasses import dataclass
 
 import xlwings
-
-
-@dataclass(kw_only=True)
-class SolutionPropertyPresetExcelDefinition:
-    name: str
-    liquid_type: str
-    volatility: str
-    viscosity: str
-    homogeneity: str
 
 
 def write_solution_property_presets_sheet(sheet: xlwings.Sheet):
@@ -21,7 +11,7 @@ def write_solution_property_presets_sheet(sheet: xlwings.Sheet):
     cells.append(["name", "liquid_type", "volatility", "viscosity", "homogeneity"])
 
     for preset in SolutionPropertyPreset.objects.all():
-        definition = preset.get_excel_definition()
+        definition = preset.get_definition()
 
         cells.append(
             [

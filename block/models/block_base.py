@@ -97,7 +97,7 @@ class BlockBase(PolymorphicModel):
 
     @classmethod
     @abstractmethod
-    def get_block_definition(cls) -> BlockDefinition:
+    def get_definition(cls) -> BlockDefinition:
         raise NotImplementedError
 
     def assign_parameters(
@@ -116,7 +116,7 @@ class BlockBase(PolymorphicModel):
             block=type(self).__name__,
         )
 
-        definition = self.get_block_definition()
+        definition = self.get_definition()
 
         for parameter in definition.parameters:
             key_name = parameter.label
@@ -144,7 +144,7 @@ class BlockBase(PolymorphicModel):
                     )
 
     def validate_parameters(self):
-        definition = self.get_block_definition()
+        definition = self.get_definition()
 
         bound_logger = logger.bind(
             source="ABN",

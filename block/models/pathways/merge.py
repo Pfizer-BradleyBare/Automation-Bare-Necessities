@@ -13,7 +13,7 @@ class Merge(BlockBase):
     container_type = models.CharField(max_length=255, null=True, blank=True)  # noqa: DJ001
 
     @classmethod
-    def get_block_definition(cls) -> BlockDefinition:
+    def get_definition(cls) -> BlockDefinition:
         definition = BlockDefinition(
             name="Merge",
             category="Pathways",

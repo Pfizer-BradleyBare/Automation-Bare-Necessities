@@ -4,8 +4,7 @@ from typing import Literal, cast
 
 from django.db import models
 
-from excel.definitions import SolutionDefinitionExcelDefinition
-
+from ..definition import SolutionDefinition
 from .solution_component import SolutionComponent
 from .user_defined_component_base import UserDefinedComponentBase
 
@@ -55,8 +54,8 @@ class UserDefinedSolution(UserDefinedComponentBase):
         models.ManyToManyField(to=SolutionComponent, blank=True)
     )
 
-    def get_excel_definition(self) -> SolutionDefinitionExcelDefinition:
-        definition = SolutionDefinitionExcelDefinition(
+    def get_definition(self) -> SolutionDefinition:
+        definition = SolutionDefinition(
             name=self.name,
             liquid_type=self.liquid_type,
             volatility=self.volatility,

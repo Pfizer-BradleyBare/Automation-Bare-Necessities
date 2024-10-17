@@ -6,7 +6,7 @@ from .block_base import BlockBase
 
 class MethodStart(BlockBase):
     @classmethod
-    def get_block_definition(cls) -> BlockDefinition:
+    def get_definition(cls) -> BlockDefinition:
         return BlockDefinition(
             name="--Method Start--",
             category="__IGNORE__",

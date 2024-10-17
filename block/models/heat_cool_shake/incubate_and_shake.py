@@ -12,7 +12,7 @@ class IncubateAndShake(BlockBase):
     shaking_rpm = models.CharField(max_length=255, null=True)  # noqa: DJ001
 
     @classmethod
-    def get_block_definition(cls) -> BlockDefinition:
+    def get_definition(cls) -> BlockDefinition:
         definition = BlockDefinition(
             name="Incubate And Shake",
             category="Heat Cool Shake",

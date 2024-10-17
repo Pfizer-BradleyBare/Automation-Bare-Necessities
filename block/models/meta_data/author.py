@@ -8,7 +8,7 @@ class Author(BlockBase):
     meta_data_text = models.TextField(null=True)  # noqa:DJ001
 
     @classmethod
-    def get_block_definition(cls) -> BlockDefinition:
+    def get_definition(cls) -> BlockDefinition:
         definition = BlockDefinition(
             name="Author",
             category="Meta Data",
