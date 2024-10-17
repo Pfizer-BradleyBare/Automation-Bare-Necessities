@@ -1,6 +1,7 @@
 from django.db import models
 
 from ...definition import BlockDefinition
+from ...validators import container_validator, labware_validator, string_validator
 from ..block_base import (
     DROPDOWN_CONTAINER_LABWARE_NAMES,
     DROPDOWN_CONTAINER_NAMES,
@@ -28,7 +29,9 @@ class ActivateContainer(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_NAMES}",
             free_text=True,
             block_field_name="name",
-            block_field_type=str,
+            block_field_validators=[
+                [(container_validator, ()), (string_validator, ())],
+            ],
         )
         definition.add_parameter(
             label="Type",
@@ -37,7 +40,7 @@ class ActivateContainer(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_LABWARE_NAMES}",
             free_text=False,
             block_field_name="type",
-            block_field_type=str,
+            block_field_validators=[[(labware_validator, ())]],
         )
 
         return definition
