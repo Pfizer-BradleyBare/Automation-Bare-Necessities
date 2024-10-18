@@ -1,6 +1,12 @@
 from django.db import models
 
 from ...definition import BlockDefinition
+from ...validators import (
+    container_validator,
+    dropdown_validator,
+    free_text_validator,
+    labware_validator,
+)
 from ..block_base import (
     DROPDOWN_CONTAINER_LABWARE_NAMES,
     DROPDOWN_CONTAINER_NAMES,
@@ -34,7 +40,7 @@ class SplitWorklist(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_NAMES}",
             free_text=True,
             block_field_name="left_container_name",
-            block_field_type=str,
+            block_field_validators=[container_validator, free_text_validator],
         )
 
         definition.add_parameter(
@@ -44,7 +50,7 @@ class SplitWorklist(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_NAMES}",
             free_text=True,
             block_field_name="right_container_name",
-            block_field_type=str,
+            block_field_validators=[container_validator, free_text_validator],
         )
 
         definition.add_parameter(
@@ -54,7 +60,7 @@ class SplitWorklist(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_LABWARE_NAMES}",
             free_text=False,
             block_field_name="left_container_type",
-            block_field_type=str,
+            block_field_validators=[labware_validator],
         )
 
         definition.add_parameter(
@@ -64,7 +70,7 @@ class SplitWorklist(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_LABWARE_NAMES}",
             free_text=False,
             block_field_name="right_container_type",
-            block_field_type=str,
+            block_field_validators=[labware_validator],
         )
 
         definition.add_parameter(
@@ -74,7 +80,19 @@ class SplitWorklist(BlockBase):
             dropdown_items=f"Both (Full Volume),Both (Half Volume),{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=False,
             block_field_name="container_choice",
-            block_field_type=str,
+            block_field_validators=[
+                (
+                    dropdown_validator,
+                    {
+                        "acceptable_values": [
+                            "Both (Full Volume)",
+                            "Both (Half Volume)",
+                            "%%left_container_name",
+                            "%%right_container_name",
+                        ],
+                    },
+                ),
+            ],
         )
 
         return definition

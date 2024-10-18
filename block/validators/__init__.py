@@ -6,6 +6,7 @@ from .none_validator import none_validator
 from .number_validator import number_validator
 from .predefined_solution_validator import predefined_solution_validator
 from .user_defined_solution_validator import user_defined_solution_validator
+from .worklist_column_validator import worklist_column_validator
 
 __all__ = [
     "container_validator",
@@ -16,4 +17,5 @@ __all__ = [
     "free_text_validator",
     "user_defined_solution_validator",
     "labware_validator",
+    "worklist_column_validator",
 ]

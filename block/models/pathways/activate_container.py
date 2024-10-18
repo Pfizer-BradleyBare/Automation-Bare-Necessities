@@ -29,9 +29,7 @@ class ActivateContainer(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_NAMES}",
             free_text=True,
             block_field_name="name",
-            block_field_validators=[
-                [(container_validator, ()), (free_text_validator, ())],
-            ],
+            block_field_validators=[container_validator, free_text_validator],
         )
         definition.add_parameter(
             label="Type",
@@ -40,7 +38,7 @@ class ActivateContainer(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_LABWARE_NAMES}",
             free_text=False,
             block_field_name="type",
-            block_field_validators=[[(labware_validator, ())]],
+            block_field_validators=[labware_validator],
         )
 
         return definition

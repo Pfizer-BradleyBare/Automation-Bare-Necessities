@@ -1,6 +1,7 @@
 from django.db import models
 
 from ...definition import BlockDefinition
+from ...validators import free_text_validator
 from ..block_base import BlockBase
 
 
@@ -23,7 +24,7 @@ class Modality(BlockBase):
             dropdown_items="",
             free_text=True,
             block_field_name="meta_data_text",
-            block_field_type=str,
+            block_field_validators=[free_text_validator],
         )
 
         return definition

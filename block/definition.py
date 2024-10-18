@@ -30,7 +30,7 @@ class BlockDefinition:
         A list of list of validators can be provided to be run against a value. 
         The sub list is a validator grouping, thus if any validator returns as true then the value is determined to be valid (used for validating worklist columns).
         An optional dictionary of kwargs can be supplied as required by the validator function.
-        If any kwargs start with %% then the value will be replaced (attempted) with the corresponding field value in the model.
+        If any kwargs start with %% then the value will be replaced (attempted) with the corresponding field value in the model. Only valid for kwargs of list[str] and str
         """
 
     name: str

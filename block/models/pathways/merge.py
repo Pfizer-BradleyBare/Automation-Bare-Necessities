@@ -1,6 +1,7 @@
 from django.db import models
 
 from ...definition import BlockDefinition
+from ...validators import container_validator, free_text_validator, labware_validator
 from ..block_base import (
     DROPDOWN_CONTAINER_LABWARE_NAMES,
     DROPDOWN_CONTAINER_NAMES,
@@ -28,7 +29,7 @@ class Merge(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_NAMES}",
             free_text=True,
             block_field_name="container_name",
-            block_field_type=str,
+            block_field_validators=[container_validator, free_text_validator],
         )
 
         definition.add_parameter(
@@ -38,7 +39,7 @@ class Merge(BlockBase):
             dropdown_items=f"{DROPDOWN_CONTAINER_LABWARE_NAMES}",
             free_text=False,
             block_field_name="container_type",
-            block_field_type=str,
+            block_field_validators=[labware_validator],
         )
 
         return definition
