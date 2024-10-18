@@ -112,8 +112,8 @@ class BlockBase(PolymorphicModel):
         bound_logger = logger.bind(
             source="ABN",
             method=str(self.method),
-            row=self.row,
-            column=self.column,
+            row=self.row + 1,
+            column=self.column + 2,
             block=type(self).__name__,
         )
 
@@ -156,8 +156,8 @@ class BlockBase(PolymorphicModel):
         bound_logger = logger.bind(
             source="ABN",
             method=str(self.method),
-            row=self.row,
-            column=self.column,
+            row=self.row + 1,
+            column=self.column + 2,
             block=type(self).__name__,
         )
 
@@ -330,4 +330,4 @@ class BlockBase(PolymorphicModel):
         cls.block_subclasses[cls.__name__] = cls
 
     def __str__(self) -> str:
-        return f"{self.method}: {self.row}|{self.column} -> {type(self).__name__} "
+        return f"{self.method}: {self.row+1}|{self.column+2} -> {type(self).__name__} "

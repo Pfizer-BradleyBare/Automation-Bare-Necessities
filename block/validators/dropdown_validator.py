@@ -8,7 +8,7 @@ from method.models import MethodWorkbookBase
 def dropdown_validator(
     value: Any,
     _: MethodWorkbookBase,
-    acceptable_values: list[str],
+    kwargs: dict[str, Any],
 ) -> bool:
     """Check if the value is a valid acceptable value present in a dropdown. Expects -> acceptable_values: list[str]."""
-    return value in acceptable_values
+    return value in kwargs["acceptable_values"]

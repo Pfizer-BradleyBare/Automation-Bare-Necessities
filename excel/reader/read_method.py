@@ -36,8 +36,8 @@ def read_block(
     parameters: dict[str, Any] = {}
 
     parameters["method"] = method
-    parameters["row"] = row_index + 1
-    parameters["column"] = column_index + 2
+    parameters["row"] = row_index
+    parameters["column"] = column_index
 
     while True:
         row_index += 1
