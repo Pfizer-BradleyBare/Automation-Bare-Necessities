@@ -226,8 +226,6 @@ class BlockBase(PolymorphicModel):
                 values = [value]
             # If value is a worklist column then we need to convert it.
 
-            print(label)
-
             # attempt to run the validator
             for item in block_field_validators:
                 validators = item if isinstance(item, list) else [item]
