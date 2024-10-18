@@ -1,6 +1,7 @@
 from django.db import models
 
 from ...definition import BlockDefinition
+from ...validators import dropdown_validator, free_text_validator
 from ..block_base import BlockBase
 
 
@@ -24,7 +25,7 @@ class RuntimeComment(BlockBase):
             dropdown_items="",
             free_text=True,
             block_field_name="comment_text",
-            block_field_type=str,
+            block_field_validators=[free_text_validator],
         )
 
         definition.add_parameter(
@@ -34,7 +35,9 @@ class RuntimeComment(BlockBase):
             dropdown_items="Yes",
             free_text=False,
             block_field_name="wait_for_user_confirmation",
-            block_field_type=str,
+            block_field_validators=[
+                (dropdown_validator, {"acceptable_values": ["Yes"]}),
+            ],
         )
 
         return definition

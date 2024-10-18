@@ -1,7 +1,7 @@
 from django.db import models
 
 from ...definition import BlockDefinition
-from ...validators import container_validator, labware_validator, string_validator
+from ...validators import container_validator, free_text_validator, labware_validator
 from ..block_base import (
     DROPDOWN_CONTAINER_LABWARE_NAMES,
     DROPDOWN_CONTAINER_NAMES,
@@ -30,7 +30,7 @@ class ActivateContainer(BlockBase):
             free_text=True,
             block_field_name="name",
             block_field_validators=[
-                [(container_validator, ()), (string_validator, ())],
+                [(container_validator, ()), (free_text_validator, ())],
             ],
         )
         definition.add_parameter(

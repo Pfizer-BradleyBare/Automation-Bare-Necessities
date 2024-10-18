@@ -128,10 +128,16 @@ class BlockBase(PolymorphicModel):
 
                 if value is None:
                     setattr(self, field_name, None)
-                    self.is_valid = False
-                    bound_logger.critical(
-                        f"Parameter '{key_name}' has no value",  # noqa: G004
-                    )
+
+                    if advanced is False:
+                        self.is_valid = False
+                        bound_logger.critical(
+                            f"Required parameter '{key_name}' was provided but has no value",  # noqa: G004
+                        )
+                    else:
+                        bound_logger.warning(
+                            f"Advanced parameter '{key_name}' was provided but has no value. Will be ignored.",  # noqa: G004
+                        )
                 else:
                     setattr(self, field_name, str(value))
 
@@ -140,7 +146,7 @@ class BlockBase(PolymorphicModel):
                 if advanced is False:
                     self.is_valid = False
                     bound_logger.critical(
-                        f"Block is missing required parameter '{key_name}'",  # noqa: G004
+                        f"Expected required parameter '{key_name}' was not found.",  # noqa: G004
                     )
 
     def validate_parameters(self):
