@@ -4,9 +4,9 @@ from django.db import models
 
 from ...definition import BlockDefinition
 from ...validators import (
+    a_number_validator,
     container_validator,
-    none_validator,
-    number_validator,
+    empty_validator,
     predefined_solution_validator,
     user_defined_solution_validator,
 )
@@ -60,7 +60,7 @@ class Dilute(BlockBase):
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=True,
             block_field_name="target_concentration",
-            block_field_validators=[number_validator, none_validator],
+            block_field_validators=[a_number_validator, empty_validator],
         )
 
         definition.add_parameter(
@@ -70,7 +70,7 @@ class Dilute(BlockBase):
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=True,
             block_field_name="target_volume",
-            block_field_validators=[number_validator, none_validator],
+            block_field_validators=[a_number_validator, empty_validator],
         )
 
         definition.add_parameter(
@@ -80,7 +80,7 @@ class Dilute(BlockBase):
             dropdown_items="",
             free_text=True,
             block_field_name="min_aspirate_mix_cycles",
-            block_field_validators=[number_validator],
+            block_field_validators=[a_number_validator],
         )
 
         definition.add_parameter(
@@ -90,7 +90,7 @@ class Dilute(BlockBase):
             dropdown_items="",
             free_text=True,
             block_field_name="min_dispense_mix_cycles",
-            block_field_validators=[number_validator],
+            block_field_validators=[a_number_validator],
         )
 
         definition.add_parameter(
@@ -100,7 +100,7 @@ class Dilute(BlockBase):
             dropdown_items="",
             free_text=True,
             block_field_name="max_source_volume",
-            block_field_validators=[number_validator],
+            block_field_validators=[a_number_validator],
         )
 
         return definition

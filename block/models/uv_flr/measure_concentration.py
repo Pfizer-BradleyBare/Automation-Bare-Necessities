@@ -1,7 +1,7 @@
 from django.db import models
 
 from ...definition import BlockDefinition
-from ...validators import none_validator, number_validator, worklist_column_validator
+from ...validators import a_number_validator, empty_validator, worklist_column_validator
 from ..block_base import (
     DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES,
     DROPDOWN_WORKLIST_COLUMN_NAMES,
@@ -39,7 +39,7 @@ class MeasureConcentration(BlockBase):
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=True,
             block_field_name="extinction_coefficient",
-            block_field_validators=[number_validator, none_validator],
+            block_field_validators=[a_number_validator, empty_validator],
         )
 
         return definition

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import functools
+import operator
 from abc import abstractmethod
 from typing import ClassVar, TypeAlias, cast
 
@@ -8,11 +10,10 @@ from loguru import logger
 from polymorphic.models import PolymorphicModel
 
 from method.models import MethodWorkbookBase
-from plh_config.labware.models import PipettableLabware
-from solution.models import PredefinedSolution, UserDefinedSolution
 from worklist.models import WorklistColumn, WorklistColumnValue
 
 from ..definition import BlockDefinition
+from ..validators import dropdown_validator, empty_validator, worklist_column_validator
 
 PREFIX_CONTAINER_NAMES = "_CONTAINER: "
 PREFIX_PREDEFINED_SOLUTION_NAMES = ""
@@ -162,115 +163,170 @@ class BlockBase(PolymorphicModel):
 
         for parameter in definition.parameters:
             label = parameter.label
-            field_name = parameter.block_field_name
-            field_type = parameter.block_field_type
-            free_text = parameter.free_text
-            dropdown_items = parameter.dropdown_items.split(",")
+            block_field_validators = parameter.block_field_validators
+            dropdown_items = parameter.dropdown_items
+            validation_results: list[bool] = []
+            validation_error_response_items: list[str] = []
 
-            value = cast(str | None, getattr(self, field_name))
+            try:
+                value = cast(str | None, getattr(self, parameter.block_field_name))
+            except AttributeError:
+                self.is_valid = False
+                continue
 
             if value is None:
                 continue
-            # This is a missing parameter. User notification is performed when we assign parameters. Let's not repeat it.
+            # This is already handled when we assign parameters. Let's not do it twice.
 
+            value = value.replace(PREFIX_WORKLIST_COLUMN_NAMES, "")
+            # The only thing we care about is that the value can describe a worklist column. So let's remove that prefix now for easy handling.
+
+            # Very simply, we are flattening the list of validators and removing the kwargs so that we can check if the worklist validator is present.
             if (
                 DROPDOWN_WORKLIST_COLUMN_NAMES in dropdown_items
                 or DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES in dropdown_items
+                and worklist_column_validator
+                not in functools.reduce(
+                    operator.iadd,
+                    [
+                        ([item] if not isinstance(item, tuple) else [item[0]])
+                        if not isinstance(item, list)
+                        else [
+                            [sub_item]
+                            if not isinstance(sub_item, tuple)
+                            else [sub_item[0]]
+                            for sub_item in item
+                        ]
+                        for item in block_field_validators
+                    ],
+                    [],
+                )
             ):
                 column_query = WorklistColumn.objects.filter(
+                    name=value,
                     method=self.method,
-                    name=value.replace(PREFIX_WORKLIST_COLUMN_NAMES, ""),
                 )
 
                 if column_query.exists():
+                    is_worklist_column = True
                     column = column_query.get()
 
                     values = [
                         column_value.value
                         for column_value in WorklistColumnValue.objects.filter(
                             worklist_column=column,
-                        ).all()
-                    ]
-
-                    if None in values:
-                        bound_logger.critical(
-                            f"Worklist column '{value}' contains empty cells. Every cell must have a value.",  # noqa:G004
                         )
-                        continue
-
-                    is_worklist_column = True
-                    values = cast(list[str], values)
+                    ]
                 else:
                     is_worklist_column = False
                     values = [value]
+
             else:
+                is_worklist_column = False
                 values = [value]
+            # If value is a worklist column then we need to convert it.
 
-            for value in values:
-                if value in dropdown_items:
-                    continue
+            print(label)
 
-                if free_text is True:
-                    if field_type is float:
-                        try:
-                            float(value)
-                            continue
-                        except ValueError:
-                            ...
-                    if field_type is str:
-                        try:
-                            str(value)
-                            continue
-                        except ValueError:
-                            ...
+            # attempt to run the validator
+            for item in block_field_validators:
+                validators = item if isinstance(item, list) else [item]
 
-                if (
-                    DROPDOWN_CONTAINER_NAMES in dropdown_items
-                    or DROPDOWN_PREFIXED_CONTAINER_NAMES in dropdown_items
-                ):
-                    from .pathways import ActivateContainer
+                sub_validation_results: list[bool] = []
 
-                    if ActivateContainer.objects.filter(
-                        method=self.method,
-                        name=value.replace(PREFIX_CONTAINER_NAMES, ""),
-                    ).exists():
-                        continue
+                for validator in validators:
+                    # There are kwargs included so we should search and replace as needed.
+                    if isinstance(validator, tuple):
+                        validation_function, kwargs = validator
 
-                if (
-                    DROPDOWN_CONTAINER_LABWARE_NAMES in dropdown_items
-                    or DROPDOWN_PREFIXED_CONTAINER_LABWARE_NAMES in dropdown_items
-                ):
-                    None
+                        updated_kwargs = {}
+                        for kwarg_key, kwarg_value in kwargs.items():
+                            if isinstance(kwarg_value, list):
+                                updated_kwarg_list = []
+                                for value in kwarg_value:
+                                    if "%%" in str(value):
+                                        try:
+                                            updated_kwarg_list.append(
+                                                getattr(
+                                                    self,
+                                                    str(value).replace("%%", ""),
+                                                ),
+                                            )
+                                        except AttributeError:
+                                            updated_kwarg_list.append(value)
+                                    else:
+                                        updated_kwarg_list.append(value)
+                                updated_kwargs[kwarg_key] = updated_kwarg_list
 
-                    if PipettableLabware.objects.filter(
-                        identifier=value.replace(PREFIX_CONTAINER_LABWARE_NAMES, ""),
-                    ).exists():
-                        continue
+                            elif isinstance(kwarg_value, str):
+                                if "%%" in kwarg_value:
+                                    try:
+                                        updated_kwargs[kwarg_key] = getattr(
+                                            self,
+                                            str(value).replace("%%", ""),
+                                        )
+                                    except AttributeError:
+                                        updated_kwargs[kwarg_key] = kwarg_value
 
-                if (
-                    DROPDOWN_PREDEFINED_SOLUTION_NAMES in dropdown_items
-                    or DROPDOWN_PREFIXED_PREDEFINED_SOLUTION_NAMES in dropdown_items
-                ):
-                    None
+                        sub_validation_results += [
+                            validation_function(value, self.method, updated_kwargs)
+                            for value in values
+                        ]
 
-                    if PredefinedSolution.objects.filter(
-                        name=value.replace(PREFIX_PREDEFINED_SOLUTION_NAMES, ""),
-                    ).exists():
-                        continue
+                        if validation_function is dropdown_validator:
+                            acceptable_values = updated_kwargs["acceptable_values"]
+                            validation_error_response_items += [
+                                ", ".join(acceptable_values),
+                            ]
+                        else:
+                            validation_error_response_items += [
+                                validation_function.__name__,
+                            ]
 
-                if (
-                    DROPDOWN_USER_DEFINED_SOLUTION_NAMES in dropdown_items
-                    or DROPDOWN_PREFIXED_USER_DEFINED_SOLUTION_NAMES in dropdown_items
-                ):
-                    None
+                    else:
+                        sub_validation_results += [
+                            validator(value, self.method) for value in values
+                        ]
 
-                    if UserDefinedSolution.objects.filter(
-                        name=value.replace(PREFIX_USER_DEFINED_SOLUTION_NAMES, ""),
-                        method=self.method,
-                    ).exists():
-                        continue
+                        validation_error_response_items += [validator.__name__]
 
-                bound_logger.critical(f"{label} is not VALID.")
+                validation_results.append(
+                    False if sum(sub_validation_results) < len(values) else True,  # noqa: SIM211
+                )
+
+            if bool(sum(validation_results)) is not True:
+                if is_worklist_column is False:
+                    validation_error_response_items = [
+                        item.replace("_validator", "").replace("_", " ").title()
+                        for item in validation_error_response_items
+                        if item != empty_validator.__name__
+                    ]
+
+                    validation_error_response_items = functools.reduce(
+                        operator.iadd,
+                        [item.split(",") for item in validation_error_response_items],
+                        [],
+                    )
+                    bound_logger.critical(
+                        f"Parameter '{label}' is not valid. Valid options include: \n*{'\n*'.join(validation_error_response_items)}",  # noqa:G004
+                    )
+                else:
+                    validation_error_response_items = [
+                        item.replace("_validator", "").replace("_", " ").title()
+                        for item in validation_error_response_items
+                    ]
+                    for index, item in enumerate(validation_error_response_items):
+                        if "," in item:
+                            validation_error_response_items[index] = (
+                                f"All rows are a combination of: '{item}'"
+                            )
+                        else:
+                            validation_error_response_items[index] = (
+                                f"All rows are '{item}'"
+                            )
+                    bound_logger.critical(
+                        f"Worklist column '{value}' for Parameter '{label}' is not valid. Valid options include: \n*{'\n*'.join(validation_error_response_items)}",  # noqa:G004
+                    )
 
     def __init_subclass__(cls: type[BlockBase]) -> None:
         cls.block_subclasses[cls.__name__] = cls

@@ -2,9 +2,9 @@ from django.db import models
 
 from ...definition import BlockDefinition
 from ...validators import (
+    a_number_validator,
     container_validator,
-    none_validator,
-    number_validator,
+    empty_validator,
     predefined_solution_validator,
     user_defined_solution_validator,
 )
@@ -56,7 +56,7 @@ class Pipette(BlockBase):
             dropdown_items=f"{DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES}",
             free_text=True,
             block_field_name="volume",
-            block_field_validators=[none_validator, number_validator],
+            block_field_validators=[empty_validator, a_number_validator],
         )
 
         definition.add_parameter(
@@ -66,7 +66,7 @@ class Pipette(BlockBase):
             dropdown_items="",
             free_text=True,
             block_field_name="min_aspirate_mix_cycles",
-            block_field_validators=[number_validator],
+            block_field_validators=[a_number_validator],
         )
 
         definition.add_parameter(
@@ -76,7 +76,7 @@ class Pipette(BlockBase):
             dropdown_items="",
             free_text=True,
             block_field_name="min_dispense_mix_cycles",
-            block_field_validators=[number_validator],
+            block_field_validators=[a_number_validator],
         )
 
         return definition

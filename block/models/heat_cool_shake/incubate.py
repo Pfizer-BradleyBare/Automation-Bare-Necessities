@@ -1,7 +1,7 @@
 from django.db import models
 
 from ...definition import BlockDefinition
-from ...validators import number_validator
+from ...validators import a_number_validator
 from ..block_base import BlockBase
 
 
@@ -25,7 +25,7 @@ class Incubate(BlockBase):
             dropdown_items="",
             free_text=True,
             block_field_name="time",
-            block_field_validators=[number_validator],
+            block_field_validators=[a_number_validator],
         )
 
         definition.add_parameter(
@@ -35,7 +35,7 @@ class Incubate(BlockBase):
             dropdown_items="",
             free_text=True,
             block_field_name="temperature",
-            block_field_validators=[number_validator],
+            block_field_validators=[a_number_validator],
         )
 
         return definition
