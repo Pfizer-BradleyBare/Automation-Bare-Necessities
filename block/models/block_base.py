@@ -211,7 +211,7 @@ class BlockBase(PolymorphicModel):
                     is_worklist_column = True
                     column = column_query.get()
 
-                    values = [
+                    column_values = [
                         column_value.value
                         for column_value in WorklistColumnValue.objects.filter(
                             worklist_column=column,
@@ -219,11 +219,11 @@ class BlockBase(PolymorphicModel):
                     ]
                 else:
                     is_worklist_column = False
-                    values = [value]
+                    column_values = [value]
 
             else:
                 is_worklist_column = False
-                values = [value]
+                column_values = [value]
             # If value is a worklist column then we need to convert it.
 
             # attempt to run the validator
@@ -241,19 +241,19 @@ class BlockBase(PolymorphicModel):
                         for kwarg_key, kwarg_value in kwargs.items():
                             if isinstance(kwarg_value, list):
                                 updated_kwarg_list = []
-                                for value in kwarg_value:
-                                    if "%%" in str(value):
+                                for list_value in kwarg_value:
+                                    if "%%" in str(list_value):
                                         try:
                                             updated_kwarg_list.append(
                                                 getattr(
                                                     self,
-                                                    str(value).replace("%%", ""),
+                                                    str(list_value).replace("%%", ""),
                                                 ),
                                             )
                                         except AttributeError:
-                                            updated_kwarg_list.append(value)
+                                            updated_kwarg_list.append(list_value)
                                     else:
-                                        updated_kwarg_list.append(value)
+                                        updated_kwarg_list.append(list_value)
                                 updated_kwargs[kwarg_key] = updated_kwarg_list
 
                             elif isinstance(kwarg_value, str):
@@ -261,14 +261,16 @@ class BlockBase(PolymorphicModel):
                                     try:
                                         updated_kwargs[kwarg_key] = getattr(
                                             self,
-                                            str(value).replace("%%", ""),
+                                            str(kwarg_value).replace("%%", ""),
                                         )
                                     except AttributeError:
                                         updated_kwargs[kwarg_key] = kwarg_value
 
                         sub_validation_results += [
-                            validation_function(value, self.method, updated_kwargs)
-                            for value in values
+                            validation_function(
+                                column_value, self.method, **updated_kwargs
+                            )
+                            for column_value in column_values
                         ]
 
                         if validation_function is dropdown_validator:
@@ -283,13 +285,14 @@ class BlockBase(PolymorphicModel):
 
                     else:
                         sub_validation_results += [
-                            validator(value, self.method) for value in values
+                            validator(column_value, self.method)
+                            for column_value in column_values
                         ]
 
                         validation_error_response_items += [validator.__name__]
 
                 validation_results.append(
-                    False if sum(sub_validation_results) < len(values) else True,  # noqa: SIM211
+                    False if sum(sub_validation_results) < len(column_values) else True,  # noqa: SIM211
                 )
 
             if bool(sum(validation_results)) is not True:
