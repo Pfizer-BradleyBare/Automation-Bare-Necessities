@@ -5,9 +5,7 @@ from debug.models import LogLevelOptions, LogSourceOptions, Trace
 
 
 class IndexContextView(NavbarView):
-
     def get_context_data(self, **kwargs) -> dict:
-
         num_objects = 500
 
         kwargs.setdefault("log_source", "ALL")
@@ -33,7 +31,8 @@ class IndexContextView(NavbarView):
             for debug_message in str(debug_message).split(","):
                 query = query.filter(message__icontains=debug_message.strip())
 
-        objects = query.all()[:num_objects]
+        objects = list(query.all().reverse()[:num_objects])
+        objects.reverse()
 
         context = {
             "rows": [

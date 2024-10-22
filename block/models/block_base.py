@@ -46,7 +46,7 @@ BlockBaseType: TypeAlias = "BlockBase"
 
 class BlockBase(PolymorphicModel):
     block_subclasses: ClassVar[dict[str, type[BlockBase]]] = {}
-    is_valid: bool = True
+    is_valid = models.BooleanField(editable=False, default=False)
 
     method = models.ForeignKey(to=MethodWorkbookBase, on_delete=models.CASCADE)
     row = models.IntegerField()
@@ -105,16 +105,21 @@ class BlockBase(PolymorphicModel):
         self,
         **kwargs: float | str | MethodWorkbookBase,
     ):
+        bound_logger = logger.bind(
+            source="ABN",
+            block=type(self).__name__,
+        )
+
+        bound_logger.debug("assign_parameters")
+
         self.row = cast(int, kwargs.get("row"))
         self.column = cast(int, kwargs.get("column"))
         self.method = cast(MethodWorkbookBase, kwargs.get("method"))
 
-        bound_logger = logger.bind(
-            source="ABN",
+        bound_logger = bound_logger.bind(
             method=str(self.method),
             row=self.row + 1,
             column=self.column + 2,
-            block=type(self).__name__,
         )
 
         definition = self.get_definition()
@@ -123,6 +128,8 @@ class BlockBase(PolymorphicModel):
             key_name = parameter.label
             field_name = parameter.block_field_name
             advanced = parameter.advanced
+
+            bound_logger.debug(f"Assigning parameter '{key_name}'")
 
             try:
                 value = kwargs.pop(key_name)
@@ -137,9 +144,12 @@ class BlockBase(PolymorphicModel):
                         )
                     else:
                         bound_logger.warning(
-                            f"Advanced parameter '{key_name}' was provided but has no value. Will be ignored.",  # noqa: G004
+                            f"Advanced parameter '{key_name}' was provided but has no value. Will be ignored",  # noqa: G004
                         )
                 else:
+                    bound_logger.debug(
+                        f"Value '{value}'",  # noqa: G004
+                    )
                     setattr(self, field_name, str(value))
 
             except KeyError:
@@ -147,12 +157,16 @@ class BlockBase(PolymorphicModel):
                 if advanced is False:
                     self.is_valid = False
                     bound_logger.critical(
-                        f"Expected required parameter '{key_name}' was not found.",  # noqa: G004
+                        f"Expected required parameter '{key_name}' was not found",  # noqa: G004
+                    )
+                else:
+                    bound_logger.critical(
+                        f"Advanced parameter '{key_name}' was not found. Will be ignored",  # noqa: G004
                     )
 
-    def validate_parameters(self):
-        definition = self.get_definition()
+        bound_logger.info("Parameters assigned")
 
+    def validate_parameters(self):
         bound_logger = logger.bind(
             source="ABN",
             method=str(self.method),
@@ -161,20 +175,30 @@ class BlockBase(PolymorphicModel):
             block=type(self).__name__,
         )
 
+        bound_logger.debug("validate_parameters")
+
+        definition = self.get_definition()
+
+        is_valid = True
         for parameter in definition.parameters:
             label = parameter.label
             block_field_validators = parameter.block_field_validators
             dropdown_items = parameter.dropdown_items
             validation_results: list[bool] = []
             validation_error_response_items: list[str] = []
+            advanced = parameter.advanced
+
+            bound_logger.debug(f"Validating parameter '{label}'")
 
             try:
                 value = cast(str | None, getattr(self, parameter.block_field_name))
             except AttributeError:
-                self.is_valid = False
+                self.is_valid &= False
                 continue
 
             if value is None:
+                if advanced is False:
+                    is_valid &= False
                 continue
             # This is already handled when we assign parameters. Let's not do it twice.
 
@@ -221,6 +245,11 @@ class BlockBase(PolymorphicModel):
                 is_worklist_column = False
                 column_values = [value]
             # If value is a worklist column then we need to convert it.
+
+            if is_worklist_column is True:
+                bound_logger.debug(f"'{value}' is a worklist column")
+            else:
+                bound_logger.debug(f"'{value}' is NOT a worklist column")
 
             # attempt to run the validator
             for item in block_field_validators:
@@ -294,6 +323,7 @@ class BlockBase(PolymorphicModel):
                 )
 
             if bool(sum(validation_results)) is not True:
+                is_valid &= False
                 if is_worklist_column is False:
                     validation_error_response_items = [
                         item.replace("_validator", "").replace("_", " ").title()
@@ -326,6 +356,10 @@ class BlockBase(PolymorphicModel):
                     bound_logger.critical(
                         f"Worklist column '{value}' for Parameter '{label}' is not valid. Valid options include: \n*{'\n*'.join(validation_error_response_items)}",  # noqa:G004
                     )
+            else:
+                bound_logger.debug(f"Parameter '{label}' is valid")
+
+        bound_logger.info("Parameters validated")
 
     def __init_subclass__(cls: type[BlockBase]) -> None:
         cls.block_subclasses[cls.__name__] = cls

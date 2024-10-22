@@ -1,6 +1,7 @@
 from typing import Any, cast
 
 import xlwings
+from loguru import logger
 
 from block.models import BlockBase, MethodStart
 from method.models import MethodWorkbookBase
@@ -12,6 +13,15 @@ def read_block(
     row_index: int,
     column_index: int,
 ) -> BlockBase:
+    bound_logger = logger.bind(
+        source="ABN",
+        method=str(method),
+        row_index=row_index,
+        column_index=column_index,
+    )
+
+    bound_logger.debug("read_block")
+
     rows: list[list[Any]] = cast(list, sheet.used_range.value)
 
     query = BlockBase.objects.filter(
@@ -21,6 +31,7 @@ def read_block(
     )
 
     if query.exists():
+        bound_logger.debug("Block already read")
         return query.get()
 
     block_type_name = (
@@ -32,12 +43,16 @@ def read_block(
         .replace(" ", "")
     )
 
+    bound_logger.debug(f"Reading '{block_type_name}")
+
     # extract parameters
     parameters: dict[str, Any] = {}
 
     parameters["method"] = method
     parameters["row"] = row_index
     parameters["column"] = column_index
+
+    bound_logger.debug("Reading parameters")
 
     while True:
         row_index += 1
@@ -56,6 +71,8 @@ def read_block(
     block = BlockBase.block_subclasses[block_type_name]()
     block.assign_parameters(**parameters)
     block.validate_parameters()
+
+    bound_logger.debug("Block read")
 
     return block
 
@@ -78,10 +95,6 @@ def read_recursive(
     )
 
     while True:
-        import time
-
-        time.sleep(1)
-
         # Find first empty cell
         while rows[row_index][column_index] is not None:
             row_index += 1
@@ -192,6 +205,13 @@ def read_recursive(
 
 
 def read_method(method: MethodWorkbookBase, sheet: xlwings.Sheet):
+    bound_logger = logger.bind(
+        source="ABN",
+        method=str(method),
+    )
+
+    bound_logger.debug("read_method")
+
     row_index = 0
     column_index = 0
 
@@ -205,6 +225,8 @@ def read_method(method: MethodWorkbookBase, sheet: xlwings.Sheet):
             break
 
         row_index += 1
+
+    bound_logger.debug(f"Method start found at row={row_index}, column={column_index}")
 
     start_step = MethodStart(method=method, row=row_index, column=column_index)
     # Normalize with Excel rows and columns (1 indexed)

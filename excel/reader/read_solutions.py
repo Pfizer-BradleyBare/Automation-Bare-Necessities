@@ -3,11 +3,18 @@ from __future__ import annotations
 from typing import Any, cast
 
 import xlwings
+from loguru import logger
 
 from method.models import MethodWorkbookBase
 
 
 def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
+    bound_logger = logger.bind(
+        source="ABN",
+        method=str(method),
+    )
+
+    bound_logger.debug("read_solutions")
 
     from solution.models import (
         PredefinedComponent,
@@ -32,6 +39,11 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
                 continue
 
             solution_title = solution_title.replace("\n(Click here to edit)", "")
+
+            bound_logger.debug(f"Reading solution '{solution_title}'")
+
+            bound_logger.debug("Reading properties")
+
             storage_condition: str = used_range[row_index + 2][column_index + 4]
             liquid_type: str = used_range[row_index + 3][column_index + 4]
             volatility: str = used_range[row_index + 4][column_index + 4]
@@ -50,6 +62,7 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
             solution.clean()
             solution.save()
 
+            bound_logger.debug("Reading components")
             for i in range(8):
                 name = used_range[row_index + 2 + i][column_index + 0]
                 amount = used_range[row_index + 2 + i][column_index + 1]
@@ -58,9 +71,14 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
                 if name is None or amount is None or unit is None:
                     continue
 
+                bound_logger.debug(
+                    f"Reading component '{name}' | amount={amount} | unit={unit}",
+                )
+
                 query = PredefinedComponent.objects.filter(name=name)
 
                 if query.exists():
+                    bound_logger.debug("Is predefined component")
                     component = query.get()
 
                     solution_component, _ = SolutionComponent.objects.get_or_create(
@@ -76,6 +94,7 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
                 query = PredefinedSolution.objects.filter(name=name)
 
                 if query.exists():
+                    bound_logger.debug("Is predefined solution")
                     component = query.get()
 
                     solution_component, _ = SolutionComponent.objects.get_or_create(
@@ -87,6 +106,24 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
                     solution.components.add(solution_component)
 
                     continue
+
+                query = UserDefinedSolution.objects.filter(name=name, method=method)
+
+                if query.exists():
+                    bound_logger.debug("Is user defined solution")
+                    component = query.get()
+
+                    solution_component, _ = SolutionComponent.objects.get_or_create(
+                        component=component,
+                        amount=amount,
+                        unit=unit,
+                    )
+
+                    solution.components.add(solution_component)
+
+                    continue
+
+                bound_logger.debug("Is user defined component")
 
                 component, _ = UserDefinedComponent.objects.get_or_create(
                     name=name,
@@ -100,3 +137,5 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
                 )
 
                 solution.components.add(solution_component)
+
+    bound_logger.info("Solutions read")

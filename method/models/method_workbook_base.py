@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import shutil
-
 from datetime import datetime
 from pathlib import Path
 
@@ -30,6 +29,7 @@ class MethodWorkbookBase(PolymorphicModel):
         blank=False,
         null=False,
     )
+    is_full_read = models.BooleanField(editable=False, default=False)
 
     def __str__(self) -> str:
         stem = Path(Path(self.file.path).name).stem
