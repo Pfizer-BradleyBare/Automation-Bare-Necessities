@@ -185,22 +185,18 @@ class BlockBase(PolymorphicModel):
             if (
                 DROPDOWN_WORKLIST_COLUMN_NAMES in dropdown_items
                 or DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES in dropdown_items
-                and worklist_column_validator
-                not in functools.reduce(
-                    operator.iadd,
-                    [
-                        ([item] if not isinstance(item, tuple) else [item[0]])
-                        if not isinstance(item, list)
-                        else [
-                            [sub_item]
-                            if not isinstance(sub_item, tuple)
-                            else [sub_item[0]]
-                            for sub_item in item
-                        ]
-                        for item in block_field_validators
-                    ],
-                    [],
-                )
+            ) and worklist_column_validator not in functools.reduce(
+                operator.iadd,
+                [
+                    ([item] if not isinstance(item, tuple) else [item[0]])
+                    if not isinstance(item, list)
+                    else [
+                        [sub_item] if not isinstance(sub_item, tuple) else [sub_item[0]]
+                        for sub_item in item
+                    ]
+                    for item in block_field_validators
+                ],
+                [],
             ):
                 column_query = WorklistColumn.objects.filter(
                     name=value,
