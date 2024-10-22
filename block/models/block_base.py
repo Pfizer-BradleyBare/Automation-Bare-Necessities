@@ -268,7 +268,9 @@ class BlockBase(PolymorphicModel):
 
                         sub_validation_results += [
                             validation_function(
-                                column_value, self.method, **updated_kwargs
+                                column_value,
+                                self.method,
+                                **updated_kwargs,
                             )
                             for column_value in column_values
                         ]
