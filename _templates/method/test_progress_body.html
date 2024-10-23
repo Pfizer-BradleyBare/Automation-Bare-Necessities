@@ -1,4 +1,4 @@
-{% load static %} {% if not progress %}
+{% load static %} {% if not method_found %}
 
 <div class="container">
     <div class="row">
@@ -83,7 +83,7 @@
         <tbody id="trace-body">
             {% for row in rows %}
             <tr style="height: 0px" onclick="strikeRow(this)">
-                <td style="word-wrap: break-word">{{row}}</td>
+                <td style="word-wrap:break-word; white-space: pre;">{{row}}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -146,7 +146,7 @@
         <tbody id="trace-body">
             {% for row in rows %}
             <tr style="height: 0px">
-                <td style="word-wrap: break-word">{{row}}</td>
+                <td style="word-wrap:break-word; white-space: pre;">{{row}}</td>
             </tr>
             {% endfor %}
         </tbody>

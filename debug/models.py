@@ -30,12 +30,3 @@ class Trace(models.Model):
 
     def __str__(self) -> str:
         return self.message
-
-
-class Silly(models.Model):
-    a = 1
-    b = 2
-    c = 3
-
-    def __str__(self) -> str:
-        return f"{self.a}{self.b}{self.c}"

@@ -2,8 +2,9 @@ import pythoncom
 import xlwings
 from loguru import logger
 
-from block.models import BlockBase
-from method.models import MethodWorkbookBase
+from method.models import (
+    MethodWorkbookBase,
+)
 
 from .read_method import read_method
 from .read_solutions import read_solutions
@@ -38,12 +39,8 @@ def read_workbook(method: MethodWorkbookBase):
         read_worklist(method, book.sheets["Worklist"])
         read_method(method, book.sheets["Method"])
 
-        method.is_full_read = True
+        method.is_read = True
         method.clean()
         method.save()
 
         bound_logger.info("Workbook read")
-
-        if BlockBase.objects.filter(method=method, is_valid=False).exists():
-            bound_logger.critical(f"Method '{method}' failed validation")
-            method.delete()
