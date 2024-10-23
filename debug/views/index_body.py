@@ -6,7 +6,6 @@ from .index_context import IndexContextView
 
 class IndexBodyView(IndexContextView):
     def post(self, request: HttpRequest):
-
         return render(
             request,
             "trace/index_body.html",
