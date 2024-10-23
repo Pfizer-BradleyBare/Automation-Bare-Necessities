@@ -105,22 +105,20 @@ class BlockBase(PolymorphicModel):
         self,
         **kwargs: float | str | MethodWorkbookBase,
     ):
+        self.row = cast(int, kwargs.get("row"))
+        self.column = cast(int, kwargs.get("column"))
+        self.method = cast(MethodWorkbookBase, kwargs.get("method"))
+        # Guarenteed to be there so no need to log before this step.
+
         bound_logger = logger.bind(
             source="ABN",
+            method=str(self.method),
+            row=self.row + 1,
+            column=self.column + 2,
             block=type(self).__name__,
         )
 
         bound_logger.debug("assign_parameters")
-
-        self.row = cast(int, kwargs.get("row"))
-        self.column = cast(int, kwargs.get("column"))
-        self.method = cast(MethodWorkbookBase, kwargs.get("method"))
-
-        bound_logger = bound_logger.bind(
-            method=str(self.method),
-            row=self.row + 1,
-            column=self.column + 2,
-        )
 
         definition = self.get_definition()
 
