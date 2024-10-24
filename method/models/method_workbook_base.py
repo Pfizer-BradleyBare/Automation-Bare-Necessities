@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import shutil
+import threading
 from datetime import datetime
 from pathlib import Path
 
@@ -43,11 +44,9 @@ class MethodWorkbookBase(PolymorphicModel):
     def save(self, *args, **kwargs):
         from excel.reader import read_workbook
 
-        created = False
         if not self.pk:
-            created = True
-
-        super().save(*args, **kwargs)
-
-        if created is True:
-            read_workbook(self)
+            super().save(*args, **kwargs)
+            thread = threading.Thread(target=read_workbook, args=(self,), daemon=True)
+            thread.start()
+        else:
+            super().save(*args, **kwargs)
