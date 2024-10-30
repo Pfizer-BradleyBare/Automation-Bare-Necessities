@@ -229,6 +229,7 @@ def read_method(method: MethodWorkbookBase, sheet: xlwings.Sheet):
     bound_logger.debug(f"Method start found at row={row_index}, column={column_index}")
 
     start_step = MethodStart(method=method, row=row_index, column=column_index)
+    start_step.is_valid = True
     # Normalize with Excel rows and columns (1 indexed)
     start_step.clean()
     start_step.save()

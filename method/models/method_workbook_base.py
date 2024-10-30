@@ -31,7 +31,16 @@ class MethodWorkbookBase(PolymorphicModel):
         null=False,
     )
 
-    is_read = models.BooleanField(editable=False, default=False)
+    is_valid = models.BooleanField(editable=False, default=False)
+
+    solutions_read_checkpoint = models.BooleanField(editable=False, default=False)
+    worklist_read_checkpoint = models.BooleanField(editable=False, default=False)
+    method_read_checkpoint = models.BooleanField(editable=False, default=False)
+    meta_present_checkpoint = models.BooleanField(editable=False, default=False)
+    containers_created_checkpoint = models.BooleanField(editable=False, default=False)
+    containers_pipetted_checkpoint = models.BooleanField(editable=False, default=False)
+    assign_labware_checkpoint = models.BooleanField(editable=False, default=False)
+    devices_possible_checkpoint = models.BooleanField(editable=False, default=False)
 
     def __str__(self) -> str:
         stem = Path(Path(self.file.path).name).stem

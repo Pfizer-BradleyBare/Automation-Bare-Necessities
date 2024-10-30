@@ -22,8 +22,14 @@ class TestProgressContextView(NavbarView):
 
         method = query.get()
 
-        progress_items = [method.is_read]
-        progress = sum(progress_items) / len(progress_items) * 100
+        context["is_valid"] = method.is_valid
+
+        progress_items = [
+            method.solutions_read_checkpoint,
+            method.worklist_read_checkpoint,
+            method.method_read_checkpoint,
+        ]
+        progress = int(sum(progress_items) / len(progress_items) * 100)
 
         context["progress"] = progress
 
