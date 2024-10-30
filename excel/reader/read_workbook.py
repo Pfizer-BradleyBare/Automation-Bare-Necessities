@@ -18,7 +18,7 @@ def read_workbook(method: MethodWorkbookBase):
         method=str(method),
     )
 
-    bound_logger.debug("read_workbook")
+    bound_logger.info("Starting read of method workbook")
 
     pythoncom.CoInitialize()
 
@@ -29,7 +29,7 @@ def read_workbook(method: MethodWorkbookBase):
 
         try:
             book.app.macro("abn_v3_workbook")()
-            bound_logger.debug("Workbook confirmed to be ABN v3.0 compatible")
+            bound_logger.info("Workbook confirmed to be ABN v3.0 compatible")
 
         except pythoncom.com_error:
             bound_logger.exception("Workbook is NOT ABN v3.0 compatible. Aborting")
@@ -47,14 +47,13 @@ def read_workbook(method: MethodWorkbookBase):
         method.save()
 
         read_method(method, book.sheets["Method"])
-
-        if BlockBase.objects.filter(method=method, is_valid=False).exists():
-            method.is_valid = False
-        else:
-            method.is_valid = True
-
         method.method_read_checkpoint = True
+
+        if not BlockBase.objects.filter(method=method, is_valid=False).exists():
+            method.is_valid = True
         method.clean()
         method.save()
 
-        bound_logger.info("Workbook read")
+    bound_logger.debug("Workbook closed")
+
+    bound_logger.info("Completed read of method workbook")

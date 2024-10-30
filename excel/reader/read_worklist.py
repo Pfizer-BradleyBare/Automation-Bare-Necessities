@@ -15,7 +15,7 @@ def read_worklist(method: MethodWorkbookBase, sheet: xlwings.Sheet):
         method=str(method),
     )
 
-    bound_logger.debug("read_worklist")
+    bound_logger.info("Starting read of worklist")
 
     rows: list[list[Any]] = cast(list, sheet.used_range.value)
 
@@ -27,17 +27,17 @@ def read_worklist(method: MethodWorkbookBase, sheet: xlwings.Sheet):
         if column_name is None:
             continue
 
-        bound_logger.debug(f"Reading column '{column_name}'")
+        bound_logger.info(f"Column '{column_name}' found")
 
         worklist_column = WorklistColumn(name=column_name, method=method)
         worklist_column.clean()
         worklist_column.save()
 
-        bound_logger.debug("Reading column values")
+        bound_logger.info("Reading column values")
         column_values = column[1:]
 
         for row, value in enumerate(column_values):
-            bound_logger.debug(f"Reading row '{row}' value '{value!s}'")
+            bound_logger.debug(f"Reading row '{row+1}' value '{value!s}'")
             worklist_column_value = WorklistColumnValue(
                 worklist_column=worklist_column,
                 row=row,
@@ -46,4 +46,8 @@ def read_worklist(method: MethodWorkbookBase, sheet: xlwings.Sheet):
             worklist_column_value.clean()
             worklist_column_value.save()
 
-    bound_logger.info("Worklist columns read")
+        bound_logger.info("Column values read")
+
+        bound_logger.info("Column read")
+
+    bound_logger.info("Completed read of worklist")

@@ -14,7 +14,7 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
         method=str(method),
     )
 
-    bound_logger.debug("read_solutions")
+    bound_logger.info("Starting read of solutions")
 
     from solution.models import (
         PredefinedComponent,
@@ -40,9 +40,9 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
 
             solution_title = solution_title.replace("\n(Click here to edit)", "")
 
-            bound_logger.debug(f"Reading solution '{solution_title}'")
+            bound_logger.info(f"Solution '{solution_title}' found")
 
-            bound_logger.debug("Reading properties")
+            bound_logger.info("Reading properties")
 
             storage_condition: str = used_range[row_index + 2][column_index + 4]
             liquid_type: str = used_range[row_index + 3][column_index + 4]
@@ -62,7 +62,9 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
             solution.clean()
             solution.save()
 
-            bound_logger.debug("Reading components")
+            bound_logger.info("Properties read")
+
+            bound_logger.info("Reading components")
             for i in range(8):
                 name = used_range[row_index + 2 + i][column_index + 0]
                 amount = used_range[row_index + 2 + i][column_index + 1]
@@ -71,8 +73,8 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
                 if name is None or amount is None or unit is None:
                     continue
 
-                bound_logger.debug(
-                    f"Reading component '{name}' | amount={amount} | unit={unit}",
+                bound_logger.info(
+                    f"Component '{name}' | amount={amount} | unit={unit} found",
                 )
 
                 query = PredefinedComponent.objects.filter(name=name)
@@ -138,4 +140,8 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
 
                 solution.components.add(solution_component)
 
-    bound_logger.info("Solutions read")
+            bound_logger.info("Components read")
+
+        bound_logger.info("Solution read")
+
+    bound_logger.info("Completed read of solutions")
