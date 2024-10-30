@@ -118,7 +118,7 @@ class BlockBase(PolymorphicModel):
             block=type(self).__name__,
         )
 
-        bound_logger.debug("assign_parameters")
+        bound_logger.info("Starting parameter assignment")
 
         definition = self.get_definition()
 
@@ -127,7 +127,7 @@ class BlockBase(PolymorphicModel):
             field_name = parameter.block_field_name
             advanced = parameter.advanced
 
-            bound_logger.debug(f"Assigning parameter '{key_name}'")
+            bound_logger.info(f"Parameter '{key_name}'")
 
             try:
                 value = kwargs.pop(key_name)
@@ -141,11 +141,11 @@ class BlockBase(PolymorphicModel):
                         )
                     else:
                         bound_logger.warning(
-                            f"Advanced parameter '{key_name}' was provided but has no value. Will be ignored",  # noqa: G004
+                            f"Advanced parameter '{key_name}' was provided but has no value. Default will be used",  # noqa: G004
                         )
                 else:
-                    bound_logger.debug(
-                        f"Value '{value}'",  # noqa: G004
+                    bound_logger.info(
+                        f"Assigned value '{value}'",  # noqa: G004
                     )
                     setattr(self, field_name, str(value))
 
@@ -157,10 +157,10 @@ class BlockBase(PolymorphicModel):
                     )
                 else:
                     bound_logger.warning(
-                        f"Advanced parameter '{key_name}' was not found. Will be ignored",  # noqa: G004
+                        f"Advanced parameter '{key_name}' was not found. Default will be used",  # noqa: G004
                     )
 
-        bound_logger.info("Parameters assigned")
+        bound_logger.info("Completed parameter assignment")
 
     def validate_parameters(self):
         bound_logger = logger.bind(
@@ -171,7 +171,7 @@ class BlockBase(PolymorphicModel):
             block=type(self).__name__,
         )
 
-        bound_logger.debug("validate_parameters")
+        bound_logger.info("Starting parameter validation")
 
         definition = self.get_definition()
 
@@ -184,7 +184,7 @@ class BlockBase(PolymorphicModel):
             validation_error_response_items: list[str] = []
             advanced = parameter.advanced
 
-            bound_logger.debug(f"Validating parameter '{label}'")
+            bound_logger.info(f"Parameter '{label}'")
 
             try:
                 value = cast(str | None, getattr(self, parameter.block_field_name))
@@ -201,22 +201,9 @@ class BlockBase(PolymorphicModel):
             value = value.replace(PREFIX_WORKLIST_COLUMN_NAMES, "")
             # The only thing we care about is that the value can describe a worklist column. So let's remove that prefix now for easy handling.
 
-            # Very simply, we are flattening the list of validators and removing the kwargs so that we can check if the worklist validator is present.
             if (
                 DROPDOWN_WORKLIST_COLUMN_NAMES in dropdown_items
                 or DROPDOWN_PREFIXED_WORKLIST_COLUMN_NAMES in dropdown_items
-            ) and worklist_column_validator not in functools.reduce(
-                operator.iadd,
-                [
-                    ([item] if not isinstance(item, tuple) else [item[0]])
-                    if not isinstance(item, list)
-                    else [
-                        [sub_item] if not isinstance(sub_item, tuple) else [sub_item[0]]
-                        for sub_item in item
-                    ]
-                    for item in block_field_validators
-                ],
-                [],
             ):
                 column_query = WorklistColumn.objects.filter(
                     name=value,
@@ -225,27 +212,49 @@ class BlockBase(PolymorphicModel):
 
                 if column_query.exists():
                     is_worklist_column = True
-                    column = column_query.get()
 
-                    column_values = [
-                        column_value.value
-                        for column_value in WorklistColumnValue.objects.filter(
-                            worklist_column=column,
+                    # Very simply, we are flattening the list of validators and removing the kwargs so that we can check if the worklist validator is present.
+                    if worklist_column_validator not in functools.reduce(
+                        operator.iadd,
+                        [
+                            ([item] if not isinstance(item, tuple) else [item[0]])
+                            if not isinstance(item, list)
+                            else [
+                                [sub_item]
+                                if not isinstance(sub_item, tuple)
+                                else [sub_item[0]]
+                                for sub_item in item
+                            ]
+                            for item in block_field_validators
+                        ],
+                        [],
+                    ):
+                        bound_logger.debug(
+                            "Value is a worklist column. Each Worklist column value will be validated",
                         )
-                    ]
+
+                        column = column_query.get()
+
+                        column_values = [
+                            column_value.value
+                            for column_value in WorklistColumnValue.objects.filter(
+                                worklist_column=column,
+                            )
+                        ]
+
+                    else:
+                        bound_logger.debug(
+                            "Value is a worklist column, but only the column name will be validated.",
+                        )
+                        column_values = [value]
                 else:
-                    is_worklist_column = False
+                    bound_logger.debug("Value is NOT a worklist column")
                     column_values = [value]
 
             else:
-                is_worklist_column = False
+                bound_logger.debug("Value is NOT a worklist column")
                 column_values = [value]
             # If value is a worklist column then we need to convert it.
-
-            if is_worklist_column is True:
-                bound_logger.debug(f"'{value}' is a worklist column")
-            else:
-                bound_logger.debug(f"'{value}' is NOT a worklist column")
 
             # attempt to run the validator
             for item in block_field_validators:
@@ -353,10 +362,10 @@ class BlockBase(PolymorphicModel):
                         f"Worklist column '{value}' for Parameter '{label}' is not valid. Valid options include: \n*{'\n*'.join(validation_error_response_items)}",  # noqa:G004
                     )
             else:
-                bound_logger.debug(f"Parameter '{label}' is valid")
+                bound_logger.info(f"Parameter '{label}' is valid")
 
         self.is_valid = block_is_valid
-        bound_logger.info("Parameters validated")
+        bound_logger.info("Completed parameter validation")
 
     def __init_subclass__(cls: type[BlockBase]) -> None:
         cls.block_subclasses[cls.__name__] = cls

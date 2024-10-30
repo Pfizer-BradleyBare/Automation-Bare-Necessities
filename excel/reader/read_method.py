@@ -20,19 +20,7 @@ def read_block(
         column_index=column_index,
     )
 
-    bound_logger.debug("read_block")
-
     rows: list[list[Any]] = cast(list, sheet.used_range.value)
-
-    query = BlockBase.objects.filter(
-        method=method,
-        row=row_index,
-        column=column_index,
-    )
-
-    if query.exists():
-        bound_logger.debug("Block already read")
-        return query.get()
 
     block_type_name = (
         cast(str, rows[row_index][column_index])
@@ -43,7 +31,17 @@ def read_block(
         .replace(" ", "")
     )
 
-    bound_logger.debug(f"Reading '{block_type_name}")
+    bound_logger.info(f"Starting read of block '{block_type_name}'")
+
+    query = BlockBase.objects.filter(
+        method=method,
+        row=row_index,
+        column=column_index,
+    )
+
+    if query.exists():
+        bound_logger.info("Block already read")
+        return query.get()
 
     # extract parameters
     parameters: dict[str, Any] = {}
@@ -52,7 +50,7 @@ def read_block(
     parameters["row"] = row_index
     parameters["column"] = column_index
 
-    bound_logger.debug("Reading parameters")
+    bound_logger.info("Reading parameters")
 
     while True:
         row_index += 1
@@ -66,13 +64,17 @@ def read_block(
         if label is None:
             break
 
+        bound_logger.debug(f"Reading parameter '{label}' value '{value!s}'")
+
         parameters[label] = value
+
+    bound_logger.info("Parameters read")
 
     block = BlockBase.block_subclasses[block_type_name]()
     block.assign_parameters(**parameters)
     block.validate_parameters()
 
-    bound_logger.debug("Block read")
+    bound_logger.info("Completed read of block")
 
     return block
 
@@ -210,7 +212,7 @@ def read_method(method: MethodWorkbookBase, sheet: xlwings.Sheet):
         method=str(method),
     )
 
-    bound_logger.debug("read_method")
+    bound_logger.info("Starting read of method")
 
     row_index = 0
     column_index = 0
@@ -226,7 +228,7 @@ def read_method(method: MethodWorkbookBase, sheet: xlwings.Sheet):
 
         row_index += 1
 
-    bound_logger.debug(f"Method start found at row={row_index}, column={column_index}")
+    bound_logger.debug(f"Method starts at row={row_index}, column={column_index}")
 
     start_step = MethodStart(method=method, row=row_index, column=column_index)
     start_step.is_valid = True
@@ -240,3 +242,5 @@ def read_method(method: MethodWorkbookBase, sheet: xlwings.Sheet):
         row_index=row_index,
         column_index=column_index,
     )
+
+    bound_logger.info("Completed read of method")
