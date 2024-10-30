@@ -7,6 +7,7 @@ from pathlib import Path
 
 from django.core.files.storage import FileSystemStorage
 from django.db import models
+from loguru import logger
 from polymorphic.models import PolymorphicModel
 
 
@@ -41,6 +42,34 @@ class MethodWorkbookBase(PolymorphicModel):
     containers_pipetted_checkpoint = models.BooleanField(editable=False, default=False)
     assign_labware_checkpoint = models.BooleanField(editable=False, default=False)
     devices_possible_checkpoint = models.BooleanField(editable=False, default=False)
+
+    def validate_method(self):
+        from block.models import BlockBase
+        from block.models.meta_data import (
+            Author,
+            Category,
+            DocumentNumber,
+            MethodName,
+            ValidModality,
+            ValidProjectCode,
+        )
+
+        bound_logger = logger.bind(method=str(self))
+
+        bound_logger.info("Starting method validation")
+
+        if (
+            not BlockBase.objects.filter(method=self, is_valid=False).exists()
+            and Author.objects.filter(method=self).exists()
+            and Category.objects.filter(method=self).exists()
+            and DocumentNumber.objects.filter(method=self).exists()
+            and MethodName.objects.filter(method=self).exists()
+            and ValidModality.objects.filter(method=self).exists()
+            and ValidProjectCode.objects.filter(method=self).exists()
+        ):
+            self.is_valid = True
+
+        bound_logger.info("Completed method validation")
 
     def __str__(self) -> str:
         stem = Path(Path(self.file.path).name).stem

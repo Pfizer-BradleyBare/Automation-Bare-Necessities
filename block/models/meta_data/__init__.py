@@ -1,7 +1,15 @@
 from .author import Author
 from .category import Category
 from .document_number import DocumentNumber
-from .modality import Modality
-from .project import Project
+from .method_name import MethodName
+from .valid_modality import ValidModality
+from .valid_project_code import ValidProjectCode
 
-__all__ = ["Author", "Category", "DocumentNumber", "Modality", "Project"]
+__all__ = [
+    "Author",
+    "Category",
+    "DocumentNumber",
+    "ValidModality",
+    "ValidProjectCode",
+    "MethodName",
+]

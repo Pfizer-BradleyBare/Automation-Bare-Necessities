@@ -2,7 +2,14 @@ from django.http import HttpRequest
 from django.shortcuts import render
 
 from abn.views import NavbarView
-from block.models.meta_data import Author, Category, DocumentNumber, Modality, Project
+from block.models.meta_data import (
+    Author,
+    Category,
+    DocumentNumber,
+    MethodName,
+    ValidModality,
+    ValidProjectCode,
+)
 from method.models import TemplateMethodWorkbook
 
 
@@ -11,8 +18,13 @@ class TemplatesIndexView(NavbarView):
         context = {}
 
         rows = []
-        for method in TemplateMethodWorkbook.objects.all():
-            name = str(method)
+        for method in TemplateMethodWorkbook.objects.filter(is_valid=True).all():
+            name = ", ".join(
+                [
+                    str(item.meta_data_text)
+                    for item in MethodName.objects.filter(method=method).all()
+                ],
+            )
             authors = ", ".join(
                 [
                     str(item.meta_data_text)
@@ -34,13 +46,13 @@ class TemplatesIndexView(NavbarView):
             modalities = ", ".join(
                 [
                     str(item.meta_data_text)
-                    for item in Modality.objects.filter(method=method).all()
+                    for item in ValidModality.objects.filter(method=method).all()
                 ],
             )
             projects = ", ".join(
                 [
                     str(item.meta_data_text)
-                    for item in Project.objects.filter(method=method).all()
+                    for item in ValidProjectCode.objects.filter(method=method).all()
                 ],
             )
 

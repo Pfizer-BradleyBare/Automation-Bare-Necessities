@@ -4,7 +4,14 @@ from .models import MethodStart
 from .models.comments import OverviewComment, RuntimeComment, SilentComment
 from .models.heat_cool_shake import Incubate, IncubateAndShake, Rest, Shake
 from .models.liquid_handling import Dilute, Pipette
-from .models.meta_data import Author, Category, DocumentNumber, Modality, Project
+from .models.meta_data import (
+    Author,
+    Category,
+    DocumentNumber,
+    MethodName,
+    ValidModality,
+    ValidProjectCode,
+)
 from .models.pathways import ActivateContainer, Merge, SplitWorklist
 from .models.uv_flr import MeasureConcentration
 
@@ -18,11 +25,12 @@ admin.site.register(RuntimeComment)
 admin.site.register(OverviewComment)
 
 
+admin.site.register(MethodName)
 admin.site.register(Author)
-admin.site.register(Modality)
+admin.site.register(ValidModality)
 admin.site.register(Category)
 admin.site.register(DocumentNumber)
-admin.site.register(Project)
+admin.site.register(ValidProjectCode)
 
 admin.site.register(Pipette)
 admin.site.register(Dilute)
