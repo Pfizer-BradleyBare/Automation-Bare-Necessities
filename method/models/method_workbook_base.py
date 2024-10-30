@@ -36,7 +36,7 @@ class MethodWorkbookBase(PolymorphicModel):
     solutions_read_checkpoint = models.BooleanField(editable=False, default=False)
     worklist_read_checkpoint = models.BooleanField(editable=False, default=False)
     method_read_checkpoint = models.BooleanField(editable=False, default=False)
-    meta_present_checkpoint = models.BooleanField(editable=False, default=False)
+    method_validated_checkpoint = models.BooleanField(editable=False, default=False)
     containers_created_checkpoint = models.BooleanField(editable=False, default=False)
     containers_pipetted_checkpoint = models.BooleanField(editable=False, default=False)
     assign_labware_checkpoint = models.BooleanField(editable=False, default=False)
