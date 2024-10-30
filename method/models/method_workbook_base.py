@@ -64,27 +64,39 @@ class MethodWorkbookBase(PolymorphicModel):
             is_valid &= False
 
         if not Author.objects.filter(method=self).exists():
-            bound_logger.critical("Meta data block 'Author' is not present")
+            bound_logger.critical(
+                "Meta data block 'Author' is not present. If you did not create this method then please contact the author",
+            )
             is_valid &= False
 
         if not Category.objects.filter(method=self).exists():
-            bound_logger.critical("Meta data block 'Category' is not present")
+            bound_logger.critical(
+                "Meta data block 'Category' is not present. If you did not create this method then please contact the author",
+            )
             is_valid &= False
 
         if not DocumentNumber.objects.filter(method=self).exists():
-            bound_logger.critical("Meta data block 'Document Number' is not present")
+            bound_logger.critical(
+                "Meta data block 'Document Number' is not present. If you did not create this method then please contact the author",
+            )
             is_valid &= False
 
         if not MethodName.objects.filter(method=self).exists():
-            bound_logger.critical("Meta data block 'Method Name' is not present")
+            bound_logger.critical(
+                "Meta data block 'Method Name' is not present. If you did not create this method then please contact the author",
+            )
             is_valid &= False
 
         if not ValidModality.objects.filter(method=self).exists():
-            bound_logger.critical("Meta data block 'Valid Modality' is not present")
+            bound_logger.critical(
+                "Meta data block 'Valid Modality' is not present. If you did not create this method then please contact the author",
+            )
             is_valid &= False
 
         if not ValidProjectCode.objects.filter(method=self).exists():
-            bound_logger.critical("Meta data block 'Valid Project Code' is not present")
+            bound_logger.critical(
+                "Meta data block 'Valid Project Code' is not present. If you did not create this method then please contact the author",
+            )
             is_valid &= False
 
         self.is_valid = is_valid
