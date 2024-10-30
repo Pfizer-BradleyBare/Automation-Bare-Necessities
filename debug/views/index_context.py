@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.utils import timezone
 
 from abn.views import NavbarView
@@ -8,11 +10,13 @@ class IndexContextView(NavbarView):
     def get_context_data(self, **kwargs) -> dict:
         num_objects = 500
 
+        kwargs.setdefault("timestamp", "")
         kwargs.setdefault("log_source", "ALL")
         kwargs.setdefault("log_level", "ALL")
         kwargs.setdefault("meta_info", "")
         kwargs.setdefault("debug_message", "")
 
+        timestamp = str(kwargs.get("timestamp"))
         log_source = str(kwargs.get("log_source"))
         log_level = str(kwargs.get("log_level"))
         meta_info = kwargs.get("meta_info")
@@ -20,6 +24,15 @@ class IndexContextView(NavbarView):
 
         query = Trace.objects
 
+        if timestamp != "":
+            try:
+                time_stamp = datetime.strptime(
+                    timestamp,
+                    "%b %d, %Y, %I:%M %p",
+                ).astimezone(timezone.get_current_timezone())
+                query = query.filter(time_stamp__gte=time_stamp)
+            except ValueError:
+                ...
         if log_source != "ALL":
             query = query.filter(log_source=LogSourceOptions[log_source])
         if log_level != "ALL":

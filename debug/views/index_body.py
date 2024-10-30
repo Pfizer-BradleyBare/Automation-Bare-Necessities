@@ -10,6 +10,7 @@ class IndexBodyView(IndexContextView):
             request,
             "trace/index_body.html",
             self.get_context_data(
+                timestamp=request.POST["input-timestamp"],
                 log_source=request.POST["input-log-source"],
                 log_level=request.POST["input-log-level"],
                 meta_info=request.POST["input-extra-info"],
