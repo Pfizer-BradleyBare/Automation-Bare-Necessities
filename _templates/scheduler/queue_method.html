@@ -27,7 +27,7 @@
                 <div class="col-10"></div>
             </div>
             <hr>
-            <form method="post" enctype="multipart/form-data">{% csrf_token %}
+            <form method="post" enctype="multipart/form-data" id="form-queue-method">{% csrf_token %}
                 <div class="form-group row">
                     <label for="input-emails" class="col-15 col-form-label">Emails</label>
                     <div class="col-85">
@@ -73,7 +73,7 @@
                 <hr style="visibility: hidden;">
                 <div class="form-group row">
                     <div class="col">
-                        <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-lg" id="button-submit-test">Submit</button>
                     </div>
                 </div>
             </form>
@@ -82,5 +82,14 @@
     </div>
 </div>
 
+
+<script>
+    function submitEvent(event) {
+        submit_button = document.getElementById("button-submit-test");
+        submit_button.disabled = true;
+    }
+    form = document.getElementById("form-queue-method");
+    form.addEventListener("submit", submitEvent);
+</script>
 
 {% endblock %}
