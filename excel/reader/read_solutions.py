@@ -45,10 +45,19 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
             bound_logger.info("Reading properties")
 
             storage_condition: str = used_range[row_index + 2][column_index + 4]
+            bound_logger.debug(f"Storage condition='{storage_condition}'")
+
             liquid_type: str = used_range[row_index + 3][column_index + 4]
+            bound_logger.debug(f"Liquid type='{liquid_type}'")
+
             volatility: str = used_range[row_index + 4][column_index + 4]
+            bound_logger.debug(f"Volatility='{volatility}'")
+
             viscosity: str = used_range[row_index + 5][column_index + 4]
+            bound_logger.debug(f"Viscosity='{viscosity}'")
+
             homogeneity: str = used_range[row_index + 6][column_index + 4]
+            bound_logger.debug(f"Homogeneity='{homogeneity}'")
 
             solution = UserDefinedSolution(
                 name=solution_title,
@@ -142,6 +151,6 @@ def read_solutions(method: MethodWorkbookBase, sheet: xlwings.Sheet):
 
             bound_logger.info("Components read")
 
-        bound_logger.info("Solution read")
+            bound_logger.info("Solution read")
 
     bound_logger.info("Completed read of solutions")
