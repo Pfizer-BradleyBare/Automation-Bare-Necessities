@@ -16,8 +16,8 @@ def read_block(
     bound_logger = logger.bind(
         source="ABN",
         method=str(method),
-        row_index=row_index,
-        column_index=column_index,
+        row=row_index + 1,
+        column=column_index + 3,
     )
 
     rows: list[list[Any]] = cast(list, sheet.used_range.value)
@@ -64,7 +64,7 @@ def read_block(
         if label is None:
             break
 
-        bound_logger.debug(f"Reading parameter '{label}' value '{value!s}'")
+        bound_logger.debug(f"Parameter='{label}' Value='{value!s}'")
 
         parameters[label] = value
 
