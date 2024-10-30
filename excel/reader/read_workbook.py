@@ -2,7 +2,6 @@ import pythoncom
 import xlwings
 from loguru import logger
 
-from block.models import BlockBase
 from method.models import (
     MethodWorkbookBase,
 )
@@ -48,9 +47,6 @@ def read_workbook(method: MethodWorkbookBase):
 
         read_method(method, book.sheets["Method"])
         method.method_read_checkpoint = True
-
-        if not BlockBase.objects.filter(method=method, is_valid=False).exists():
-            method.is_valid = True
         method.clean()
         method.save()
 
