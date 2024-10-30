@@ -58,16 +58,39 @@ class MethodWorkbookBase(PolymorphicModel):
 
         bound_logger.info("Starting method validation")
 
-        if (
-            not BlockBase.objects.filter(method=self, is_valid=False).exists()
-            and Author.objects.filter(method=self).exists()
-            and Category.objects.filter(method=self).exists()
-            and DocumentNumber.objects.filter(method=self).exists()
-            and MethodName.objects.filter(method=self).exists()
-            and ValidModality.objects.filter(method=self).exists()
-            and ValidProjectCode.objects.filter(method=self).exists()
-        ):
-            self.is_valid = True
+        is_valid = True
+
+        if BlockBase.objects.filter(method=self, is_valid=False).exists():
+            is_valid &= False
+
+        if not Author.objects.filter(method=self).exists():
+            bound_logger.critical("Meta data block 'Author' is not present")
+            is_valid &= False
+
+        if not Category.objects.filter(method=self).exists():
+            bound_logger.critical("Meta data block 'Category' is not present")
+            is_valid &= False
+
+        if not DocumentNumber.objects.filter(method=self).exists():
+            bound_logger.critical("Meta data block 'Document Number' is not present")
+            is_valid &= False
+
+        if not MethodName.objects.filter(method=self).exists():
+            bound_logger.critical("Meta data block 'Method Name' is not present")
+            is_valid &= False
+
+        if not ValidModality.objects.filter(method=self).exists():
+            bound_logger.critical("Meta data block 'Valid Modality' is not present")
+            is_valid &= False
+
+        if not ValidProjectCode.objects.filter(method=self).exists():
+            bound_logger.critical("Meta data block 'Valid Project Code' is not present")
+            is_valid &= False
+
+        self.is_valid = is_valid
+        self.method_validated_checkpoint = True
+        self.clean()
+        self.save()
 
         bound_logger.info("Completed method validation")
 

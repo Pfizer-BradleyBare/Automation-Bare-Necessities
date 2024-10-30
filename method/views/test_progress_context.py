@@ -28,6 +28,7 @@ class TestProgressContextView(NavbarView):
             method.solutions_read_checkpoint,
             method.worklist_read_checkpoint,
             method.method_read_checkpoint,
+            method.method_validated_checkpoint,
         ]
         progress = int(sum(progress_items) / len(progress_items) * 100)
 

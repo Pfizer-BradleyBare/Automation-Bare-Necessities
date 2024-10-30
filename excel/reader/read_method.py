@@ -243,4 +243,6 @@ def read_method(method: MethodWorkbookBase, sheet: xlwings.Sheet):
         column_index=column_index,
     )
 
+    method.validate_method()
+
     bound_logger.info("Completed read of method")
