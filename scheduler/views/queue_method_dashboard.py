@@ -1,8 +1,5 @@
-import datetime
-
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
-from django.utils import timezone
 
 from method.models import ExecutingMethodWorkbook
 
@@ -11,7 +8,6 @@ from .queue_method_dashboard_context import QueueMethodDashboardContextView
 
 class QueueMethodDashboardView(QueueMethodDashboardContextView):
     def get(self, request: HttpRequest, filename: str):
-
         return render(
             request,
             "scheduler/queue_method_dashboard.html",
@@ -23,10 +19,6 @@ class QueueMethodDashboardView(QueueMethodDashboardContextView):
 
         queued_method.emails = request.POST["input-emails"]
         queued_method.phone_numbers = request.POST["input-phone-numbers"]
-        queued_method.desired_completion_time = datetime.datetime.strptime(
-            request.POST["input-completion-time"],
-            "%Y-%m-%dT%H:%M",
-        ).astimezone(timezone.get_current_timezone())
 
         queued_method.save()
 
