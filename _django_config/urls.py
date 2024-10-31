@@ -22,7 +22,8 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("config/", include("plh_config.urls")),
+    path("config/", include("plh_implementation.urls")),
+    path("config_old/", include("plh_config.urls")),
     path("", include("abn.urls", namespace="abn")),
     path("scheduler/", include("scheduler.urls", namespace="scheduler")),
     path("method/", include("method.urls", namespace="method")),
