@@ -1,6 +1,6 @@
 from django.db import models
 
-from plh_config.labware.models import LabwareBase
+from hal.labware.models import LabwareBase
 from plh_config.layout_item.models import LayoutItemBase
 
 

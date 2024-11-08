@@ -4,12 +4,12 @@ import xlwings
 
 
 def write_container_labwares_sheet(sheet: xlwings.Sheet):
-    from plh_config.labware.models import PipettableLabware
+    from hal.labware.models import LabwareBase,PipettableLabwareMixin
 
     cells = []
     cells.append(["Container Labwares"])
 
-    cells += [[labware.identifier] for labware in PipettableLabware.objects.all()]
+    cells += [[labware.identifier] for labware in LabwareBase.objects.all() if isinstance(labware,PipettableLabwareMixin)] 
 
     cells = list(zip(*itertools.zip_longest(*cells, fillvalue=None)))
 

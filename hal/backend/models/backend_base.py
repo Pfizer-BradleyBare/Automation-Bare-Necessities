@@ -9,7 +9,6 @@ class BackendBase(PolymorphicModel):
     identifier = models.CharField(
         max_length=50,
         unique=True,
-        primary_key=True,
         blank=False,
         null=False,
     )

@@ -10,7 +10,6 @@ from loguru import logger
 
 import abn
 from excel.reader import read_workbook
-from plh_config.load_config import load_config
 
 from .navbar import NavbarView
 
