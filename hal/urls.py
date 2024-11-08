@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .admin import config_admin
+from .admin import hal_admin
 
 urlpatterns = [
-    path("", config_admin.urls, name="hal_admin"),
+    path("", hal_admin.urls, name="hal_admin"),
 ]

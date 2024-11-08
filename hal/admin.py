@@ -6,7 +6,7 @@ from django.db.utils import OperationalError
 class HALAdmin(AdminSite): ...
 
 
-config_admin = HALAdmin(name="hal_admin")
+hal_admin = HALAdmin(name="hal_admin")
 # Register your models here.
 
 
@@ -15,7 +15,7 @@ class AccessUser:
     has_module_perms = has_perm = __getattr__ = lambda s, *a, **kw: True
 
 
-config_admin.has_permission = (
+hal_admin.has_permission = (
     lambda request: setattr(request, "user", AccessUser()) or True
 )
 

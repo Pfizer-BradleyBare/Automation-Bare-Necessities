@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "polymorphic",
     "hal",
+    "hal.backend",
     "plh_config",
     "plh_config.backend",
     "plh_config.carrier",
