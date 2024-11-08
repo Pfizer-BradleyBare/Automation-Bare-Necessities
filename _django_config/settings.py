@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "polymorphic",
-    "plh_implementation",
+    "hal",
     "plh_config",
     "plh_config.backend",
     "plh_config.carrier",
