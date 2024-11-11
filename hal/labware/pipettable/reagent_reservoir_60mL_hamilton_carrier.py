@@ -14,10 +14,6 @@ class ReagentReservoir60mLHamiltonCarrier(PipettableLabware):
         return [(0, 0, 0)]  # TODO: CHECK IS CORRECT
 
     @classmethod
-    def compatible_covers(cls) -> list[type[LabwareBase]]:
-        return []
-
-    @classmethod
     def covered_z_height_change(cls) -> dict[type[LabwareBase], float]:
         return {}
 

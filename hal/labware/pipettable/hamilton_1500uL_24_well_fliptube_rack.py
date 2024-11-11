@@ -12,10 +12,6 @@ class Hamilton1500uL24WellFliptubeRack(PipettableLabware):
         return [(128, 85.25, 0)]  # TODO: CHECK IS CORRECT
 
     @classmethod
-    def compatible_covers(cls) -> list[type[LabwareBase]]:
-        return []
-
-    @classmethod
     def covered_z_height_change(cls) -> dict[type[LabwareBase], float]:
         return {}
 

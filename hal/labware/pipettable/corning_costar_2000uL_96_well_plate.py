@@ -4,17 +4,12 @@ from hal.container import ContainerBase, CorningCostar2000uLVBottomWell
 
 from ..labware_base import LabwareBase, PipettableLabware
 from ..layout import AlphanumericLayout, Layout
-from ..non_pipettable.agilent_lid_black import AgilentLidBlack
 
 
 class CorningCostar2000uL96WellPlate(PipettableLabware):
     @classmethod
     def x_y_z_dimensions(cls) -> list[tuple[float, float, float]]:
         return [(124.5, 82.5, 0)]  # TODO: CHECK IS CORRECT
-
-    @classmethod
-    def compatible_covers(cls) -> list[type[LabwareBase]]:
-        return [AgilentLidBlack]
 
     @classmethod
     def covered_z_height_change(cls) -> dict[type[LabwareBase], float]:

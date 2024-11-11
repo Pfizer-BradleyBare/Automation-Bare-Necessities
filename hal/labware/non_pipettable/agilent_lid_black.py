@@ -10,10 +10,6 @@ class AgilentLidBlack(NonPipettableLabware):
         return [(127.5, 85, 9.5)]  # TODO: CHECK IS CORRECT
 
     @classmethod
-    def compatible_covers(cls) -> list[type[LabwareBase]]:
-        return []
-
-    @classmethod
     def covered_z_height_change(cls) -> dict[type[LabwareBase], float]:
         return {}
 
