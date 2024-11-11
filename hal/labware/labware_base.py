@@ -21,7 +21,7 @@ class LabwareBase(PolymorphicModel):
     @classmethod
     @abstractmethod
     def covered_z_height_change(cls) -> dict[type[LabwareBase], float]:
-        """How the z height changes with a cover of some kind (Can be a any lid or plate labware).
+        """How the z height changes with a cover of some kind (any lid or plate labware).
         Ex: <total height of labware with cover> - <total height of labware>
         """
         raise NotImplementedError
