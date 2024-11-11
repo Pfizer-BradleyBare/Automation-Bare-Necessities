@@ -15,7 +15,7 @@ class Container(models.Model):
     )
 
     simultaneous_tips = models.PositiveSmallIntegerField(
-        help_text="How many tips can fit in the container at the same time",
+        help_text="How many tips can fit in the container at the same time.",
     )
 
     max_volume = models.FloatField(help_text="Max volume of a container.")
