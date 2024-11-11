@@ -4,14 +4,16 @@ import xlwings
 
 
 def write_container_labwares_sheet(sheet: xlwings.Sheet):
-    from hal.labware.models import LabwareBase,PipettableLabwareMixin
+    from hal.container import ContainerBase
 
     cells = []
     cells.append(["Container Labwares"])
 
-    cells += [[labware.identifier] for labware in LabwareBase.objects.all() if isinstance(labware,PipettableLabwareMixin)] 
+    ContainerBase.subclasses.keys()
 
-    cells = list(zip(*itertools.zip_longest(*cells, fillvalue=None)))
+    cells += [list(ContainerBase.subclasses.keys())]
+
+    cells = list(zip(*itertools.zip_longest(*cells, fillvalue=None), strict=False))
 
     num_rows = len(cells)
     num_cols = 1
