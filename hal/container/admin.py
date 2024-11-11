@@ -1,3 +1,5 @@
-from django.contrib import admin
+from hal.admin import hal_admin
 
-# Register your models here.
+from .models import Container
+
+hal_admin.register(Container)
