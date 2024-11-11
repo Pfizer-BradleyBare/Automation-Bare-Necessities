@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "polymorphic",
     "hal",
     "hal.backend",
+    "hal.container",
     "hal.labware",
     "debug",
     "abn",
