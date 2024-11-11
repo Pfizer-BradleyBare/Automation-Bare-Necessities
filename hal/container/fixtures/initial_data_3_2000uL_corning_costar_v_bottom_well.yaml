@@ -1,0 +1,12 @@
+- model: container.container
+  pk: 3
+  fields:
+    name: 2000uL Corning Costar V Bottom Well
+    simultaneous_tips: 1
+    max_volume: 2000
+    dead_volume: 10
+    shape_definition:
+      - - 134.0416
+        - 4
+      - - 2566.0416
+        - 42

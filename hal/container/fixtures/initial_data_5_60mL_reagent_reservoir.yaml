@@ -1,0 +1,12 @@
+- model: container.container
+  pk: 5
+  fields:
+    name: 60mL Reagent Reservoir
+    simultaneous_tips: 1
+    max_volume: 60000
+    dead_volume: 500
+    shape_definition:
+      - - 3603.027
+        - 6.72
+      - - 80009.43
+        - 62.72

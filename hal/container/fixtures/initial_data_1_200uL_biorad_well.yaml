@@ -1,0 +1,10 @@
+- model: container.container
+  pk: 1
+  fields:
+    name: 200uL Biorad Well
+    simultaneous_tips: 1
+    max_volume: 200
+    dead_volume: 10
+    shape_definition:
+      - - 242.1231
+        - 14.68

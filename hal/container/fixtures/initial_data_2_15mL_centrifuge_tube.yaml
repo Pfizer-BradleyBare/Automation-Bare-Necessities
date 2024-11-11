@@ -1,0 +1,12 @@
+- model: container.container
+  pk: 2
+  fields:
+    name: 15mL Centrifuge Tube
+    simultaneous_tips: 1
+    max_volume: 15000
+    dead_volume: 500
+    shape_definition:
+      - - 1461.004
+        - 23.36
+      - - 15269.62
+        - 118.61

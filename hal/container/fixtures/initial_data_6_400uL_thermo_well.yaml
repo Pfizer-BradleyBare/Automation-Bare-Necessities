@@ -1,0 +1,12 @@
+- model: container.container
+  pk: 6
+  fields:
+    name: 400uL Thermo Well
+    simultaneous_tips: 1
+    max_volume: 400
+    dead_volume: 10
+    shape_definition:
+      - - 56.745
+        - 3
+      - - 510.705
+        - 11
