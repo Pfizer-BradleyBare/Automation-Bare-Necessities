@@ -9,3 +9,10 @@ class Deck(models.Model):
 
     def __str__(self) -> str:
         return self.identifier
+
+
+class MainDeck(Deck): ...
+
+
+class SubDeck(Deck):
+    models.ForeignKey(to=MainDeck, on_delete=models.CASCADE)

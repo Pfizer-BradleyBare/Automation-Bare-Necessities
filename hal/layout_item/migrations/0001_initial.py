@@ -9,12 +9,14 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("method", "0001_initial"),
+        ("contenttypes", "0002_remove_content_type_name"),
+        ("deck_location", "0001_initial"),
+        ("labware", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name="WorklistColumn",
+            name="LayoutItem",
             fields=[
                 (
                     "id",
@@ -25,37 +27,35 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("name", models.CharField(max_length=255)),
+                ("identifier", models.CharField(editable=False, max_length=255)),
                 (
-                    "method",
+                    "deck_location",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="method.methodworkbookbase",
+                        to="deck_location.decklocation",
+                    ),
+                ),
+                (
+                    "labware",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="labware.labware",
+                    ),
+                ),
+                (
+                    "polymorphic_ctype",
+                    models.ForeignKey(
+                        editable=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="polymorphic_%(app_label)s.%(class)s_set+",
+                        to="contenttypes.contenttype",
                     ),
                 ),
             ],
-        ),
-        migrations.CreateModel(
-            name="WorklistColumnValue",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("row", models.IntegerField()),
-                ("value", models.CharField(max_length=255, null=True)),
-                (
-                    "worklist_column",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="worklist.worklistcolumn",
-                    ),
-                ),
-            ],
+            options={
+                "ordering": ["identifier"],
+                "unique_together": {("deck_location", "labware")},
+            },
         ),
     ]
