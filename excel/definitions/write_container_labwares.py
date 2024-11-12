@@ -4,14 +4,19 @@ import xlwings
 
 
 def write_container_labwares_sheet(sheet: xlwings.Sheet):
-    from hal.container import ContainerBase
+    from hal.labware.models import PipettableLabware
+    from hal.layout_item.models import LayoutItemBase
 
     cells = []
     cells.append(["Container Labwares"])
 
-    ContainerBase.subclasses.keys()
-
-    cells += [list(ContainerBase.subclasses.keys())]
+    cells += [
+        [
+            layout_item.labware.container.identifier
+            for layout_item in LayoutItemBase.objects.all()
+            if isinstance(layout_item.labware, PipettableLabware)
+        ],
+    ]
 
     cells = list(zip(*itertools.zip_longest(*cells, fillvalue=None), strict=False))
 
