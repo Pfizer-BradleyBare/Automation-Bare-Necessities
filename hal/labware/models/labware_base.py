@@ -15,7 +15,7 @@ def _x_y_z_dimensions_default() -> list[tuple[float, float, float]]:
     return [(127.5, 82, 0), (128, 83, 10)]
 
 
-class Labware(PolymorphicModel):
+class LabwareBase(PolymorphicModel):
     identifier = models.CharField(max_length=255, unique=True, primary_key=True)
 
     x_y_z_dimensions: models.JSONField[list[tuple[float, float, float]]] = (
@@ -117,13 +117,13 @@ class Labware(PolymorphicModel):
 
 class StackedLabwareZHeightChange(models.Model):
     bottom_labware = models.ForeignKey(
-        to=Labware,
+        to=LabwareBase,
         on_delete=models.CASCADE,
         help_text="The bottom labware of the stack.",
         related_name="stackedlabwarezheightchangebottom_set",
     )
     top_labware = models.ForeignKey(
-        to=Labware,
+        to=LabwareBase,
         on_delete=models.CASCADE,
         help_text="The top labware of the stack.",
         related_name="stackedlabwarezheightchangetop_set",

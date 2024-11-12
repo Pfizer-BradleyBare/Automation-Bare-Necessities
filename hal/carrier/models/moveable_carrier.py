@@ -1,4 +1,4 @@
-from .carrier import Carrier
+from .carrier_base import CarrierBase
 
 
-class MoveableCarrier(Carrier): ...
+class MoveableCarrier(CarrierBase): ...

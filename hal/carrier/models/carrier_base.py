@@ -1,10 +1,10 @@
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
-from hal.deck.models import Deck
+from hal.deck.models import Deck, SubDeck
 
 
-class Carrier(PolymorphicModel):
+class CarrierBase(PolymorphicModel):
     identifier = models.CharField(max_length=255, editable=False)
     # Only here to enable ordering
 
@@ -19,7 +19,12 @@ class Carrier(PolymorphicModel):
     )
 
     def save(self, *args, **kwargs):
-        self.identifier = f"{self.deck}Deck_Carrier{self.deck_position}"
+        deck = self.deck
+
+        if isinstance(deck, SubDeck):
+            self.identifier = f"{deck.deck.identifier}Sub_{deck.identifier}_Deck_Carrier{self.deck_position}"
+        else:
+            self.identifier = f"{deck.identifier}Deck_Carrier{self.deck_position}"
         # Identifier is automatically determined
 
         return super().save(*args, **kwargs)

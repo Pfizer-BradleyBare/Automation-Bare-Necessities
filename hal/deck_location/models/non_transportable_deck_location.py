@@ -1,4 +1,4 @@
-from .deck_location import DeckLocation
+from .deck_location_base import DeckLocationBase
 
 
-class NonTransportableDeckLocation(DeckLocation): ...
+class NonTransportableDeckLocation(DeckLocationBase): ...

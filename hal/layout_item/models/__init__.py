@@ -1,3 +1,3 @@
-from .layout_item import LayoutItem
+from .layout_item_base import LayoutItemBase
 
-__all__ = ["LayoutItem"]
+__all__ = ["LayoutItemBase"]

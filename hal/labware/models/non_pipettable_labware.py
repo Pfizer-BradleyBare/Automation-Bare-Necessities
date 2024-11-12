@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .labware import Labware
+from .labware_base import LabwareBase
 
 
-class NonPipettableLabware(Labware): ...
+class NonPipettableLabware(LabwareBase): ...

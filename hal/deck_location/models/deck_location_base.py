@@ -1,13 +1,13 @@
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
-from hal.carrier.models import Carrier
+from hal.carrier.models import CarrierBase
 
 
-class DeckLocation(PolymorphicModel):
+class DeckLocationBase(PolymorphicModel):
     identifier = models.CharField(max_length=255, editable=False)
     carrier = models.ForeignKey(
-        to=Carrier,
+        to=CarrierBase,
         on_delete=models.CASCADE,
     )
     carrier_position = models.PositiveSmallIntegerField()

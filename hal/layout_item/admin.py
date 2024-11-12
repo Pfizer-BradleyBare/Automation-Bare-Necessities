@@ -1,5 +1,5 @@
 from hal.admin import hal_admin
 
-from .models import LayoutItem
+from .models import LayoutItemBase
 
-hal_admin.register(LayoutItem)
+hal_admin.register(LayoutItemBase)

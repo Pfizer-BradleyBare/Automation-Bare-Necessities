@@ -1,4 +1,4 @@
-from .carrier import Carrier
+from .carrier_base import CarrierBase
 
 
-class StationaryCarrier(Carrier): ...
+class StationaryCarrier(CarrierBase): ...

@@ -1,20 +1,20 @@
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
-from hal.deck_location.models import DeckLocation
-from hal.labware.models import Labware
+from hal.deck_location.models import DeckLocationBase
+from hal.labware.models import LabwareBase
 
 
-class LayoutItem(PolymorphicModel):
+class LayoutItemBase(PolymorphicModel):
     identifier = models.CharField(max_length=255, editable=False)
     # Only here to enable ordering
 
     deck_location = models.ForeignKey(
-        to=DeckLocation,
+        to=DeckLocationBase,
         on_delete=models.CASCADE,
     )
     labware = models.ForeignKey(
-        to=Labware,
+        to=LabwareBase,
         on_delete=models.CASCADE,
     )
 
