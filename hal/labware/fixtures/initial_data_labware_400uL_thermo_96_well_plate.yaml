@@ -1,4 +1,4 @@
-- model: labware.labware
+- model: labware.labwarebase
   pk: 400uL Thermo 96 Well Plate
 
   fields:

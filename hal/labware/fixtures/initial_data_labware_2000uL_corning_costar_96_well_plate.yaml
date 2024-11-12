@@ -1,4 +1,4 @@
-- model: labware.labware
+- model: labware.labwarebase
   pk: 2000uL Corning Costar 96 Well Plate
 
   fields:

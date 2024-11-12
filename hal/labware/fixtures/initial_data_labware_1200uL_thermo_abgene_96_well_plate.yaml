@@ -1,4 +1,4 @@
-- model: labware.labware
+- model: labware.labwarebase
   pk: 1200uL Thermo Abgene 96 Well Plate
 
   fields:

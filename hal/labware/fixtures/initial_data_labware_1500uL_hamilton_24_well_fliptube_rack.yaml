@@ -1,4 +1,4 @@
-- model: labware.labware
+- model: labware.labwarebase
   pk: 1500uL Hamilton 24 Well Fliptube Rack
 
   fields:
