@@ -14,7 +14,7 @@ class Labware(PolymorphicModel):
 
     x_y_z_dimensions: models.JSONField[list[tuple[float, float, float]]] = (
         models.JSONField(
-            help_text="Plates are not inheritantly a cube. This property defined how the rectangular shape of the plate changes across z heights.",
+            help_text="Plates are not inheritantly a cube. This property defined how the rectangular shape of the plate changes across z heights. Labware is assumed to be landscape such that X is length of the long side (127) and Y is the length of the short side (82).",
             default=lambda: [(127.5, 82, 0), (128, 83, 10)],
             verbose_name="X Y Z dimensions",
         )
