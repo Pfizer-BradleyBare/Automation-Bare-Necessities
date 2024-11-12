@@ -1,5 +1,7 @@
-from plh_config.admin import config_admin
+from hal.admin import hal_admin
 
-from .models import Carrier
+from .models import HamiltonAutoloadCarrier, MoveableCarrier, StationaryCarrier
 
-config_admin.register(Carrier)
+hal_admin.register(StationaryCarrier)
+hal_admin.register(MoveableCarrier)
+hal_admin.register(HamiltonAutoloadCarrier)

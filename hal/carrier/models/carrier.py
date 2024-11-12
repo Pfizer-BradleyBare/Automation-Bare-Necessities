@@ -5,7 +5,8 @@ from hal.deck.models import Deck
 
 
 class Carrier(PolymorphicModel):
-    identifier = models.CharField(max_length=255, unique=True, editable=False)
+    identifier = models.CharField(max_length=255, editable=False)
+    # Only here to enable ordering
 
     deck = models.ForeignKey(
         to=Deck,
@@ -18,13 +19,14 @@ class Carrier(PolymorphicModel):
     )
 
     def save(self, *args, **kwargs):
-        self.identifier = f"{self.deck}_Carrier{self.deck_position}"
+        self.identifier = f"{self.deck}Deck_Carrier{self.deck_position}"
         # Identifier is automatically determined
 
         return super().save(*args, **kwargs)
 
     class Meta:
         ordering = ["identifier"]
+        unique_together = ("deck", "deck_position")
 
     def __str__(self) -> str:
         return self.identifier
