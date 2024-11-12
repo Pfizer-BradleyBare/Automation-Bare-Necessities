@@ -12,10 +12,12 @@ class LayoutItemBase(PolymorphicModel):
     deck_location = models.ForeignKey(
         to=DeckLocationBase,
         on_delete=models.CASCADE,
+        help_text="Which deck location is this layout item located?",
     )
     labware = models.ForeignKey(
         to=LabwareBase,
         on_delete=models.CASCADE,
+        help_text="What is the labware of this layout item?",
     )
 
     class Meta:
