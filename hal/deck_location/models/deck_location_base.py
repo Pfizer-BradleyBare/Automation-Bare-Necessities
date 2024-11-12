@@ -6,11 +6,15 @@ from hal.carrier.models import CarrierBase
 
 class DeckLocationBase(PolymorphicModel):
     identifier = models.CharField(max_length=255, editable=False)
+
     carrier = models.ForeignKey(
         to=CarrierBase,
         on_delete=models.CASCADE,
+        help_text="Which carrier is this deck location assigned to?",
     )
-    carrier_position = models.PositiveSmallIntegerField()
+    carrier_position = models.PositiveSmallIntegerField(
+        help_text="Typically carriers have multiple plate positions. Position is from front to back.",
+    )
 
     class Meta:
         ordering = ["identifier"]
