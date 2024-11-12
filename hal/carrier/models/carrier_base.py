@@ -1,7 +1,7 @@
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
-from hal.deck.models import Deck, SubDeck
+from hal.deck.models import DeckBase, SubDeck
 
 
 class CarrierBase(PolymorphicModel):
@@ -9,7 +9,7 @@ class CarrierBase(PolymorphicModel):
     # Only here to enable ordering
 
     deck = models.ForeignKey(
-        to=Deck,
+        to=DeckBase,
         on_delete=models.CASCADE,
         help_text="Which deck is this carrier assigned to?",
     )
@@ -22,9 +22,11 @@ class CarrierBase(PolymorphicModel):
         deck = self.deck
 
         if isinstance(deck, SubDeck):
-            self.identifier = f"{deck.identifier}Sub_{deck.parent_deck.identifier}_Deck_Carrier{self.deck_position}"
+            self.identifier = f"{deck.identifier.replace(" ","")}Sub_{deck.parent_deck.identifier.replace(" ","")}_Deck_Carrier{self.deck_position}"
         else:
-            self.identifier = f"{deck.identifier}Deck_Carrier{self.deck_position}"
+            self.identifier = (
+                f"{deck.identifier.replace(" ","")}Deck_Carrier{self.deck_position}"
+            )
         # Identifier is automatically determined
 
         return super().save(*args, **kwargs)

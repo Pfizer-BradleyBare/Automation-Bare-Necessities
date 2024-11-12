@@ -17,7 +17,9 @@ class DeckLocationBase(PolymorphicModel):
         unique_together = ("carrier", "carrier_position")
 
     def save(self, *args, **kwargs):
-        self.identifier = f"{self.carrier.identifier}_Pos{self.carrier_position}"
+        self.identifier = (
+            f"{self.carrier.identifier.replace(" ","")}_Pos{self.carrier_position}"
+        )
 
         return super().save(*args, **kwargs)
 
