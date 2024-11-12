@@ -1,3 +1,11 @@
 from django.db import models
 
-# Create your models here.
+
+class Deck(models.Model):
+    identifier = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ["identifier"]
+
+    def __str__(self) -> str:
+        return self.identifier
