@@ -8,7 +8,7 @@ from hal.admin import hal_admin
 from .models import NonPipettableLabware, PipettableLabware
 
 
-class LabwareAdmin(ModelAdmin):
+class DisableIdentifierAdmin(ModelAdmin):
     def get_readonly_fields(
         self,
         request: HttpRequest,
@@ -19,5 +19,5 @@ class LabwareAdmin(ModelAdmin):
         return []
 
 
-hal_admin.register(NonPipettableLabware, LabwareAdmin)
-hal_admin.register(PipettableLabware, LabwareAdmin)
+hal_admin.register(NonPipettableLabware, DisableIdentifierAdmin)
+hal_admin.register(PipettableLabware, DisableIdentifierAdmin)

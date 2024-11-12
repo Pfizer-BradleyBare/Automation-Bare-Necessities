@@ -33,12 +33,12 @@ class Container(models.Model):
     def clean(self) -> None:
         definition = cast(list[tuple[float, float]], self.shape_definition)
 
-        if len(definition) != {volume for volume, _ in definition}:
+        if len(definition) != len({volume for volume, _ in definition}):
             raise ValidationError(
                 "'shape_definition' is incorrect. Duplicate volume values are present.",
             )
 
-        if len(definition) != {height for _, height in definition}:
+        if len(definition) != len({height for _, height in definition}):
             raise ValidationError(
                 "'shape_definition' is incorrect. Duplicate height values are present.",
             )
