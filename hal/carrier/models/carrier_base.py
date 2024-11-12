@@ -22,7 +22,7 @@ class CarrierBase(PolymorphicModel):
         deck = self.deck
 
         if isinstance(deck, SubDeck):
-            self.identifier = f"{deck.identifier.replace(" ","")}Sub_{deck.parent_deck.identifier.replace(" ","")}_Deck_Carrier{self.deck_position}"
+            self.identifier = f"{deck.parent_deck.identifier.replace(" ","")}Deck_{deck.identifier.replace(" ","")}SubDeck_Carrier{self.deck_position}"
         else:
             self.identifier = (
                 f"{deck.identifier.replace(" ","")}Deck_Carrier{self.deck_position}"
