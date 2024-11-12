@@ -33,16 +33,6 @@ class Container(models.Model):
     def clean(self) -> None:
         definition = cast(list[tuple[float, float]], self.shape_definition)
 
-        if len(definition) != len({volume for volume, _ in definition}):
-            raise ValidationError(
-                "'shape_definition' is incorrect. Duplicate volume values are present.",
-            )
-
-        if len(definition) != len({height for _, height in definition}):
-            raise ValidationError(
-                "'shape_definition' is incorrect. Duplicate height values are present.",
-            )
-
         try:
             for index, (volume, height) in enumerate(definition):
                 if len(definition[index]) != 2:
@@ -54,6 +44,16 @@ class Container(models.Model):
             raise ValidationError(
                 "'shape_definition' is incorrect. Expected list of tuples. Ex: [(0,0),(100,10),(500,15)]",
             ) from e
+
+        if len(definition) != len({volume for volume, _ in definition}):
+            raise ValidationError(
+                "'shape_definition' is incorrect. Duplicate volume values are present.",
+            )
+
+        if len(definition) != len({height for _, height in definition}):
+            raise ValidationError(
+                "'shape_definition' is incorrect. Duplicate height values are present.",
+            )
 
         definition = sorted(definition, key=lambda x: x[0])
 
