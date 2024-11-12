@@ -11,11 +11,12 @@ def write_container_labwares_sheet(sheet: xlwings.Sheet):
     cells.append(["Container Labwares"])
 
     cells += [
-        [
+        [container_identifier]
+        for container_identifier in {
             layout_item.labware.container.identifier
             for layout_item in LayoutItemBase.objects.all()
             if isinstance(layout_item.labware, PipettableLabware)
-        ],
+        }
     ]
 
     cells = list(zip(*itertools.zip_longest(*cells, fillvalue=None), strict=False))
