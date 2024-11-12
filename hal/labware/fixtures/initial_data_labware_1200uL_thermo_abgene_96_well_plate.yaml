@@ -10,9 +10,9 @@
       - - 124.75
         - 82
         - 23
-    short_side_z_grip_regions:
+    short_side_z_grip_heights:
       - 10
-    long_side_z_grip_regions:
+    long_side_z_grip_heights:
       - 10
     addressable_rows: 8
     addressable_columns: 12

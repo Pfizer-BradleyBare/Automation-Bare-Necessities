@@ -22,22 +22,22 @@ class Labware(PolymorphicModel):
 
     x_y_z_dimensions: models.JSONField[list[tuple[float, float, float]]] = (
         models.JSONField(
-            help_text="Plates are not inheritantly a cube. This property defined how the rectangular shape of the plate changes across z heights. Labware is assumed to be landscape such that X is length of the long side (127) and Y is the length of the short side (82).",
+            help_text="Plates are not inheritantly a cube. This property defines how the rectangular shape of the plate changes across z heights. Labware is assumed to be landscape such that X is length of the long side (ex. 127mm) and Y is the length of the short side (ex. 82mm).",
             default=_x_y_z_dimensions_default,
             verbose_name="X Y Z dimensions",
         )
     )
 
-    short_side_z_grip_regions: models.JSONField[list[float]] = models.JSONField(
-        help_text="Which regions are acceptable to be gripped on the short side when transported. Relative to bottom.",
+    short_side_z_grip_heights: models.JSONField[list[float]] = models.JSONField(
+        help_text="Which Z heights are acceptable to be gripped on the short side when transported. Relative to bottom.",
         default=_grip_regions_default,
-        verbose_name="Short side Z grip regions",
+        verbose_name="Short side Z grip heights",
     )
 
-    long_side_z_grip_regions: models.JSONField[list[float]] = models.JSONField(
-        help_text="Which regions are acceptable to be gripped on the long side when transported. Relative to bottom.",
+    long_side_z_grip_heights: models.JSONField[list[float]] = models.JSONField(
+        help_text="Which Z heights are acceptable to be gripped on the long side when transported. Relative to bottom.",
         default=_grip_regions_default,
-        verbose_name="Long side Z grip regions",
+        verbose_name="Long side Z grip heights",
     )
 
     addressable_rows = models.PositiveSmallIntegerField(
@@ -49,7 +49,7 @@ class Labware(PolymorphicModel):
     addressing_direction = models.CharField(
         max_length=11,
         choices=(("Column-wise", "Column-wise"), ("Row-wise", "Row-wise")),
-        help_text="How container positions are ordered. Labware definition specific.",
+        help_text="How the container positions are ordered. Labware definition specific.",
     )
 
     def clean(self) -> None:
@@ -74,7 +74,7 @@ class Labware(PolymorphicModel):
 
         self.x_y_z_dimensions = sorted(dimensions, key=lambda x: x[0])
 
-        regions = self.short_side_z_grip_regions
+        regions = self.short_side_z_grip_heights
 
         try:
             for index, region in enumerate(regions):
@@ -82,12 +82,12 @@ class Labware(PolymorphicModel):
 
         except ValueError as e:
             raise ValidationError(
-                "'short_side_z_grip_regions' is incorrect. Expected list of numbers. Ex: [2,5,10]",
+                "'short_side_z_grip_heights' is incorrect. Expected list of numbers. Ex: [2,5,10]",
             ) from e
 
-        self.short_side_z_grip_regions = sorted(regions)
+        self.short_side_z_grip_heights = sorted(regions)
 
-        regions = self.long_side_z_grip_regions
+        regions = self.long_side_z_grip_heights
 
         try:
             for index, region in enumerate(regions):
@@ -95,10 +95,10 @@ class Labware(PolymorphicModel):
 
         except ValueError as e:
             raise ValidationError(
-                "'long_side_z_grip_regions' is incorrect. Expected list of numbers. Ex: [2,5,10]",
+                "'long_side_z_grip_heights' is incorrect. Expected list of numbers. Ex: [2,5,10]",
             ) from e
 
-        self.long_side_z_grip_regions = sorted(regions)
+        self.long_side_z_grip_heights = sorted(regions)
 
         if (
             self.addressing_direction != "Column-wise"
