@@ -37,16 +37,16 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "polymorphic",
     "hal",
-    "hal.backend",
     "hal.container",
     "hal.labware",
+    "hal.backend",
+    "hal.deck",
     "debug",
     "abn",
     "worklist",
     "method",
     "solution",
     "block",
-    "deck",
     "scheduler",
 ]
 
