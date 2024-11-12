@@ -6,8 +6,6 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
-from .container import Container
-
 
 def _grip_regions_default() -> list[float]:
     return [0, 3, 10]
@@ -115,13 +113,6 @@ class Labware(PolymorphicModel):
 
     class Meta:
         ordering = ["identifier"]
-
-
-class NonPipettableLabware(Labware): ...
-
-
-class PipettableLabware(Labware):
-    container = models.ForeignKey(to=Container, on_delete=models.CASCADE)
 
 
 class StackedLabwareZHeightChange(models.Model):
