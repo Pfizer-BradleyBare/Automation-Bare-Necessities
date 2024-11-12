@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
-from hal.container.models import Container
+from .container import Container
 
 
 def _grip_regions_default() -> list[float]:
