@@ -15,18 +15,21 @@ class Labware(PolymorphicModel):
     x_y_z_dimensions: models.JSONField[list[tuple[float, float, float]]] = (
         models.JSONField(
             help_text="Plates are not inheritantly a cube. This property defined how the rectangular shape of the plate changes across z heights.",
-            default=[(127.5, 82, 0), (128, 83, 10)],
+            default=lambda: [(127.5, 82, 0), (128, 83, 10)],
+            verbose_name="X Y Z dimensions",
         )
     )
 
     short_side_z_grip_regions: models.JSONField[list[float]] = models.JSONField(
         help_text="Which regions are acceptable to be gripped on the short side when transported. Relative to bottom.",
-        default=[0, 3, 10],
+        default=lambda: [0, 3, 10],
+        verbose_name="Short side Z grip regions",
     )
 
     long_side_z_grip_regions: models.JSONField[list[float]] = models.JSONField(
         help_text="Which regions are acceptable to be gripped on the long side when transported. Relative to bottom.",
-        default=[0, 3, 10],
+        default=lambda: [0, 3, 10],
+        verbose_name="Long side Z grip regions",
     )
 
     addressable_rows = models.PositiveSmallIntegerField(
