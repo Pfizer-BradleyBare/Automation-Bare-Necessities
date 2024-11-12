@@ -1,7 +1,6 @@
 - model: container.container
-  pk: 4
+  pk: 1500uL Hamilton Fliptube
   fields:
-    name: Hamilton 1500uL Fliptube
     simultaneous_tips: 1
     max_volume: 1500
     dead_volume: 10

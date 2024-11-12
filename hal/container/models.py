@@ -8,7 +8,7 @@ from django.db import models
 
 
 class Container(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    identifier = models.CharField(max_length=255, unique=True, primary_key=True)
 
     simultaneous_tips = models.SmallIntegerField(
         help_text="How many tips can fit in the container position at a the same time.",
@@ -25,10 +25,10 @@ class Container(models.Model):
     )
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["identifier"]
 
     def __str__(self) -> str:
-        return self.name
+        return self.identifier
 
     def clean(self) -> None:
         definition = cast(list[tuple[float, float]], self.shape_definition)

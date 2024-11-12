@@ -1,0 +1,25 @@
+- model: labware.labware
+  pk: 400uL Thermo 96 Well Plate
+
+  fields:
+    polymorphic_ctype:
+      - labware
+      - pipettablelabware
+
+    x_y_z_dimensions:
+      - - 123.25
+        - 84.75
+        - 15
+    short_side_z_grip_regions:
+      - 5
+    long_side_z_grip_regions:
+      - 5
+    addressable_rows: 8
+    addressable_columns: 12
+    addressing_direction: Column-wise
+
+- model: labware.pipettablelabware
+  pk: 400uL Thermo 96 Well Plate
+
+  fields:
+    container: 400uL Thermo Well

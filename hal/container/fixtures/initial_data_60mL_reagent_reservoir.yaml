@@ -1,7 +1,6 @@
 - model: container.container
-  pk: 5
+  pk: 60mL Reagent Reservoir
   fields:
-    name: 60mL Reagent Reservoir
     simultaneous_tips: 1
     max_volume: 60000
     dead_volume: 500

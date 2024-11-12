@@ -1,0 +1,24 @@
+- model: labware.labware
+  pk: Agilent Black Lid
+
+  fields:
+    polymorphic_ctype:
+      - labware
+      - nonpipettablelabware
+
+    x_y_z_dimensions:
+      - - 127.5
+        - 85
+        - 9.5
+    short_side_z_grip_regions:
+      - 4
+    long_side_z_grip_regions:
+      - 4
+    addressable_rows: 1
+    addressable_columns: 1
+    addressing_direction: Column-wise
+
+- model: labware.nonpipettablelabware
+  pk: Agilent Black Lid
+
+  fields: {}

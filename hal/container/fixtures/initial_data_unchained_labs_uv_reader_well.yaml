@@ -1,7 +1,6 @@
 - model: container.container
-  pk: 8
+  pk: Unchained Labs UV Reader Well
   fields:
-    name: Unchained Labs UV Reader Well
     simultaneous_tips: 1
     max_volume: 3
     dead_volume: 0

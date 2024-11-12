@@ -1,7 +1,6 @@
 - model: container.container
-  pk: 3
+  pk: 2000uL Corning Costar V Bottom Well
   fields:
-    name: 2000uL Corning Costar V Bottom Well
     simultaneous_tips: 1
     max_volume: 2000
     dead_volume: 10

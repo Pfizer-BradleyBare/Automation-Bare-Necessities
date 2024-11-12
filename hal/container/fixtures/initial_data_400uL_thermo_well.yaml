@@ -1,12 +1,11 @@
 - model: container.container
-  pk: 7
+  pk: 400uL Thermo Well
   fields:
-    name: 1200uL Thermo Abgene Well
     simultaneous_tips: 1
-    max_volume: 200
+    max_volume: 400
     dead_volume: 10
     shape_definition:
-      - - 83.1264
+      - - 56.745
         - 3
-      - - 1353.2064
-        - 21
+      - - 510.705
+        - 11

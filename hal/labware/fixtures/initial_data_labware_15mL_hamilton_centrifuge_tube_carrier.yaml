@@ -1,0 +1,25 @@
+- model: labware.labware
+  pk: 15mL Hamilton Centrifuge Tube Carrier
+
+  fields:
+    polymorphic_ctype:
+      - labware
+      - pipettablelabware
+
+    x_y_z_dimensions:
+      - - 0
+        - 0
+        - 0
+    short_side_z_grip_regions:
+      -
+    long_side_z_grip_regions:
+      -
+    addressable_rows: 24
+    addressable_columns: 1
+    addressing_direction: Column-wise
+
+- model: labware.pipettablelabware
+  pk: 15mL Hamilton Centrifuge Tube Carrier
+
+  fields:
+    container: 15mL Centrifuge Tube

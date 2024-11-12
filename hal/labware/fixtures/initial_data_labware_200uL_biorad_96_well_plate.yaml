@@ -1,0 +1,25 @@
+- model: labware.labware
+  pk: 200uL Biorad 96 Well Plate
+
+  fields:
+    polymorphic_ctype:
+      - labware
+      - pipettablelabware
+
+    x_y_z_dimensions:
+      - - 124.5
+        - 82.5
+        - 15
+    short_side_z_grip_regions:
+      - 6
+    long_side_z_grip_regions:
+      - 6
+    addressable_rows: 8
+    addressable_columns: 12
+    addressing_direction: Column-wise
+
+- model: labware.pipettablelabware
+  pk: 200uL Biorad 96 Well Plate
+
+  fields:
+    container: 200uL Biorad Well

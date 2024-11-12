@@ -1,7 +1,6 @@
 - model: container.container
-  pk: 2
+  pk: 15mL Centrifuge Tube
   fields:
-    name: 15mL Centrifuge Tube
     simultaneous_tips: 1
     max_volume: 15000
     dead_volume: 500

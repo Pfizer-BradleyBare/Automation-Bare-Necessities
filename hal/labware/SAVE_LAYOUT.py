@@ -1,12 +1,14 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
-from enum import Enum
-from typing import Callable, Literal
-
 import dataclasses
+from abc import ABC, abstractmethod
+from collections.abc import Callable
+from typing import Literal
+
+from polymorphic.models import PolymorphicModel
 
 
+class PositionAddressing(PolymorphicModel): ...
 
 
 @dataclasses.dataclass(kw_only=True)
@@ -19,7 +21,7 @@ class Layout(ABC):
     columns: int
     """Number of columns in the labware."""
 
-    direction: Literal["Column-wise","Row-wise"]
+    direction: Literal["Column-wise", "Row-wise"]
     """Sorting object."""
 
     def total_positions(self: Layout) -> int:
@@ -74,12 +76,10 @@ class Layout(ABC):
         ...
 
     @abstractmethod
-    def _get_columnwise_position_id(self: Layout, position: str) -> str:
-        ...
+    def _get_columnwise_position_id(self: Layout, position: str) -> str: ...
 
     @abstractmethod
-    def _get_rowwise_position_id(self: Layout, position: str) -> str:
-        ...
+    def _get_rowwise_position_id(self: Layout, position: str) -> str: ...
 
 
 @dataclasses.dataclass(kw_only=True)
