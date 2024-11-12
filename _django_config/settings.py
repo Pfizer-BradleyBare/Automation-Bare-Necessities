@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "polymorphic",
     "hal",
-    "hal.container",
     "hal.labware",
     "hal.backend",
     "hal.deck",

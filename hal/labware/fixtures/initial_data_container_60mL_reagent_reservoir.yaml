@@ -1,4 +1,4 @@
-- model: container.container
+- model: labware.container
   pk: 60mL Reagent Reservoir
   fields:
     simultaneous_tips: 1

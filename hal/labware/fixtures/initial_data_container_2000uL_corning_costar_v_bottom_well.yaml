@@ -1,4 +1,4 @@
-- model: container.container
+- model: labware.container
   pk: 2000uL Corning Costar V Bottom Well
   fields:
     simultaneous_tips: 1
