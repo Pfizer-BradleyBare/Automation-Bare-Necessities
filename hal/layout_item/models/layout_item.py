@@ -23,7 +23,9 @@ class LayoutItem(PolymorphicModel):
         unique_together = ("deck_location", "labware")
 
     def save(self, *args, **kwargs):
-        self.identifier = f"{self.deck_location.identifier}_{self.labware.identifier}"
+        self.identifier = (
+            f"{self.deck_location.identifier}_{self.labware.identifier.replace(" ","")}"
+        )
 
         return super().save(*args, **kwargs)
 
