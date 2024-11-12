@@ -9,26 +9,34 @@ from polymorphic.models import PolymorphicModel
 from hal.container.models import Container
 
 
+def _grip_regions_default() -> list[float]:
+    return [0, 3, 10]
+
+
+def _x_y_z_dimensions_default() -> list[tuple[float, float, float]]:
+    return [(127.5, 82, 0), (128, 83, 10)]
+
+
 class Labware(PolymorphicModel):
     identifier = models.CharField(max_length=255, unique=True, primary_key=True)
 
     x_y_z_dimensions: models.JSONField[list[tuple[float, float, float]]] = (
         models.JSONField(
             help_text="Plates are not inheritantly a cube. This property defined how the rectangular shape of the plate changes across z heights. Labware is assumed to be landscape such that X is length of the long side (127) and Y is the length of the short side (82).",
-            default=lambda: [(127.5, 82, 0), (128, 83, 10)],
+            default=_x_y_z_dimensions_default,
             verbose_name="X Y Z dimensions",
         )
     )
 
     short_side_z_grip_regions: models.JSONField[list[float]] = models.JSONField(
         help_text="Which regions are acceptable to be gripped on the short side when transported. Relative to bottom.",
-        default=lambda: [0, 3, 10],
+        default=_grip_regions_default,
         verbose_name="Short side Z grip regions",
     )
 
     long_side_z_grip_regions: models.JSONField[list[float]] = models.JSONField(
         help_text="Which regions are acceptable to be gripped on the long side when transported. Relative to bottom.",
-        default=lambda: [0, 3, 10],
+        default=_grip_regions_default,
         verbose_name="Long side Z grip regions",
     )
 
