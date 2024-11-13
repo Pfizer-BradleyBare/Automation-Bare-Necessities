@@ -20,6 +20,11 @@ class TransportableDeckLocationConfig(models.Model):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        unique_together = ("transport_device","pickup_options","place_options")
+
+    def __str__(self) -> str:
+        return f"({self.pk}) {self.transport_device.identifier.replace(" ","")} | PickupOptions:{self.pickup_options} | PlaceOptions:{self.place_options}"
 
 class TransportableDeckLocation(DeckLocationBase):
     transport_configs = models.ManyToManyField(to=TransportableDeckLocationConfig)
