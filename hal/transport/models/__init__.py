@@ -18,8 +18,16 @@ from .hamilton_vantage_track_gripper_taught_movement import (
     HamiltonVantageTrackGripperTaughtMovementPickupOptions,
     HamiltonVantageTrackGripperTaughtMovementPlaceOptions,
 )
+from .transport_base import (
+    TransportBase,
+    TransportPickupOptionsBase,
+    TransportPlaceOptionsBase,
+)
 
 __all__ = [
+    "TransportBase",
+    "TransportPickupOptionsBase",
+    "TransportPlaceOptionsBase",
     "HamiltonCOREGripper",
     "HamiltonCOREGripperPickupOptions",
     "HamiltonCOREGripperPlaceOptions",

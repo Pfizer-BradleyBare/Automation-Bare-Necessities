@@ -22,9 +22,11 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("chaining/", include("smart_selects.urls")),
     path("config/", include("hal.urls")),
     path("", include("abn.urls", namespace="abn")),
     path("scheduler/", include("scheduler.urls", namespace="scheduler")),
     path("method/", include("method.urls", namespace="method")),
     path("trace/", include("debug.urls", namespace="trace")),
+    path("", include("hal.transport.urls", namespace="hal.transport")),
 ]
