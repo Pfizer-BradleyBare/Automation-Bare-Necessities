@@ -13,6 +13,8 @@ class HamiltonVantageTrackGripperTaughtMovement(TransportBase): ...
 class HamiltonVantageTrackGripperTaughtMovementPickupOptions(
     TransportPickupOptionsBase,
 ):
+    transport_device = HamiltonVantageTrackGripperTaughtMovement.__name__
+
     taught_path = models.CharField(max_length=255, unique=True)
     grip_force_percent = models.FloatField()
     movement_speed_percent = models.FloatField()
@@ -31,6 +33,8 @@ class HamiltonVantageTrackGripperTaughtMovementPickupOptions(
 
 
 class HamiltonVantageTrackGripperTaughtMovementPlaceOptions(TransportPlaceOptionsBase):
+    transport_device = HamiltonVantageTrackGripperTaughtMovement.__name__
+
     taught_path = models.CharField(max_length=255, unique=True)
     movement_speed_percent = models.FloatField()
     coordinated_movement = models.BooleanField(default=False)

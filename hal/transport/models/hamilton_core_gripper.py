@@ -16,6 +16,8 @@ class HamiltonCOREGripper(TransportBase):
 
 
 class HamiltonCOREGripperPickupOptions(TransportPickupOptionsBase):
+    transport_device = HamiltonCOREGripper.__name__
+
     grip_force = models.CharField(
         max_length=25,
         choices=[
@@ -49,6 +51,8 @@ class HamiltonCOREGripperPickupOptions(TransportPickupOptionsBase):
 
 
 class HamiltonCOREGripperPlaceOptions(TransportPlaceOptionsBase):
+    transport_device = HamiltonCOREGripper.__name__
+
     x_acceleration_level = models.CharField(
         max_length=25,
         choices=(

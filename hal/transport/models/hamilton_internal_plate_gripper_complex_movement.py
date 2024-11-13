@@ -13,6 +13,8 @@ class HamiltonInternalPlateGripperComplexMovement(TransportBase): ...
 class HamiltonInternalPlateGripperComplexMovementPickupOptions(
     TransportPickupOptionsBase,
 ):
+    transport_device = HamiltonInternalPlateGripperComplexMovement.__name__
+
     grip_mode = models.CharField(
         max_length=20,
         choices=(
@@ -68,6 +70,8 @@ class HamiltonInternalPlateGripperComplexMovementPickupOptions(
 class HamiltonInternalPlateGripperComplexMovementPlaceOptions(
     TransportPlaceOptionsBase,
 ):
+    transport_device = HamiltonInternalPlateGripperComplexMovement.__name__
+
     retract_distance = models.FloatField()
     liftup_height = models.FloatField
     labware_orientation = models.CharField(

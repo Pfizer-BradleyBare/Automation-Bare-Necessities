@@ -13,6 +13,8 @@ class HamiltonInternalPlateGripperSimpleMovement(TransportBase): ...
 class HamiltonInternalPlateGripperSimpleMovementPickupOptions(
     TransportPickupOptionsBase,
 ):
+    transport_device = HamiltonInternalPlateGripperSimpleMovement.__name__
+
     grip_mode = models.CharField(
         max_length=20,
         choices=(
@@ -52,5 +54,7 @@ class HamiltonInternalPlateGripperSimpleMovementPickupOptions(
 
 
 class HamiltonInternalPlateGripperSimpleMovementPlaceOptions(TransportPlaceOptionsBase):
+    transport_device = HamiltonInternalPlateGripperSimpleMovement.__name__
+
     def __str__(self) -> str:
         return "Default place options"

@@ -34,7 +34,9 @@ class TransportBase(PolymorphicModel):
         return self.identifier
 
 
-class TransportPickupOptionsBase(PolymorphicModel): ...
+class TransportPickupOptionsBase(PolymorphicModel):
+    transport_device = TransportBase.__name__
 
 
-class TransportPlaceOptionsBase(PolymorphicModel): ...
+class TransportPlaceOptionsBase(PolymorphicModel):
+    transport_device = TransportBase.__name__
