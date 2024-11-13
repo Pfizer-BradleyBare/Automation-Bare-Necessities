@@ -2,9 +2,10 @@
 from typing import Any
 
 from django import forms
+from django.core.exceptions import ValidationError
 from django.utils.safestring import SafeText
 
-from .models import TransportableDeckLocationConfig
+from .models import TransportableDeckLocation, TransportableDeckLocationConfig
 
 
 class DeviceSelect(forms.Select):
@@ -93,3 +94,16 @@ class TransportableDeckLocationConfigForm(forms.ModelForm):
             "pickup_options": OptionsSelect(),
             "place_options": OptionsSelect(),
         }
+
+class TransportableDeckLocationForm(forms.ModelForm):
+    class Meta:
+        model = TransportableDeckLocation
+        fields = "__all__"
+
+    def clean_transport_configs(self):
+        transport_configs = self.cleaned_data["transport_configs"]
+
+        if len(transport_configs) != len({transport_config.transport_device for transport_config in transport_configs}):
+            raise ValidationError("Duplicate <backend>_<transport_device> combos found. Each deck location can support any number of different <backend>_<transport_device> combos, but not more than 1 of the same.")
+
+        return transport_configs
