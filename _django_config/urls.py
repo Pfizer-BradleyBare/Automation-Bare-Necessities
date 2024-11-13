@@ -27,5 +27,4 @@ urlpatterns = [
     path("scheduler/", include("scheduler.urls", namespace="scheduler")),
     path("method/", include("method.urls", namespace="method")),
     path("trace/", include("debug.urls", namespace="trace")),
-    path("", include("hal.transport.urls", namespace="hal.transport")),
 ]
