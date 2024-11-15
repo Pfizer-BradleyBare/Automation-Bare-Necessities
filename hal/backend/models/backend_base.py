@@ -25,6 +25,17 @@ class BackendBase(AbstractPolymorphicModel):
     @abstractmethod
     def deinitialize(self): ...
 
+    def get_plh_backend(self) -> PLHBackendBase:
+        if self.identifier not in self._backend_instances:
+            plh_logger.critical(
+                f"A device attempted to use backend '{self.identifier}' but it is not currently running.",
+            )
+            raise RuntimeError(
+                f"A device attempted to use backend '{self.identifier}' but it is not currently running.",
+            )
+
+        return self._backend_instances[self.identifier]
+
     def clean(self) -> None:
         if self.identifier in self._backend_instances:
             plh_logger.critical(
