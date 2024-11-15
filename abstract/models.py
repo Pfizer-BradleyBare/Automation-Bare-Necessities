@@ -1,25 +1,20 @@
-from abc import ABCMeta
+from django.db import models as _dm
+from polymorphic import models as _dpm
 
-from django.db import models
-from polymorphic.models import PolymorphicModel
-
-
-class _AbstractModelMeta(ABCMeta, type(models.Model)): #type:ignore
-    pass
+from . import metaclasses as _mc
 
 
-class AbstractModel(models.Model, metaclass=_AbstractModelMeta):
+class AbstractModel(_dm.Model, metaclass=_mc._AbstractModelMeta):
     # You may have common fields here.
 
     class Meta:
         abstract = True
 
 
-class _AbstractPolymorphicModelMeta(ABCMeta, type(PolymorphicModel)): #type:ignore
-    pass
-
-
-class AbstractPolymorphicModel(PolymorphicModel, metaclass=_AbstractPolymorphicModelMeta):
+class AbstractPolymorphicModel(
+    _dpm.PolymorphicModel,
+    metaclass=_mc._AbstractPolymorphicModelMeta,
+):
     # You may have common fields here.
 
     class Meta:
