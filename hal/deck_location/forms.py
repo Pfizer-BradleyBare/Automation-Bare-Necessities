@@ -28,45 +28,48 @@ class DeviceSelect(forms.Select):
 """
 <script>
 function transport_device_change() {
+
     var transportDeviceSelect = document.getElementById("id_transport_device");
     var pickupOptionsSelect = document.getElementById("id_pickup_options");
     var placeOptionsSelect = document.getElementById("id_place_options");
 
-    var selectedIndex = transportDeviceSelect.selectedIndex
-    var selectedOption = transportDeviceSelect.options[selectedIndex]
-    var selectedTransportDevice = selectedOption.getAttribute("Data-transport_device")
+    var selectedIndex = transportDeviceSelect.selectedIndex;
+    var selectedOption = transportDeviceSelect.options[selectedIndex];
+    var selectedTransportDevice = selectedOption.getAttribute("Data-transport_device");
 
-    pickupOptionsSelect.selectedIndex = 0
-    placeOptionsSelect.selectedIndex = 0
+    pickupOptionsSelect.selectedIndex = 0;
+    placeOptionsSelect.selectedIndex = 0;
 
     for (let filterIndex = 1; filterIndex < pickupOptionsSelect.options.length; filterIndex++) {
-        var filterOption = pickupOptionsSelect.options[filterIndex]
-        var filterTransportDevice = filterOption.getAttribute("Data-transport_device")
+        var filterOption = pickupOptionsSelect.options[filterIndex];
+        var filterTransportDevice = filterOption.getAttribute("Data-transport_device");
 
         if (filterTransportDevice == selectedTransportDevice)
         {
-            filterOption.style.display = "block"
+            filterOption.style.display = "block";
         }
         else
         {
-            filterOption.style.display = "none"
+            filterOption.style.display = "none";
         }
     }
 
     for (let filterIndex = 1; filterIndex < placeOptionsSelect.options.length; filterIndex++) {
-        var filterOption = placeOptionsSelect.options[filterIndex]
-        var filterTransportDevice = filterOption.getAttribute("Data-transport_device")
+        var filterOption = placeOptionsSelect.options[filterIndex];
+        var filterTransportDevice = filterOption.getAttribute("Data-transport_device");
 
         if (filterTransportDevice == selectedTransportDevice)
         {
-            filterOption.style.display = "block"
+            filterOption.style.display = "block";
         }
         else
         {
-            filterOption.style.display = "none"
+            filterOption.style.display = "none";
         }
     }
 }
+
+document.getElementById("id_transport_device").addEventListener("change", transport_device_change);
 </script>
 """)
 
@@ -90,7 +93,7 @@ class TransportableDeckLocationConfigForm(forms.ModelForm):
         model = TransportableDeckLocationConfig
         fields = "__all__"
         widgets = {
-            "transport_device": DeviceSelect(attrs={"onchange":"transport_device_change()"}),
+            "transport_device": DeviceSelect(),
             "pickup_options": OptionsSelect(),
             "place_options": OptionsSelect(),
         }
