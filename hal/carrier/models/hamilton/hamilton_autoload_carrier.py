@@ -20,6 +20,11 @@ class HamiltonAutoloadCarrier(MoveableCarrier):
 
         labware_id = self.carrier_labware_id
 
+        if labware_id != self.identifier:
+            plh_logger.warning(
+                f"HamiltonAutoloadCarrier identifier '{self.identifier}' and labware_id '{labware_id}' do not match. If intentional, you may ignore, else was this a typo?",
+            )
+
         command = TestLabwareIDExists.Command(
             options=[TestLabwareIDExists.Options(LabwareID=labware_id)],
         )
