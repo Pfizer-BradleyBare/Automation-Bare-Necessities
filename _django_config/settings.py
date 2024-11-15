@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "polymorphic",
+    "abstract",
     "hal",
     "hal.labware",
     "hal.backend",
