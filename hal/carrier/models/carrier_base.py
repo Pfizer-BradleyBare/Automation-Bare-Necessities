@@ -1,10 +1,12 @@
-from django.db import models
-from polymorphic.models import PolymorphicModel
+from abc import abstractmethod
 
+from django.db import models
+
+from abstract.models import AbstractPolymorphicModel
 from hal.deck.models import DeckBase, SubDeck
 
 
-class CarrierBase(PolymorphicModel):
+class CarrierBase(AbstractPolymorphicModel):
     identifier = models.CharField(max_length=255, editable=False)
     # Only here to enable ordering
 
@@ -17,6 +19,12 @@ class CarrierBase(PolymorphicModel):
     deck_position = models.SmallIntegerField(
         help_text="Typically the starting carrier number. But for decks without a positions this is flexible (NOTE: from left to right).",
     )
+
+    @abstractmethod
+    def initialize(self): ...
+
+    @abstractmethod
+    def deinitialize(self): ...
 
     def save(self, *args, **kwargs):
         deck = self.deck
