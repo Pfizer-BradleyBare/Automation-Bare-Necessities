@@ -1,9 +1,8 @@
 from django.db import models
+from polymorphic.models import PolymorphicModel
 
-from abstract.models import AbstractPolymorphicModel
 
-
-class DeckBase(AbstractPolymorphicModel):
+class DeckBase(PolymorphicModel):
     identifier = models.CharField(
         max_length=255,
         unique=True,

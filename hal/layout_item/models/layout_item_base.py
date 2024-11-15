@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
@@ -18,6 +20,13 @@ class LayoutItemBase(PolymorphicModel):
         to=LabwareBase,
         on_delete=models.CASCADE,
         help_text="What is the labware of this layout item?",
+    )
+
+    cover: models.ForeignKey[LayoutItemBase | None] = models.ForeignKey(
+        to="LayoutItemBase",
+        on_delete=models.CASCADE,
+        null=True,
+        editable=False,
     )
 
     class Meta:

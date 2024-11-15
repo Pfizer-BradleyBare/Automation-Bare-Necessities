@@ -1,12 +1,12 @@
 from abc import abstractmethod
 
 from django.db import models
+from polymorphic.models import PolymorphicModel
 
-from abstract.models import AbstractPolymorphicModel
 from hal.deck.models import DeckBase, SubDeck
 
 
-class CarrierBase(AbstractPolymorphicModel):
+class CarrierBase(PolymorphicModel):
     identifier = models.CharField(max_length=255, editable=False)
     # Only here to enable ordering
 

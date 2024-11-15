@@ -4,12 +4,12 @@ from typing import ClassVar
 from django.core.exceptions import ValidationError
 from django.db import models
 from plh.tools import BackendBase as PLHBackendBase
+from polymorphic.models import PolymorphicModel
 
-from abstract.models import AbstractPolymorphicModel
 from debug import plh_logger
 
 
-class BackendBase(AbstractPolymorphicModel):
+class BackendBase(PolymorphicModel):
     _backend_instances: ClassVar[dict[str, PLHBackendBase]] = {}
 
     identifier = models.CharField(
