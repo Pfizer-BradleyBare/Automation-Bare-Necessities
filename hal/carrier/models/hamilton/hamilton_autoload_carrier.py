@@ -4,7 +4,7 @@ from plh.hamilton_venus.HSLLabwrAccess import TestLabwareIDExists
 
 from debug import plh_logger
 
-from .moveable_carrier import MoveableCarrier
+from ..moveable_carrier import MoveableCarrier
 
 
 class HamiltonAutoloadCarrier(MoveableCarrier):
