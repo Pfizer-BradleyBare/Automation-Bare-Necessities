@@ -5,7 +5,12 @@ from django.http import HttpRequest
 
 from hal.admin import hal_admin
 
-from .models import Container, NonPipettableLabware, PipettableLabware
+from .models import (
+    Container,
+    NonPipettableLabware,
+    PipettableLabware,
+    StackedLabwareZHeightChange,
+)
 
 
 class DisableIdentifierAdmin(ModelAdmin):
@@ -19,6 +24,7 @@ class DisableIdentifierAdmin(ModelAdmin):
         return []
 
 
+hal_admin.register(StackedLabwareZHeightChange)
 hal_admin.register(NonPipettableLabware, DisableIdentifierAdmin)
 hal_admin.register(PipettableLabware, DisableIdentifierAdmin)
 hal_admin.register(Container, DisableIdentifierAdmin)
