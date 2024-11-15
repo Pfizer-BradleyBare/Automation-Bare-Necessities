@@ -1,8 +1,8 @@
-from backend.models.hamilton import HamiltonBackendBase
 from django.db import models
 from plh.hamilton_venus.HSLLabwrAccess import TestLabwareIDExists
 
 from debug import plh_logger
+from hal.backend.models.hamilton import HamiltonBackendBase
 
 from ..moveable_carrier import MoveableCarrier
 
