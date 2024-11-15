@@ -10,19 +10,19 @@ from ..moveable_carrier import MoveableCarrier
 class HamiltonAutoloadCarrier(MoveableCarrier):
     backend = models.ForeignKey(to=HamiltonBackendBase, on_delete=models.CASCADE)
 
-    carrier_labware_id = models.CharField(
-        max_length=50,
+    labware_id = models.CharField(
+        max_length=255,
         unique=True,
     )
 
     def initialize(self):
         backend = self.backend.get_plh_backend()
 
-        labware_id = self.carrier_labware_id
+        labware_id = self.labware_id
 
         if labware_id != self.identifier:
             plh_logger.warning(
-                f"HamiltonAutoloadCarrier identifier '{self.identifier}' and labware_id '{labware_id}' do not match. If intentional, you may ignore, else was this a typo?",
+                f"HamiltonAutoloadCarrier identifier '{self.identifier}' and labware_id '{labware_id}' do not match. If intentional, you may ignore. If not, was this a typo?",
             )
 
         command = TestLabwareIDExists.Command(
@@ -35,8 +35,8 @@ class HamiltonAutoloadCarrier(MoveableCarrier):
 
         if labware_id in response.BadLabwareIDs:
             plh_logger.critical(
-                f"HamiltonAutoloadCarrier '{self.identifier}' carrier_labware_id is not recognized by the hamilton system. Initialization aborted.",
+                f"HamiltonAutoloadCarrier '{self.identifier}' labware_id is not recognized by the hamilton system. Initialization aborted.",
             )
             raise RuntimeError(
-                f"HamiltonAutoloadCarrier '{self.identifier}' carrier_labware_id is not recognized by the hamilton system. Initialization aborted.",
+                f"HamiltonAutoloadCarrier '{self.identifier}' labware_id is not recognized by the hamilton system. Initialization aborted.",
             )
