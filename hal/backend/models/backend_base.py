@@ -20,10 +20,12 @@ class BackendBase(PolymorphicModel):
     )
 
     @abstractmethod
-    def initialize(self): ...
+    def initialize(self):
+        raise NotImplementedError
 
     @abstractmethod
-    def deinitialize(self): ...
+    def deinitialize(self):
+        raise NotImplementedError
 
     def get_plh_backend(self) -> PLHBackendBase:
         if self.identifier not in self._backend_instances:

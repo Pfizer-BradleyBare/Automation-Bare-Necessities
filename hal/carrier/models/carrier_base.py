@@ -21,10 +21,12 @@ class CarrierBase(PolymorphicModel):
     )
 
     @abstractmethod
-    def initialize(self): ...
+    def initialize(self):
+        raise NotImplementedError
 
     @abstractmethod
-    def deinitialize(self): ...
+    def deinitialize(self):
+        raise NotImplementedError
 
     def save(self, *args, **kwargs):
         deck = self.deck
