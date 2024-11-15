@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from abc import abstractmethod
+
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
@@ -22,16 +24,17 @@ class LayoutItemBase(PolymorphicModel):
         help_text="What is the labware of this layout item?",
     )
 
-    cover: models.ForeignKey[LayoutItemBase | None] = models.ForeignKey(
-        to="LayoutItemBase",
-        on_delete=models.CASCADE,
-        null=True,
-        editable=False,
-    )
-
     class Meta:
         ordering = ["identifier"]
         unique_together = ("deck_location", "labware")
+
+    @abstractmethod
+    def initialize(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def deinitialize(self):
+        raise NotImplementedError
 
     def save(self, *args, **kwargs):
         self.identifier = f"{self.deck_location.identifier.replace(" ","")}_{self.labware.identifier.replace(" ","")}"
