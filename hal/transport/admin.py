@@ -8,7 +8,7 @@ from django.http import HttpRequest
 from hal.admin import hal_admin
 from hal.backend.models.hamilton import HamiltonBackendBase
 
-from .models import (
+from .models.hamilton import (
     HamiltonCOREGripper,
     HamiltonCOREGripperPickupOptions,
     HamiltonCOREGripperPlaceOptions,

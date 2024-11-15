@@ -1,6 +1,6 @@
 from django.db import models
 
-from .transport_base import (
+from ..transport_base import (
     TransportBase,
     TransportPickupOptionsBase,
     TransportPlaceOptionsBase,
