@@ -1,10 +1,15 @@
+from __future__ import annotations
+
+from abc import abstractmethod
+
 from django.db import models
 from polymorphic.models import PolymorphicModel
 
 from hal.backend.models import BackendBase
 from hal.labware.models import LabwareBase
 from hal.layout_item.models import LayoutItemBase
-from abc import abstractmethod
+
+
 class TransportBase(PolymorphicModel):
     identifier = models.CharField(
         max_length=255,
@@ -24,7 +29,7 @@ class TransportBase(PolymorphicModel):
 
     class Meta:
         ordering = ["identifier"]
-        
+
     @abstractmethod
     def initialize(self):
         raise NotImplementedError
@@ -34,13 +39,13 @@ class TransportBase(PolymorphicModel):
         raise NotImplementedError
 
     @abstractmethod
-    def transport(self,source:LayoutItemBase,destination:LayoutItemBase):
+    def transport(self, source: LayoutItemBase, destination: LayoutItemBase):
         raise NotImplementedError
 
     @abstractmethod
-    def transport_time(self,source:LayoutItemBase,destination:LayoutItemBase):
+    def transport_time(self, source: LayoutItemBase, destination: LayoutItemBase):
         raise NotImplementedError
-    
+
     def save(self, *args, **kwargs):
         self.identifier = (
             f"{self.backend.identifier.replace(" ","")}_{type(self).__name__}"
@@ -55,6 +60,20 @@ class TransportBase(PolymorphicModel):
 class TransportPickupOptionsBase(PolymorphicModel):
     transport_device = TransportBase.__name__
 
+    @abstractmethod
+    def test_options_equality(
+        self: TransportPickupOptionsBase,
+        value: object,
+    ) -> bool:
+        raise NotImplementedError
+
 
 class TransportPlaceOptionsBase(PolymorphicModel):
     transport_device = TransportBase.__name__
+
+    @abstractmethod
+    def test_options_equality(
+        self: TransportPlaceOptionsBase,
+        value: object,
+    ) -> bool:
+        raise NotImplementedError

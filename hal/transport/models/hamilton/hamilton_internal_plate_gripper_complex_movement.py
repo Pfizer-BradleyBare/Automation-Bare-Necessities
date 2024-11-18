@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 
 from ..transport_base import (
@@ -66,6 +68,27 @@ class HamiltonInternalPlateGripperComplexMovementPickupOptions(
     def __str__(self) -> str:
         return f"grip_mode:{self.grip_mode}; retract_distance:{self.retract_distance}; liftup_height:{self.liftup_height}; labware_orientation:{self.labware_orientation}; grip_force:{self.grip_force}; tolerance:{self.tolerance}; inverse_grip:{self.inverse_grip}"
 
+    def test_options_equality(
+        self: HamiltonInternalPlateGripperComplexMovementPickupOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(
+            value,
+            HamiltonInternalPlateGripperComplexMovementPickupOptions,
+        ):
+            return False
+
+        if self.grip_mode != value.grip_mode:
+            return False
+
+        if self.labware_orientation != value.labware_orientation:
+            return False
+
+        if self.inverse_grip != value.inverse_grip:
+            return False
+
+        return True
+
 
 class HamiltonInternalPlateGripperComplexMovementPlaceOptions(
     TransportPlaceOptionsBase,
@@ -86,3 +109,18 @@ class HamiltonInternalPlateGripperComplexMovementPlaceOptions(
 
     def __str__(self) -> str:
         return f"retract_distance:{self.retract_distance}; liftup_height:{self.liftup_height}; labware_orientation:{self.labware_orientation}"
+
+    def test_options_equality(
+        self: HamiltonInternalPlateGripperComplexMovementPlaceOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(
+            value,
+            HamiltonInternalPlateGripperComplexMovementPlaceOptions,
+        ):
+            return False
+
+        if self.labware_orientation != value.labware_orientation:
+            return False
+
+        return True

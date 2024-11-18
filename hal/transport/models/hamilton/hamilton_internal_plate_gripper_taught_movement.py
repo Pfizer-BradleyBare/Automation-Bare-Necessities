@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 
 from ..transport_base import (
@@ -20,6 +22,21 @@ class HamiltonInternalPlateGripperTaughtMovementPickupOptions(
     def __str__(self) -> str:
         return f"taught_path:{self.taught_path}"
 
+    def test_options_equality(
+        self: HamiltonInternalPlateGripperTaughtMovementPickupOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(
+            value,
+            HamiltonInternalPlateGripperTaughtMovementPickupOptions,
+        ):
+            return False
+
+        if self.taught_path != value.taught_path:
+            return False
+
+        return True
+
 
 class HamiltonInternalPlateGripperTaughtMovementPlaceOptions(
     TransportPlaceOptionsBase,
@@ -30,3 +47,18 @@ class HamiltonInternalPlateGripperTaughtMovementPlaceOptions(
 
     def __str__(self) -> str:
         return f"taught_path:{self.taught_path}"
+
+    def test_options_equality(
+        self: HamiltonInternalPlateGripperTaughtMovementPlaceOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(
+            value,
+            HamiltonInternalPlateGripperTaughtMovementPlaceOptions,
+        ):
+            return False
+
+        if self.taught_path != value.taught_path:
+            return False
+
+        return True

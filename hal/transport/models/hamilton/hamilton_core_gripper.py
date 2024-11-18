@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 
 from ..transport_base import (
@@ -49,6 +51,15 @@ class HamiltonCOREGripperPickupOptions(TransportPickupOptionsBase):
     def __str__(self) -> str:
         return f"grip_force:{self.grip_force}; grip_speed:{self.grip_speed}; z_speed:{self.z_speed}; check_plate_exists:{self.check_plate_exists}"
 
+    def test_options_equality(
+        self: HamiltonCOREGripperPickupOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(value, HamiltonCOREGripperPickupOptions):
+            return False
+
+        return True
+
 
 class HamiltonCOREGripperPlaceOptions(TransportPlaceOptionsBase):
     transport_device = HamiltonCOREGripper.__name__
@@ -78,3 +89,12 @@ class HamiltonCOREGripperPlaceOptions(TransportPlaceOptionsBase):
 
     def __str__(self) -> str:
         return f"x_acceleration_level:{self.x_acceleration_level}; z_speed:{self.z_speed}; plate_press_on_distance:{self.plate_press_on_distance}; check_plate_exists:{self.check_plate_exists}"
+
+    def test_options_equality(
+        self: HamiltonCOREGripperPlaceOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(value, HamiltonCOREGripperPlaceOptions):
+            return False
+
+        return True

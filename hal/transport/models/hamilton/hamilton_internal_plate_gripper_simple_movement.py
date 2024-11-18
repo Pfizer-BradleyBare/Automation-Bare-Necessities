@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 
 from ..transport_base import (
@@ -52,9 +54,39 @@ class HamiltonInternalPlateGripperSimpleMovementPickupOptions(
     def __str__(self) -> str:
         return f"grip_mode:{self.grip_mode}; grip_force:{self.grip_force}; tolerance:{self.tolerance}; inverse_grip:{self.inverse_grip}"
 
+    def test_options_equality(
+        self: HamiltonInternalPlateGripperSimpleMovementPickupOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(
+            value,
+            HamiltonInternalPlateGripperSimpleMovementPickupOptions,
+        ):
+            return False
+
+        if self.grip_mode != value.grip_mode:
+            return False
+
+        if self.inverse_grip != value.inverse_grip:
+            return False
+
+        return True
+
 
 class HamiltonInternalPlateGripperSimpleMovementPlaceOptions(TransportPlaceOptionsBase):
     transport_device = HamiltonInternalPlateGripperSimpleMovement.__name__
 
     def __str__(self) -> str:
         return "Default place options"
+
+    def test_options_equality(
+        self: HamiltonInternalPlateGripperSimpleMovementPlaceOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(
+            value,
+            HamiltonInternalPlateGripperSimpleMovementPlaceOptions,
+        ):
+            return False
+
+        return True

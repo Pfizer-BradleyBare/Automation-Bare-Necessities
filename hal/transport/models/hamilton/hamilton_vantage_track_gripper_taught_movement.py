@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.db import models
 
 from ..transport_base import (
@@ -31,6 +33,21 @@ class HamiltonVantageTrackGripperTaughtMovementPickupOptions(
     def __str__(self) -> str:
         return f"taught_path:{self.taught_path}; grip_force_percent:{self.grip_force_percent}; movement_speed_percent:{self.movement_speed_percent}; coordinated_movement:{self.coordinated_movement}"
 
+    def test_options_equality(
+        self: HamiltonVantageTrackGripperTaughtMovementPickupOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(
+            value,
+            HamiltonVantageTrackGripperTaughtMovementPickupOptions,
+        ):
+            return False
+
+        if self.taught_path != value.taught_path:
+            return False
+
+        return True
+
 
 class HamiltonVantageTrackGripperTaughtMovementPlaceOptions(TransportPlaceOptionsBase):
     transport_device = HamiltonVantageTrackGripperTaughtMovement.__name__
@@ -48,3 +65,18 @@ class HamiltonVantageTrackGripperTaughtMovementPlaceOptions(TransportPlaceOption
 
     def __str__(self) -> str:
         return f"taught_path:{self.taught_path}; movement_speed_percent:{self.movement_speed_percent}; coordinated_movement:{self.coordinated_movement}"
+
+    def test_options_equality(
+        self: HamiltonVantageTrackGripperTaughtMovementPlaceOptions,
+        value: object,
+    ) -> bool:
+        if not isinstance(
+            value,
+            HamiltonVantageTrackGripperTaughtMovementPlaceOptions,
+        ):
+            return False
+
+        if self.taught_path != value.taught_path:
+            return False
+
+        return True
