@@ -6,7 +6,6 @@ from django.db import models
 from polymorphic.models import PolymorphicModel
 
 from hal.backend.models import BackendBase
-from hal.labware.models import LabwareBase
 from hal.layout_item.models import LayoutItemBase
 
 
@@ -22,8 +21,6 @@ class TransportBase(PolymorphicModel):
         to=BackendBase,
         on_delete=models.CASCADE,
     )
-
-    supported_labware = models.ManyToManyField(to=LabwareBase)
 
     last_transport_flag: bool = False
 
