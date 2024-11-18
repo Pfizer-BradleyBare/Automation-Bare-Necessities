@@ -5,7 +5,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.safestring import SafeText
 
-from .models import TransportableDeckLocation, TransportableDeckLocationConfig
+from .models import TransportableCarrierLocation, TransportableCarrierLocationConfig
 
 
 class DeviceSelect(forms.Select):
@@ -88,9 +88,9 @@ class OptionsSelect(forms.Select):
 
 
 
-class TransportableDeckLocationConfigForm(forms.ModelForm):
+class TransportableCarrierLocationConfigForm(forms.ModelForm):
     class Meta:
-        model = TransportableDeckLocationConfig
+        model = TransportableCarrierLocationConfig
         fields = "__all__"
         widgets = {
             "transport_device": DeviceSelect(),
@@ -98,9 +98,9 @@ class TransportableDeckLocationConfigForm(forms.ModelForm):
             "place_options": OptionsSelect(),
         }
 
-class TransportableDeckLocationForm(forms.ModelForm):
+class TransportableCarrierLocationForm(forms.ModelForm):
     class Meta:
-        model = TransportableDeckLocation
+        model = TransportableCarrierLocation
         fields = "__all__"
 
     def clean_transport_configs(self):

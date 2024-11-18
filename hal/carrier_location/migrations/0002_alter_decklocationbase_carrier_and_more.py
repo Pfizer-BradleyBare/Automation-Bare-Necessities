@@ -8,12 +8,12 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("carrier", "0002_initial"),
-        ("deck_location", "0001_initial"),
+        ("carrier_location", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name="decklocationbase",
+            model_name="CarrierLocationbase",
             name="carrier",
             field=models.ForeignKey(
                 help_text="Which carrier is this deck location assigned to?",
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
             ),
         ),
         migrations.AlterField(
-            model_name="decklocationbase",
+            model_name="CarrierLocationbase",
             name="carrier_position",
             field=models.PositiveSmallIntegerField(
                 help_text="Typically carriers have multiple plate positions. Position is from front to back."

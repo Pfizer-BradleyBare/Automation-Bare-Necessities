@@ -3,8 +3,8 @@ from polymorphic.models import PolymorphicModel
 
 from hal.backend.models import BackendBase
 from hal.labware.models import LabwareBase
-
-
+from hal.layout_item.models import LayoutItemBase
+from abc import abstractmethod
 class TransportBase(PolymorphicModel):
     identifier = models.CharField(
         max_length=255,
@@ -20,9 +20,27 @@ class TransportBase(PolymorphicModel):
 
     supported_labware = models.ManyToManyField(to=LabwareBase)
 
+    last_transport_flag: bool = False
+
     class Meta:
         ordering = ["identifier"]
+        
+    @abstractmethod
+    def initialize(self):
+        raise NotImplementedError
 
+    @abstractmethod
+    def deinitialize(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def transport(self,source:LayoutItemBase,destination:LayoutItemBase):
+        raise NotImplementedError
+
+    @abstractmethod
+    def transport_time(self,source:LayoutItemBase,destination:LayoutItemBase):
+        raise NotImplementedError
+    
     def save(self, *args, **kwargs):
         self.identifier = (
             f"{self.backend.identifier.replace(" ","")}_{type(self).__name__}"

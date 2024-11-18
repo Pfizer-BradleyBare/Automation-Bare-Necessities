@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("deck_location", "0002_alter_decklocationbase_carrier_and_more"),
+        ("carrier_location", "0002_alter_CarrierLocationbase_carrier_and_more"),
         ("labware", "0001_initial"),
         ("layout_item", "0001_initial"),
     ]
@@ -15,11 +15,11 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AlterField(
             model_name="layoutitembase",
-            name="deck_location",
+            name="carrier_location",
             field=models.ForeignKey(
                 help_text="Which deck location is this layout item located?",
                 on_delete=django.db.models.deletion.CASCADE,
-                to="deck_location.decklocationbase",
+                to="carrier_location.CarrierLocationbase",
             ),
         ),
         migrations.AlterField(

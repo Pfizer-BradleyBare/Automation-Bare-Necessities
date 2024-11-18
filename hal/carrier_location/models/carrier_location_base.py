@@ -4,7 +4,7 @@ from polymorphic.models import PolymorphicModel
 from hal.carrier.models import CarrierBase
 
 
-class DeckLocationBase(PolymorphicModel):
+class CarrierLocationBase(PolymorphicModel):
     identifier = models.CharField(max_length=255, editable=False)
 
     carrier = models.ForeignKey(

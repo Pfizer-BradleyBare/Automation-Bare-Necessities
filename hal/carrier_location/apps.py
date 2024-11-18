@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DeckLocationConfig(AppConfig):
+class CarrierLocationConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "hal.deck_location"
+    name = "hal.carrier_location"

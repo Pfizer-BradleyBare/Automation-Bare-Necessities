@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ("contenttypes", "0002_remove_content_type_name"),
-        ("deck_location", "0001_initial"),
+        ("carrier_location", "0001_initial"),
         ("labware", "0001_initial"),
     ]
 
@@ -29,10 +29,10 @@ class Migration(migrations.Migration):
                 ),
                 ("identifier", models.CharField(editable=False, max_length=255)),
                 (
-                    "deck_location",
+                    "carrier_location",
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
-                        to="deck_location.decklocationbase",
+                        to="carrier_location.CarrierLocationbase",
                     ),
                 ),
                 (
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 "ordering": ["identifier"],
-                "unique_together": {("deck_location", "labware")},
+                "unique_together": {("carrier_location", "labware")},
             },
         ),
     ]

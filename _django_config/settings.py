@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "hal.backend",
     "hal.deck",
     "hal.carrier",
-    "hal.deck_location",
+    "hal.carrier_location",
     "hal.layout_item",
     "hal.transport",
     "debug",

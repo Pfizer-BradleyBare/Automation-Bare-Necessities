@@ -6,10 +6,10 @@ from hal.transport.models import (
     TransportPlaceOptionsBase,
 )
 
-from .deck_location_base import DeckLocationBase
+from .carrier_location_base import CarrierLocationBase
 
 
-class TransportableDeckLocationConfig(models.Model):
+class TransportableCarrierLocationConfig(models.Model):
     transport_device = models.ForeignKey(to=TransportBase, on_delete=models.CASCADE)
     pickup_options = models.ForeignKey(
         to=TransportPickupOptionsBase,
@@ -26,5 +26,5 @@ class TransportableDeckLocationConfig(models.Model):
     def __str__(self) -> str:
         return f"({self.pk}) {self.transport_device.identifier.replace(" ","")} | PickupOptions:{self.pickup_options} | PlaceOptions:{self.place_options}"
 
-class TransportableDeckLocation(DeckLocationBase):
-    transport_configs = models.ManyToManyField(to=TransportableDeckLocationConfig)
+class TransportableCarrierLocation(CarrierLocationBase):
+    transport_configs = models.ManyToManyField(to=TransportableCarrierLocationConfig)
