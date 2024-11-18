@@ -27,13 +27,13 @@ class LabwareBase(PolymorphicModel):
     )
 
     short_side_z_grip_heights: models.JSONField[list[float]] = models.JSONField(
-        help_text="Which Z heights are acceptable to be gripped on the short side when transported. Relative to bottom.",
+        help_text="Which Z heights are acceptable to be gripped on the short side when transported. Relative to bottom. If not transportable then empty brackets.",
         default=_grip_regions_default,
         verbose_name="Short side Z grip heights",
     )
 
     long_side_z_grip_heights: models.JSONField[list[float]] = models.JSONField(
-        help_text="Which Z heights are acceptable to be gripped on the long side when transported. Relative to bottom.",
+        help_text="Which Z heights are acceptable to be gripped on the long side when transported. Relative to bottom. If not transportable then empty brackets.",
         default=_grip_regions_default,
         verbose_name="Long side Z grip heights",
     )
