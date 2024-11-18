@@ -37,7 +37,7 @@ class TransportableCarrierLocationConfig(models.Model):
 
         return (
             self.transport_device == value.transport_device
-            and self.pickup_options == value.pickup_options
+            and self.pickup_options.test_options_equality(value.pickup_options)
         )
 
     # Only pickup options matter because the pickup options determine the orientation of the labware
@@ -67,6 +67,6 @@ class TransportableCarrierLocation(CarrierLocationBase):
             (source_config, destination_config)
             for source_config in source.transport_configs
             for destination_config in destination.transport_configs
-            if source_config == destination_config
+            if source_config.test_config_equality(destination_config)
         ]
         # __eq__ is defined for transport config so we just iterate through and collect the ones that are equal.
