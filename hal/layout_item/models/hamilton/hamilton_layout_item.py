@@ -12,7 +12,7 @@ from ..layout_item_base import LayoutItemBase
 class HamiltonLayoutItem(LayoutItemBase):
     backend = models.ForeignKey(to=HamiltonBackendBase, on_delete=models.CASCADE)
 
-    labware_id = models.CharField(
+    venus_labware_id = models.CharField(
         max_length=255,
         unique=True,
     )
@@ -20,22 +20,22 @@ class HamiltonLayoutItem(LayoutItemBase):
     def initialize(self):
         backend = self.backend.get_plh_backend()
 
-        labware_id = self.labware_id
+        venus_labware_id = self.venus_labware_id
 
-        if labware_id != self.identifier:
+        if venus_labware_id != self.identifier:
             plh_logger.warning(
-                f"HamiltonLayoutItem identifier '{self.identifier}' and labware_id '{labware_id}' do not match. If intentional, you may ignore. If not, was this a typo?",
+                f"HamiltonLayoutItem identifier '{self.identifier}' and labware_id '{venus_labware_id}' do not match. If intentional, you may ignore. If not, was this a typo?",
             )
 
         command = TestLabwareIDExists.Command(
-            options=[TestLabwareIDExists.Options(LabwareID=labware_id)],
+            options=[TestLabwareIDExists.Options(LabwareID=venus_labware_id)],
         )
 
         backend.execute(command)
         backend.wait(command)
         response = backend.acknowledge(command, TestLabwareIDExists.Response)
 
-        if labware_id in response.BadLabwareIDs:
+        if venus_labware_id in response.BadLabwareIDs:
             plh_logger.critical(
                 f"HamiltonLayoutItem '{self.identifier}' labware_id is not recognized by the hamilton system. Initialization aborted.",
             )
