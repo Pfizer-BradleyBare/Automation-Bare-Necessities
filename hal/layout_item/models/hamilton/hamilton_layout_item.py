@@ -18,14 +18,20 @@ class HamiltonLayoutItem(LayoutItemBase):
     )
 
     def initialize(self):
+        bound_logger = plh_logger.bind(carrier=str(self), type=type(self).__name__)
+
+        bound_logger.info("Starting layout_item initialization.")
+
         backend = self.backend.get_plh_backend()
 
         venus_labware_id = self.venus_labware_id
 
         if venus_labware_id != self.identifier:
-            plh_logger.warning(
-                f"HamiltonLayoutItem identifier '{self.identifier}' and labware_id '{venus_labware_id}' do not match. If intentional, you may ignore. If not, was this a typo?",
+            bound_logger.warning(
+                f"Identifier '{self.identifier}' and labware_id '{venus_labware_id}' do not match. If intentional, you may ignore. If not, was this a typo?",
             )
+
+        bound_logger.debug("Start run of TestLabwareIDExists command.")
 
         command = TestLabwareIDExists.Command(
             options=[TestLabwareIDExists.Options(LabwareID=venus_labware_id)],
@@ -34,11 +40,14 @@ class HamiltonLayoutItem(LayoutItemBase):
         backend.execute(command)
         backend.wait(command)
         response = backend.acknowledge(command, TestLabwareIDExists.Response)
+        bound_logger.debug("Complete run of TestLabwareIDExists command.")
 
         if venus_labware_id in response.BadLabwareIDs:
-            plh_logger.critical(
-                f"HamiltonLayoutItem '{self.identifier}' labware_id is not recognized by the hamilton system. Initialization aborted.",
+            bound_logger.critical(
+                "labware_id is not recognized by the hamilton system. Initialization aborted.",
             )
             raise RuntimeError(
-                f"HamiltonLayoutItem '{self.identifier}' labware_id is not recognized by the hamilton system. Initialization aborted.",
+                "labware_id is not recognized by the hamilton system. Initialization aborted.",
             )
+
+        bound_logger.info("Completed layout_item initialization.")
