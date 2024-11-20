@@ -12,12 +12,14 @@ class LoadedLayoutItem(models.Model):
         to="LoadedLayoutItem",
         on_delete=models.CASCADE,
         null=True,
+        related_name="+",
     )
 
     bottom: models.ForeignKey[LoadedLayoutItem | None] = models.ForeignKey(
         to="LoadedLayoutItem",
         on_delete=models.CASCADE,
         null=True,
+        related_name="+",
     )
 
     def __str__(self) -> str:
