@@ -9,7 +9,10 @@ from ..transport_base import (
 )
 
 
-class HamiltonVantageTrackGripperTaughtMovement(TransportBase): ...
+class HamiltonVantageTrackGripperTaughtMovement(TransportBase):
+    @property
+    def max_grip_depth(self) -> float:
+        return 70
 
 
 class HamiltonVantageTrackGripperTaughtMovementPickupOptions(

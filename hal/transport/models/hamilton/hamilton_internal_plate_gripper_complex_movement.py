@@ -9,7 +9,10 @@ from ..transport_base import (
 )
 
 
-class HamiltonInternalPlateGripperComplexMovement(TransportBase): ...
+class HamiltonInternalPlateGripperComplexMovement(TransportBase):
+    @property
+    def max_grip_depth(self) -> float:
+        return 39
 
 
 class HamiltonInternalPlateGripperComplexMovementPickupOptions(

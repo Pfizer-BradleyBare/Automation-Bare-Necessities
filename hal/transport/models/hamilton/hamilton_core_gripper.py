@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from django.db import models
 
+from hal.layout_item.models import LayoutItemBase
+
 from ..transport_base import (
     TransportBase,
     TransportPickupOptionsBase,
@@ -12,9 +14,15 @@ from ..transport_base import (
 class HamiltonCOREGripper(TransportBase):
     gripper_labware_id = models.CharField(max_length=100)
 
+    @property
+    def max_grip_depth(self) -> float:
+        return 40
+
     class Meta:
         verbose_name = "Hamilton CORE Gripper"
         verbose_name_plural = "Hamilton CORE Grippers"
+
+    def transport(self, source: LayoutItemBase, destination: LayoutItemBase): ...
 
 
 class HamiltonCOREGripperPickupOptions(TransportPickupOptionsBase):
