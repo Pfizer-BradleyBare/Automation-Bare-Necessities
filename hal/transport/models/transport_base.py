@@ -170,7 +170,9 @@ class TransportBase(PolymorphicModel):
         raise NotImplementedError
 
     @abstractmethod
-    def transport_time(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
+    def transport_time(
+        self, source: LoadedLayoutItem, destination: LoadedLayoutItem
+    ) -> float:
         raise NotImplementedError
 
     def save(self, *args, **kwargs):
