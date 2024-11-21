@@ -7,7 +7,8 @@ from django.db import models
 from polymorphic.models import PolymorphicModel
 
 from hal.backend.models import BackendBase
-from hal.layout_item.models import LayoutItemBase, LoadedLayoutItem
+from hal.labware.models import StackedLabwareZHeightChange
+from hal.layout_item.models import LoadedLayoutItem
 
 if TYPE_CHECKING:
     from hal.carrier_location.models import (
@@ -30,31 +31,127 @@ class TransportBase(PolymorphicModel):
 
     last_transport_flag: bool = False
 
+    def __str__(self) -> str:
+        return self.identifier
+
+    class Meta:
+        ordering = ["identifier"]
+
     @property
     @abstractmethod
     def max_grip_depth(self) -> float:
         raise NotImplementedError
 
-    class Meta:
-        ordering = ["identifier"]
+    @staticmethod
+    def compute_short_side_grip_height(
+        grip_item: LoadedLayoutItem,
+    ) -> float:
+        StackedLabwareZHeightChange.assert_supported_stack(grip_item)
 
-    def _get_compatible_configs(
+        labware = grip_item.layout_item.labware
+
+        if not grip_item.is_absolute_top_item:
+            top = grip_item.top
+
+            z_height_change = (
+                StackedLabwareZHeightChange.objects.filter(
+                    bottom_labware=grip_item,
+                    top_labware=top,
+                )
+                .get()
+                .z_height_change
+            )
+            max_acceptable_grip_height = labware.height + z_height_change
+        else:
+            max_acceptable_grip_height = labware.height
+
+        grip_heights = labware.short_side_z_grip_heights[::-1]
+        # reverse to decending order
+
+        for grip_height in grip_heights:
+            if grip_height < max_acceptable_grip_height:
+                return grip_height
+
+        raise ValueError("There are no compatible grip heights for your grip item")
+
+    @staticmethod
+    def compute_long_side_grip_height(
+        grip_item: LoadedLayoutItem,
+    ) -> float:
+        StackedLabwareZHeightChange.assert_supported_stack(grip_item)
+
+        labware = grip_item.layout_item.labware
+
+        if not grip_item.is_absolute_top_item:
+            top = grip_item.top
+
+            z_height_change = (
+                StackedLabwareZHeightChange.objects.filter(
+                    bottom_labware=grip_item,
+                    top_labware=top,
+                )
+                .get()
+                .z_height_change
+            )
+            max_acceptable_grip_height = labware.height + z_height_change
+        else:
+            max_acceptable_grip_height = labware.height
+
+        grip_heights = labware.long_side_z_grip_heights[::-1]
+        # reverse to decending order
+
+        for grip_height in grip_heights:
+            if grip_height < max_acceptable_grip_height:
+                return grip_height
+
+        raise ValueError("There are no compatible grip heights for your grip item")
+
+    def assert_compatible_grip_depth(
         self,
+        grip_item: LoadedLayoutItem,
+        grip_height: float,
+    ):
+        StackedLabwareZHeightChange.assert_supported_stack(grip_item)
+
+        z_dimension = StackedLabwareZHeightChange.compute_stack_z_dimension(grip_item)
+
+        if z_dimension - grip_height > self.max_grip_depth:
+            raise ValueError(
+                "Attempted labware stack exceeds the possible grip depth of your transport device.",
+            )
+
+    @staticmethod
+    def get_compatible_transport_configs(
         source: LoadedLayoutItem,
-        destination: LayoutItemBase,
+        destination: LoadedLayoutItem,
     ) -> list[
         tuple[TransportableCarrierLocationConfig, TransportableCarrierLocationConfig]
     ]:
+        """Return a list of transport configs. The list will be sorted ascending by transport_time."""
         from hal.carrier_location.models import TransportableCarrierLocation
-
-        """Return a list of transport configs. The list will be sorted ascending by transport_time. The entries are guarenteed to be compatible with the source (including stacked items if applicable)."""
 
         compatible_configs = (
             TransportableCarrierLocation.get_compatible_transport_configs(
                 source.layout_item.carrier_location,
-                destination.carrier_location,
+                destination.layout_item.carrier_location,
             )
         )
+
+        transport_devices = [
+            source_config.transport_device for source_config, _ in compatible_configs
+        ]
+        # Source and dest transport devices will always be the same so we can only pull one for our needs
+
+        transport_times = [
+            device.transport_time(source, destination) for device in transport_devices
+        ]
+
+        time_sorted_configs = sorted(
+            zip(transport_times, compatible_configs, strict=False),
+            key=lambda x: x[0],
+        )
+
+        return [config for _, config in time_sorted_configs]
 
     @abstractmethod
     def initialize(self):
@@ -65,11 +162,11 @@ class TransportBase(PolymorphicModel):
         raise NotImplementedError
 
     @abstractmethod
-    def transport(self, source: LoadedLayoutItem, destination: LayoutItemBase):
+    def transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
         raise NotImplementedError
 
     @abstractmethod
-    def transport_time(self, source: LoadedLayoutItem, destination: LayoutItemBase):
+    def transport_time(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
         raise NotImplementedError
 
     def save(self, *args, **kwargs):
@@ -78,9 +175,6 @@ class TransportBase(PolymorphicModel):
         )
 
         return super().save(*args, **kwargs)
-
-    def __str__(self) -> str:
-        return self.identifier
 
 
 class TransportPickupOptionsBase(PolymorphicModel):
