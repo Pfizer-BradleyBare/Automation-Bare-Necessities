@@ -50,6 +50,10 @@ class LabwareBase(PolymorphicModel):
         help_text="How the container positions are ordered. Labware definition specific.",
     )
 
+    @property
+    def height(self) -> float:
+        return sum([z for _, _, z in self.x_y_z_dimensions])
+
     def clean(self) -> None:
         dimensions = cast(list[tuple[float, float, float]], self.x_y_z_dimensions)
 
@@ -113,19 +117,3 @@ class LabwareBase(PolymorphicModel):
 
     class Meta:
         ordering = ["identifier"]
-
-
-class StackedLabwareZHeightChange(models.Model):
-    bottom_labware = models.ForeignKey(
-        to=LabwareBase,
-        on_delete=models.CASCADE,
-        help_text="The bottom labware of the stack.",
-        related_name="stackedlabwarezheightchangebottom_set",
-    )
-    top_labware = models.ForeignKey(
-        to=LabwareBase,
-        on_delete=models.CASCADE,
-        help_text="The top labware of the stack.",
-        related_name="stackedlabwarezheightchangetop_set",
-    )
-    z_height_change = models.FloatField()
