@@ -12,15 +12,15 @@ from .models.hamilton import (
     HamiltonCOREGripper,
     HamiltonCOREGripperPickupOptions,
     HamiltonCOREGripperPlaceOptions,
-    HamiltonInternalPlateGripperComplexMovement,
-    HamiltonInternalPlateGripperComplexMovementPickupOptions,
-    HamiltonInternalPlateGripperComplexMovementPlaceOptions,
-    HamiltonInternalPlateGripperSimpleMovement,
-    HamiltonInternalPlateGripperSimpleMovementPickupOptions,
-    HamiltonInternalPlateGripperSimpleMovementPlaceOptions,
-    HamiltonVantageTrackGripperTaughtMovement,
-    HamiltonVantageTrackGripperTaughtMovementPickupOptions,
-    HamiltonVantageTrackGripperTaughtMovementPlaceOptions,
+    # HamiltonInternalPlateGripperComplexMovement,
+    # HamiltonInternalPlateGripperComplexMovementPickupOptions,
+    # HamiltonInternalPlateGripperComplexMovementPlaceOptions,
+    # HamiltonInternalPlateGripperSimpleMovement,
+    # HamiltonInternalPlateGripperSimpleMovementPickupOptions,
+    # HamiltonInternalPlateGripperSimpleMovementPlaceOptions,
+    # HamiltonVantageTrackGripperTaughtMovement,
+    # HamiltonVantageTrackGripperTaughtMovementPickupOptions,
+    # HamiltonVantageTrackGripperTaughtMovementPlaceOptions,
 )
 
 
@@ -40,12 +40,12 @@ class HamiltonBackendAdmin(ModelAdmin):
 hal_admin.register(HamiltonCOREGripper, HamiltonBackendAdmin)
 hal_admin.register(HamiltonCOREGripperPickupOptions)
 hal_admin.register(HamiltonCOREGripperPlaceOptions)
-hal_admin.register(HamiltonInternalPlateGripperSimpleMovement, HamiltonBackendAdmin)
-hal_admin.register(HamiltonInternalPlateGripperSimpleMovementPickupOptions)
-hal_admin.register(HamiltonInternalPlateGripperSimpleMovementPlaceOptions)
-hal_admin.register(HamiltonInternalPlateGripperComplexMovement, HamiltonBackendAdmin)
-hal_admin.register(HamiltonInternalPlateGripperComplexMovementPickupOptions)
-hal_admin.register(HamiltonInternalPlateGripperComplexMovementPlaceOptions)
-hal_admin.register(HamiltonVantageTrackGripperTaughtMovement, HamiltonBackendAdmin)
-hal_admin.register(HamiltonVantageTrackGripperTaughtMovementPickupOptions)
-hal_admin.register(HamiltonVantageTrackGripperTaughtMovementPlaceOptions)
+# hal_admin.register(HamiltonInternalPlateGripperSimpleMovement, HamiltonBackendAdmin)
+# hal_admin.register(HamiltonInternalPlateGripperSimpleMovementPickupOptions)
+# hal_admin.register(HamiltonInternalPlateGripperSimpleMovementPlaceOptions)
+# hal_admin.register(HamiltonInternalPlateGripperComplexMovement, HamiltonBackendAdmin)
+# hal_admin.register(HamiltonInternalPlateGripperComplexMovementPickupOptions)
+# hal_admin.register(HamiltonInternalPlateGripperComplexMovementPlaceOptions)
+# hal_admin.register(HamiltonVantageTrackGripperTaughtMovement, HamiltonBackendAdmin)
+# hal_admin.register(HamiltonVantageTrackGripperTaughtMovementPickupOptions)
+# hal_admin.register(HamiltonVantageTrackGripperTaughtMovementPlaceOptions)
