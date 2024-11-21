@@ -42,83 +42,87 @@ class TransportBase(PolymorphicModel):
     def max_grip_depth(self) -> float:
         raise NotImplementedError
 
-    @staticmethod
     def compute_short_side_grip_height(
-        grip_item: LoadedLayoutItem,
-    ) -> float:
-        StackedLabwareZHeightChange.assert_supported_stack(grip_item)
-
-        labware = grip_item.layout_item.labware
-
-        if not grip_item.is_absolute_top_item:
-            top = grip_item.top
-
-            z_height_change = (
-                StackedLabwareZHeightChange.objects.filter(
-                    bottom_labware=grip_item,
-                    top_labware=top,
-                )
-                .get()
-                .z_height_change
-            )
-            max_acceptable_grip_height = labware.height + z_height_change
-        else:
-            max_acceptable_grip_height = labware.height
-
-        grip_heights = labware.short_side_z_grip_heights[::-1]
-        # reverse to decending order
-
-        for grip_height in grip_heights:
-            if grip_height < max_acceptable_grip_height:
-                return grip_height
-
-        raise ValueError("There are no compatible grip heights for your grip item")
-
-    @staticmethod
-    def compute_long_side_grip_height(
-        grip_item: LoadedLayoutItem,
-    ) -> float:
-        StackedLabwareZHeightChange.assert_supported_stack(grip_item)
-
-        labware = grip_item.layout_item.labware
-
-        if not grip_item.is_absolute_top_item:
-            top = grip_item.top
-
-            z_height_change = (
-                StackedLabwareZHeightChange.objects.filter(
-                    bottom_labware=grip_item,
-                    top_labware=top,
-                )
-                .get()
-                .z_height_change
-            )
-            max_acceptable_grip_height = labware.height + z_height_change
-        else:
-            max_acceptable_grip_height = labware.height
-
-        grip_heights = labware.long_side_z_grip_heights[::-1]
-        # reverse to decending order
-
-        for grip_height in grip_heights:
-            if grip_height < max_acceptable_grip_height:
-                return grip_height
-
-        raise ValueError("There are no compatible grip heights for your grip item")
-
-    def assert_compatible_grip_depth(
         self,
         grip_item: LoadedLayoutItem,
-        grip_height: float,
-    ):
+    ) -> float:
         StackedLabwareZHeightChange.assert_supported_stack(grip_item)
 
-        z_dimension = StackedLabwareZHeightChange.compute_stack_z_dimension(grip_item)
+        stack_z_dimension = StackedLabwareZHeightChange.compute_stack_z_dimension(
+            grip_item,
+        )
 
-        if z_dimension - grip_height > self.max_grip_depth:
-            raise ValueError(
-                "Attempted labware stack exceeds the possible grip depth of your transport device.",
+        labware = grip_item.layout_item.labware
+
+        if not grip_item.is_absolute_top_item:
+            top = grip_item.top
+
+            z_height_change = (
+                StackedLabwareZHeightChange.objects.filter(
+                    bottom_labware=grip_item,
+                    top_labware=top,
+                )
+                .get()
+                .z_height_change
             )
+            max_acceptable_grip_height = labware.height + z_height_change
+        else:
+            max_acceptable_grip_height = labware.height
+
+        grip_heights = labware.short_side_z_grip_heights
+
+        for grip_height in grip_heights:
+            if grip_height > max_acceptable_grip_height:
+                break
+
+            if stack_z_dimension - grip_height < self.max_grip_depth:
+                return grip_height
+        # search bottom up because we want to grip as deeply as possible without exceeding our max depth.
+
+        raise ValueError(
+            "There are no compatible grip heights for your grip item",
+        )
+
+    def compute_long_side_grip_height(
+        self,
+        grip_item: LoadedLayoutItem,
+    ) -> float:
+        StackedLabwareZHeightChange.assert_supported_stack(grip_item)
+
+        stack_z_dimension = StackedLabwareZHeightChange.compute_stack_z_dimension(
+            grip_item,
+        )
+
+        labware = grip_item.layout_item.labware
+
+        if not grip_item.is_absolute_top_item:
+            top = grip_item.top
+
+            z_height_change = (
+                StackedLabwareZHeightChange.objects.filter(
+                    bottom_labware=grip_item,
+                    top_labware=top,
+                )
+                .get()
+                .z_height_change
+            )
+            max_acceptable_grip_height = labware.height + z_height_change
+        else:
+            max_acceptable_grip_height = labware.height
+
+        grip_heights = labware.long_side_z_grip_heights
+
+        for grip_height in grip_heights:
+            if grip_height > max_acceptable_grip_height:
+                break
+
+            if stack_z_dimension - grip_height < self.max_grip_depth:
+                return grip_height
+        # search bottom up because we want to grip as deeply as possible without exceeding our max depth.
+
+        raise ValueError(
+            "There are no compatible grip heights for your grip item",
+        )
 
     @staticmethod
     def get_compatible_transport_configs(
