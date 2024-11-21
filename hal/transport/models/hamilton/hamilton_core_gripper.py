@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from django.db import models
 
-from hal.layout_item.models import LayoutItemBase
+from hal.layout_item.models import LoadedLayoutItem
 
 from ..transport_base import (
     TransportBase,
@@ -22,7 +22,14 @@ class HamiltonCOREGripper(TransportBase):
         verbose_name = "Hamilton CORE Gripper"
         verbose_name_plural = "Hamilton CORE Grippers"
 
-    def transport(self, source: LayoutItemBase, destination: LayoutItemBase): ...
+    def transport_time(
+        self,
+        source: LoadedLayoutItem,
+        destination: LoadedLayoutItem,
+    ) -> float:
+        return 0
+
+    def transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem): ...
 
 
 class HamiltonCOREGripperPickupOptions(TransportPickupOptionsBase):
