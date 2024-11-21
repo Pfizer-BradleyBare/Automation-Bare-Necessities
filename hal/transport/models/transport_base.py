@@ -29,7 +29,7 @@ class TransportBase(PolymorphicModel):
         on_delete=models.CASCADE,
     )
 
-    last_transport_flag: bool = False
+    last_transport_flag = models.BooleanField(editable=False, default=False)
 
     def __str__(self) -> str:
         return self.identifier
