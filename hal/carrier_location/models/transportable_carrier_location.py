@@ -49,9 +49,8 @@ class TransportableCarrierLocation(CarrierLocationBase):
         TransportableCarrierLocation,
     ] = models.ManyToManyField(to=TransportableCarrierLocationConfig)
 
-    @classmethod
+    @staticmethod
     def get_compatible_transport_configs(
-        cls,
         source: CarrierLocationBase,
         destination: CarrierLocationBase,
     ) -> list[
