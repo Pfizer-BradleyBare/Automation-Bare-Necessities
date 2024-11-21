@@ -54,12 +54,12 @@ class StackedLabwareZHeightChange(models.Model):
                 f"The following labware stack pairs are not supported: {failed_stack_pairs}",
             )
 
-    def compute_stack_z_height(self, base: LoadedLayoutItem) -> float:
+    def compute_stack_z_dimension(self, base: LoadedLayoutItem) -> float:
         self.assert_supported_stack(base)
 
         labware_stack = [item.layout_item.labware for item in base.top_items]
 
-        labware_z_heights = [
+        labware_z_dimensions = [
             sum([z for _, _, z in labware.x_y_z_dimensions])
             for labware in labware_stack
         ]
@@ -74,4 +74,28 @@ class StackedLabwareZHeightChange(models.Model):
             for bottom, top in pairwise(labware_stack)
         ]
 
-        return sum(labware_z_heights + nesting_z_heights)
+        return sum(labware_z_dimensions + nesting_z_heights)
+
+    def compute_stack_x_dimension(self, base: LoadedLayoutItem) -> float:
+        self.assert_supported_stack(base)
+
+        labware_stack = [item.layout_item.labware for item in base.top_items]
+
+        return max(
+            [
+                max([x for x, _, _ in labware.x_y_z_dimensions])
+                for labware in labware_stack
+            ],
+        )
+
+    def compute_stack_y_dimension(self, base: LoadedLayoutItem) -> float:
+        self.assert_supported_stack(base)
+
+        labware_stack = [item.layout_item.labware for item in base.top_items]
+
+        return max(
+            [
+                max([y for y, _, _ in labware.x_y_z_dimensions])
+                for labware in labware_stack
+            ],
+        )
