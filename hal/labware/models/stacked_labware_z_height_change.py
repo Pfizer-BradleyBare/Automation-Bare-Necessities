@@ -24,9 +24,12 @@ class StackedLabwareZHeightChange(models.Model):
         help_text="The top labware of the stack.",
         related_name="stackedlabwarezheightchangetop_set",
     )
-    z_height_change = models.FloatField()
+    z_height_change = models.FloatField(
+        help_text="How much does the top labware nest into the bottom labware. Should always be equal to or less than 0. Ex. <stacked_labware_height> - (<top labware height> + <bottom labware height>)",
+    )
 
-    def assert_supported_stack(self, base: LoadedLayoutItem):
+    @staticmethod
+    def assert_supported_stack(base: LoadedLayoutItem):
         stack_pairs = list(
             pairwise([item.layout_item.labware for item in base.top_items]),
         )
@@ -54,15 +57,11 @@ class StackedLabwareZHeightChange(models.Model):
                 f"The following labware stack pairs are not supported: {failed_stack_pairs}",
             )
 
-    def compute_stack_z_dimension(self, base: LoadedLayoutItem) -> float:
-        self.assert_supported_stack(base)
-
+    @staticmethod
+    def compute_stack_z_dimension(base: LoadedLayoutItem) -> float:
         labware_stack = [item.layout_item.labware for item in base.top_items]
 
-        labware_z_dimensions = [
-            sum([z for _, _, z in labware.x_y_z_dimensions])
-            for labware in labware_stack
-        ]
+        labware_z_dimensions = [labware.height for labware in labware_stack]
 
         nesting_z_heights = [
             StackedLabwareZHeightChange.objects.filter(
@@ -76,9 +75,8 @@ class StackedLabwareZHeightChange(models.Model):
 
         return sum(labware_z_dimensions + nesting_z_heights)
 
-    def compute_stack_x_dimension(self, base: LoadedLayoutItem) -> float:
-        self.assert_supported_stack(base)
-
+    @staticmethod
+    def compute_stack_x_dimension(base: LoadedLayoutItem) -> float:
         labware_stack = [item.layout_item.labware for item in base.top_items]
 
         return max(
@@ -88,9 +86,8 @@ class StackedLabwareZHeightChange(models.Model):
             ],
         )
 
-    def compute_stack_y_dimension(self, base: LoadedLayoutItem) -> float:
-        self.assert_supported_stack(base)
-
+    @staticmethod
+    def compute_stack_y_dimension(base: LoadedLayoutItem) -> float:
         labware_stack = [item.layout_item.labware for item in base.top_items]
 
         return max(
