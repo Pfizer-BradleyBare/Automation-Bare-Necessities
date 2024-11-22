@@ -50,10 +50,6 @@ class LabwareBase(PolymorphicModel):
         help_text="How the container positions are ordered. Labware definition specific.",
     )
 
-    @property
-    def height(self) -> float:
-        return sum([z for _, _, z in self.x_y_z_dimensions])
-
     def clean(self) -> None:
         dimensions = cast(list[tuple[float, float, float]], self.x_y_z_dimensions)
 
