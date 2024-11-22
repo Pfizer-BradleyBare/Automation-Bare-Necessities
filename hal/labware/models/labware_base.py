@@ -60,9 +60,27 @@ class LabwareBase(PolymorphicModel):
     def max_width(self) -> float:
         return max([width for width, _, _ in self.width_depth_height_dimensions])
 
+    def get_width_at_height(self, height: float) -> float:
+        for width_dimension, _, height_dimension in self.width_depth_height_dimensions:
+            if height >= height_dimension:
+                return width_dimension
+
+        raise ValueError(
+            "Cannot get width at height. It does not fall within the labware.",
+        )
+
     @property
     def max_depth(self) -> float:
         return max([depth for _, depth, _ in self.width_depth_height_dimensions])
+
+    def get_depth_at_height(self, height: float) -> float:
+        for _, depth_dimension, height_dimension in self.width_depth_height_dimensions:
+            if height >= height_dimension:
+                return depth_dimension
+
+        raise ValueError(
+            "Cannot get depth at height. It does not fall within the labware.",
+        )
 
     @property
     def height(self) -> float:
