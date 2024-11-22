@@ -28,8 +28,8 @@ class StackedLabwareZHeightChange(models.Model):
         help_text="How much does the top labware nest into the bottom labware. Should always be equal to or less than 0. Ex. <stacked_labware_height> - (<top labware height> + <bottom labware height>)",
     )
 
-    @staticmethod
-    def assert_supported_stack(base: LoadedLayoutItem):
+    @classmethod
+    def assert_supported_stack(cls, base: LoadedLayoutItem):
         stack_pairs = list(
             pairwise([item.layout_item.labware for item in base.top_items]),
         )
@@ -40,13 +40,13 @@ class StackedLabwareZHeightChange(models.Model):
             q_query |= models.Q(bottom_labware=bottom, top_labware=top)
         # We do it this way first because a single query would be much faster.
 
-        if StackedLabwareZHeightChange.objects.filter(q_query).count() != len(
+        if cls.objects.filter(q_query).count() != len(
             stack_pairs,
         ):
             failed_stack_pairs: list[tuple[LabwareBase, LabwareBase]] = []
 
             for bottom, top in stack_pairs:
-                if not StackedLabwareZHeightChange.objects.filter(
+                if not cls.objects.filter(
                     bottom_labware=bottom,
                     top_labware=top,
                 ).exists():
