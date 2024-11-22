@@ -16,6 +16,7 @@ class LoadedLayoutItem(models.Model):
         to="LoadedLayoutItem",
         on_delete=models.CASCADE,
         null=True,
+        blank=True,
         related_name="+",
     )
 
@@ -23,6 +24,7 @@ class LoadedLayoutItem(models.Model):
         to="LoadedLayoutItem",
         on_delete=models.CASCADE,
         null=True,
+        blank=True,
         related_name="+",
     )
 
@@ -34,7 +36,7 @@ class LoadedLayoutItem(models.Model):
             item.layout_item.labware.identifier for item in self.top_items
         ]
 
-        return f"{' | '.join(bottom_labware_names)} * {self.layout_item.identifier} * {' | '.join(top_labware_names)}"
+        return f"{' | '.join(bottom_labware_names)} * {self.layout_item.identifier} * {' | '.join(top_labware_names)} ({self.pk})"
 
     @property
     def top_items(self) -> list[LoadedLayoutItem]:
