@@ -28,13 +28,6 @@ class HamiltonCOREGripper(TransportBase):
         verbose_name = "Hamilton CORE Gripper"
         verbose_name_plural = "Hamilton CORE Grippers"
 
-    def transport_time(
-        self,
-        source: LoadedLayoutItem,
-        destination: LoadedLayoutItem,
-    ) -> float:
-        return 0
-
     def assert_transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
         _, grip_height = self.compute_grip_height(source)
 
@@ -214,6 +207,13 @@ class HamiltonCOREGripper(TransportBase):
         backend.wait(command)
         backend.acknowledge(command, AbsolutePositionValuesSetForLabwareID.Response)
         # Reset the labware to the initial deck position.
+
+    def transport_time(
+        self,
+        source: LoadedLayoutItem,
+        destination: LoadedLayoutItem,
+    ) -> float:
+        return 0
 
 
 class HamiltonCOREGripperPickupOptions(TransportPickupOptionsBase):
