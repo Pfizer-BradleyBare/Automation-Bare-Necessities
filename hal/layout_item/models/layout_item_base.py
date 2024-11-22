@@ -24,6 +24,9 @@ class LayoutItemBase(PolymorphicModel):
         help_text="What is the labware of this layout item?",
     )
 
+    def __str__(self) -> str:
+        return f"{self.identifier} ({self.pk})"
+
     class Meta:
         ordering = ["identifier"]
         unique_together = ("carrier_location", "labware")
@@ -41,5 +44,14 @@ class LayoutItemBase(PolymorphicModel):
 
         return super().save(*args, **kwargs)
 
-    def __str__(self) -> str:
-        return f"{self.identifier} ({self.pk})"
+    @staticmethod
+    def get_layout_item(carrier_location: CarrierLocationBase, labware: LabwareBase):
+        try:
+            return LayoutItemBase.objects.filter(
+                carrier_location=carrier_location,
+                labware=labware,
+            ).get()
+        except LayoutItemBase.DoesNotExist as e:
+            raise ValueError(
+                "No layout item at the given carrier_location with the given labware was found.",
+            ) from e
