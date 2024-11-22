@@ -51,9 +51,7 @@ class TransportBase(PolymorphicModel):
         self,
         grip_item: LoadedLayoutItem,
     ) -> float:
-        stack_z_dimension = grip_item.compute_stack_z_dimension(
-            grip_item,
-        )
+        _,_,stack_height = grip_item.x_y_z_dimension
 
         labware = grip_item.layout_item.labware
 
@@ -78,7 +76,7 @@ class TransportBase(PolymorphicModel):
             if grip_height > max_acceptable_grip_height:
                 break
 
-            if stack_z_dimension - grip_height < self.max_grip_depth:
+            if stack_height - grip_height < self.max_grip_depth:
                 return grip_height
         # search bottom up because we want to grip as deeply as possible without exceeding our max depth.
 
@@ -90,11 +88,7 @@ class TransportBase(PolymorphicModel):
         self,
         grip_item: LoadedLayoutItem,
     ) -> float:
-        StackedLabwareZHeightChange.assert_supported_stack(grip_item)
-
-        stack_z_dimension = StackedLabwareZHeightChange.compute_stack_z_dimension(
-            grip_item,
-        )
+        _,_,stack_height = grip_item.x_y_z_dimension
 
         labware = grip_item.layout_item.labware
 
@@ -119,7 +113,7 @@ class TransportBase(PolymorphicModel):
             if grip_height > max_acceptable_grip_height:
                 break
 
-            if stack_z_dimension - grip_height < self.max_grip_depth:
+            if stack_height - grip_height < self.max_grip_depth:
                 return grip_height
         # search bottom up because we want to grip as deeply as possible without exceeding our max depth.
 
@@ -127,14 +121,15 @@ class TransportBase(PolymorphicModel):
             "There are no compatible grip heights for your grip item",
         )
 
-    @staticmethod
-    def assert_transport(source: LoadedLayoutItem, destination: LoadedLayoutItem):
-        StackedLabwareZHeightChange.assert_supported_stack(source)
+    @abstractmethod
+    def assert_transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
+        source.assert_supported_stack()
 
         if not destination.is_absolute_top_item:
             raise ValueError("Destination is not the top of the stack. Cannot insert a stack into another stack.")
 
-        #need to do some assertions with the transport configs
+        if not StackedLabwareZHeightChange.objects.filter(bottom_labware=destination.layout_item.labware,top_labware=source.layout_item.labware).exists():
+            raise ValueError("Source and destination are not compatible stack pairs.")
 
 
     @staticmethod
