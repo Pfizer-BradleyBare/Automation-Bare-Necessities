@@ -51,7 +51,7 @@ class TransportBase(PolymorphicModel):
         self,
         grip_item: LoadedLayoutItem,
     ) -> tuple[float | None, float | None]:
-        _, _, stack_height = grip_item.x_y_z_dimension
+        stack_height = grip_item.height
 
         labware = grip_item.layout_item.labware
 
@@ -70,7 +70,7 @@ class TransportBase(PolymorphicModel):
         else:
             max_acceptable_grip_height = labware.height
 
-        long_side_grip_heights = labware.long_side_z_grip_heights
+        long_side_grip_heights = labware.long_side_grip_heights
         long_side_grip_height = None
 
         for grip_height in long_side_grip_heights:
@@ -82,7 +82,7 @@ class TransportBase(PolymorphicModel):
                 break
         # search bottom up because we want to grip as deeply as possible without exceeding our max depth.
 
-        short_side_grip_heights = labware.short_side_z_grip_heights
+        short_side_grip_heights = labware.short_side_grip_heights
         short_side_grip_height = None
 
         for grip_height in short_side_grip_heights:
