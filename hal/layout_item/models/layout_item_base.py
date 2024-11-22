@@ -43,15 +43,3 @@ class LayoutItemBase(PolymorphicModel):
         self.identifier = f"{self.carrier_location.identifier.replace(" ","")}_{self.labware.identifier.replace(" ","")}"
 
         return super().save(*args, **kwargs)
-
-    @staticmethod
-    def get_layout_item(carrier_location: CarrierLocationBase, labware: LabwareBase):
-        try:
-            return LayoutItemBase.objects.filter(
-                carrier_location=carrier_location,
-                labware=labware,
-            ).get()
-        except LayoutItemBase.DoesNotExist as e:
-            raise ValueError(
-                "No layout item at the given carrier_location with the given labware was found.",
-            ) from e
