@@ -222,18 +222,18 @@ class HamiltonCOREGripperPickupOptions(TransportPickupOptionsBase):
     grip_force = models.CharField(
         max_length=25,
         choices=[
-            ("Grip Force 0", "Grip Force 0"),
-            ("Grip Force 1", "Grip Force 1"),
-            ("Grip Force 2", "Grip Force 2"),
-            ("Grip Force 3", "Grip Force 3"),
-            ("Grip Force 4", "Grip Force 4"),
-            ("Grip Force 5", "Grip Force 5"),
-            ("Grip Force 6", "Grip Force 6"),
-            ("Grip Force 7", "Grip Force 7"),
-            ("Grip Force 8", "Grip Force 8"),
-            ("Grip Force 9", "Grip Force 9"),
+            ("GripForce0", "Grip Force 0"),
+            ("GripForce1", "Grip Force 1"),
+            ("GripForce2", "Grip Force 2"),
+            ("GripForce3", "Grip Force 3"),
+            ("GripForce4", "Grip Force 4"),
+            ("GripForce5", "Grip Force 5"),
+            ("GripForce6", "Grip Force 6"),
+            ("GripForce7", "Grip Force 7"),
+            ("GripForce8", "Grip Force 8"),
+            ("GripForce9", "Grip Force 9"),
         ],
-        default="Grip Force 5",
+        default="GripForce5",
     )
     grip_speed = models.FloatField(default=277.8)
     z_speed = models.FloatField(default=128.7)
@@ -266,13 +266,13 @@ class HamiltonCOREGripperPlaceOptions(TransportPlaceOptionsBase):
     x_acceleration_level = models.CharField(
         max_length=25,
         choices=(
-            ("Level 1", "Level 1"),
-            ("Level 2", "Level 2"),
-            ("Level 3", "Level 3"),
-            ("Level 4", "Level 4"),
-            ("Level 5", "Level 5"),
+            ("XSpeed1", "Level 1"),
+            ("XSpeed2", "Level 2"),
+            ("XSpeed3", "Level 3"),
+            ("XSpeed4", "Level 4"),
+            ("XSpeed5", "Level 5"),
         ),
-        default="Level 4",
+        default="XSpeed4",
     )
     z_speed = models.FloatField(default=128.7)
     plate_press_on_distance = models.FloatField(default=1)
