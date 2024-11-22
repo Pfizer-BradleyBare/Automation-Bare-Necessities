@@ -123,6 +123,8 @@ class TransportBase(PolymorphicModel):
 
     @abstractmethod
     def assert_transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
+        from hal.carrier_location.models import TransportableCarrierLocation
+
         source.assert_supported_stack()
 
         if not destination.is_absolute_top_item:
@@ -130,6 +132,9 @@ class TransportBase(PolymorphicModel):
 
         if not StackedLabwareZHeightChange.objects.filter(bottom_labware=destination.layout_item.labware,top_labware=source.layout_item.labware).exists():
             raise ValueError("Source and destination are not compatible stack pairs.")
+
+        if not TransportableCarrierLocation.objects.filter(transport_configs__transport_device=self).exists():
+            raise ValueError(f"Source and destination can not be transported by the transport device '{self}'")
 
 
     @staticmethod
