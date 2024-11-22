@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import ClassVar
+
 from django.db import models
 
 from hal.layout_item.models import LoadedLayoutItem
@@ -14,9 +16,7 @@ from ..transport_base import (
 class HamiltonCOREGripper(TransportBase):
     gripper_labware_id = models.CharField(max_length=100)
 
-    @property
-    def max_grip_depth(self) -> float:
-        return 40
+    _max_grip_depth:ClassVar[float] = 40
 
     class Meta:
         verbose_name = "Hamilton CORE Gripper"

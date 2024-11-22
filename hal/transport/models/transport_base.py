@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.db import models
+from django.utils.decorators import classproperty
 from polymorphic.models import PolymorphicModel
 
 from hal.backend.models import BackendBase
@@ -31,24 +32,26 @@ class TransportBase(PolymorphicModel):
 
     last_transport_flag = models.BooleanField(editable=False, default=False)
 
+    _max_grip_depth:ClassVar[float] = 0
+
     def __str__(self) -> str:
         return self.identifier
 
     class Meta:
         ordering = ["identifier"]
 
-    @property
-    @abstractmethod
-    def max_grip_depth(self) -> float:
-        raise NotImplementedError
+    @classproperty
+    def max_grip_depth(cls) -> float:
+        if cls._max_grip_depth == 0:
+            raise NotImplementedError
+
+        return cls._max_grip_depth
 
     def compute_short_side_grip_height(
         self,
         grip_item: LoadedLayoutItem,
     ) -> float:
-        StackedLabwareZHeightChange.assert_supported_stack(grip_item)
-
-        stack_z_dimension = StackedLabwareZHeightChange.compute_stack_z_dimension(
+        stack_z_dimension = grip_item.compute_stack_z_dimension(
             grip_item,
         )
 
@@ -125,6 +128,16 @@ class TransportBase(PolymorphicModel):
         )
 
     @staticmethod
+    def assert_transport(source: LoadedLayoutItem, destination: LoadedLayoutItem):
+        StackedLabwareZHeightChange.assert_supported_stack(source)
+
+        if not destination.is_absolute_top_item:
+            raise ValueError("Destination is not the top of the stack. Cannot insert a stack into another stack.")
+
+        #need to do some assertions with the transport configs
+
+
+    @staticmethod
     def get_compatible_transport_configs(
         source: LoadedLayoutItem,
         destination: LoadedLayoutItem,
@@ -171,7 +184,7 @@ class TransportBase(PolymorphicModel):
 
     @abstractmethod
     def transport_time(
-        self, source: LoadedLayoutItem, destination: LoadedLayoutItem
+        self, source: LoadedLayoutItem, destination: LoadedLayoutItem,
     ) -> float:
         raise NotImplementedError
 

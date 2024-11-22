@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import ClassVar
+
 from django.db import models
 
 from ..transport_base import (
@@ -10,9 +12,7 @@ from ..transport_base import (
 
 
 class HamiltonVantageTrackGripperTaughtMovement(TransportBase):
-    @property
-    def max_grip_depth(self) -> float:
-        return 70
+    _max_grip_depth:ClassVar[float] = 70
 
 
 class HamiltonVantageTrackGripperTaughtMovementPickupOptions(
