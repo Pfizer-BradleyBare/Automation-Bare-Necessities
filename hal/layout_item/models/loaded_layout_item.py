@@ -77,8 +77,11 @@ class LoadedLayoutItem(models.Model):
         return self.bottom is None
 
     @property
-    def x_y_z_dimension(self) -> tuple[float,float,float]:
-        labware_stack = [self.layout_item.labware, *[item.layout_item.labware for item in self.top_items]]
+    def height_from_item(self) -> float:
+        labware_stack = [
+            self.layout_item.labware,
+            *[item.layout_item.labware for item in self.top_items],
+        ]
 
         labware_z_dimensions = [labware.height for labware in labware_stack]
 
@@ -92,27 +95,65 @@ class LoadedLayoutItem(models.Model):
             for bottom, top in pairwise(labware_stack)
         ]
 
-        z_dimension = sum(labware_z_dimensions + nesting_z_heights)
+        return sum(labware_z_dimensions + nesting_z_heights)
 
-        y_dimension = max(
-            [
-                labware.max_y_dimension
-                for labware in labware_stack
-            ],
+    @property
+    def height_from_base(self) -> float:
+        base = self.absolute_bottom_item
+
+        labware_stack = [
+            base.layout_item.labware,
+            *[item.layout_item.labware for item in base.top_items],
+        ]
+
+        labware_z_dimensions = [labware.height for labware in labware_stack]
+
+        nesting_z_heights = [
+            StackedLabwareZHeightChange.objects.filter(
+                bottom_labware=bottom,
+                top_labware=top,
+            )
+            .get()
+            .z_height_change
+            for bottom, top in pairwise(labware_stack)
+        ]
+
+        return sum(labware_z_dimensions + nesting_z_heights)
+
+    @property
+    def width(self) -> float:
+        labware_stack = [
+            self.layout_item.labware,
+            *[item.layout_item.labware for item in self.top_items],
+        ]
+
+        return max(
+            [labware.max_width for labware in labware_stack],
         )
 
-        x_dimension = max(
-            [
-                labware.max_x_dimension
-                for labware in labware_stack
-            ],
+    @property
+    def depth(self) -> float:
+        labware_stack = [
+            self.layout_item.labware,
+            *[item.layout_item.labware for item in self.top_items],
+        ]
+
+        return max(
+            [labware.max_depth for labware in labware_stack],
         )
 
-        return (x_dimension,y_dimension,z_dimension)
+    @property
+    def z_height_above_base(self) -> float:
+        return self.height_from_base - self.height_from_item
 
     def assert_supported_stack(self):
         stack_pairs = list(
-            pairwise([self.layout_item.labware, *[item.layout_item.labware for item in self.top_items]]),
+            pairwise(
+                [
+                    self.layout_item.labware,
+                    *[item.layout_item.labware for item in self.top_items],
+                ],
+            ),
         )
 
         q_query = models.Q()
@@ -137,4 +178,3 @@ class LoadedLayoutItem(models.Model):
             raise ValueError(
                 f"The following labware stack pairs are not supported: {failed_stack_pairs}",
             )
-
