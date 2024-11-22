@@ -80,7 +80,7 @@ class LoadedLayoutItem(models.Model):
     def x_y_z_dimension(self) -> tuple[float,float,float]:
         labware_stack = [item.layout_item.labware for item in self.top_items]
 
-        labware_z_dimensions = [sum([z for _,_,z in labware.x_y_z_dimensions]) for labware in labware_stack]
+        labware_z_dimensions = [labware.height for labware in labware_stack]
 
         nesting_z_heights = [
             StackedLabwareZHeightChange.objects.filter(
@@ -96,14 +96,14 @@ class LoadedLayoutItem(models.Model):
 
         y_dimension = max(
             [
-                max([y for y, _, _ in labware.x_y_z_dimensions])
+                labware.max_y_dimension
                 for labware in labware_stack
             ],
         )
 
         x_dimension = max(
             [
-                max([x for x, _, _ in labware.x_y_z_dimensions])
+                labware.max_x_dimension
                 for labware in labware_stack
             ],
         )
