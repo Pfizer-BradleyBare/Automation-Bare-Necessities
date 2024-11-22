@@ -4,7 +4,7 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING, ClassVar
 
 from django.db import models
-from django.utils.decorators import classproperty
+from django.utils.functional import classproperty
 from polymorphic.models import PolymorphicModel
 
 from hal.backend.models import BackendBase
@@ -32,10 +32,10 @@ class TransportBase(PolymorphicModel):
 
     last_transport_flag = models.BooleanField(editable=False, default=False)
 
-    _max_grip_depth:ClassVar[float] = 0
+    _max_grip_depth: ClassVar[float] = 0
 
     def __str__(self) -> str:
-        return self.identifier
+        return f"{self.identifier} ({self.pk})"
 
     class Meta:
         ordering = ["identifier"]
@@ -47,11 +47,11 @@ class TransportBase(PolymorphicModel):
 
         return cls._max_grip_depth
 
-    def compute_short_side_grip_height(
+    def compute_grip_height(
         self,
         grip_item: LoadedLayoutItem,
-    ) -> float:
-        _,_,stack_height = grip_item.x_y_z_dimension
+    ) -> tuple[float | None, float | None]:
+        _, _, stack_height = grip_item.x_y_z_dimension
 
         labware = grip_item.layout_item.labware
 
@@ -70,76 +70,64 @@ class TransportBase(PolymorphicModel):
         else:
             max_acceptable_grip_height = labware.height
 
-        grip_heights = labware.short_side_z_grip_heights
+        long_side_grip_heights = labware.long_side_z_grip_heights
+        long_side_grip_height = None
 
-        for grip_height in grip_heights:
+        for grip_height in long_side_grip_heights:
             if grip_height > max_acceptable_grip_height:
                 break
 
             if stack_height - grip_height < self.max_grip_depth:
-                return grip_height
+                long_side_grip_height = grip_height
+                break
         # search bottom up because we want to grip as deeply as possible without exceeding our max depth.
 
-        raise ValueError(
-            "There are no compatible grip heights for your grip item",
-        )
+        short_side_grip_heights = labware.short_side_z_grip_heights
+        short_side_grip_height = None
 
-    def compute_long_side_grip_height(
-        self,
-        grip_item: LoadedLayoutItem,
-    ) -> float:
-        _,_,stack_height = grip_item.x_y_z_dimension
-
-        labware = grip_item.layout_item.labware
-
-        if not grip_item.is_absolute_top_item:
-            top = grip_item.top
-
-            z_height_change = (
-                StackedLabwareZHeightChange.objects.filter(
-                    bottom_labware=grip_item,
-                    top_labware=top,
-                )
-                .get()
-                .z_height_change
-            )
-            max_acceptable_grip_height = labware.height + z_height_change
-        else:
-            max_acceptable_grip_height = labware.height
-
-        grip_heights = labware.long_side_z_grip_heights
-
-        for grip_height in grip_heights:
+        for grip_height in short_side_grip_heights:
             if grip_height > max_acceptable_grip_height:
                 break
 
             if stack_height - grip_height < self.max_grip_depth:
-                return grip_height
+                short_side_grip_height = grip_height
+                break
         # search bottom up because we want to grip as deeply as possible without exceeding our max depth.
 
-        raise ValueError(
-            "There are no compatible grip heights for your grip item",
-        )
+        return (short_side_grip_height, long_side_grip_height)
 
     @abstractmethod
     def assert_transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
         from hal.carrier_location.models import TransportableCarrierLocationConfig
 
-
         source.assert_supported_stack()
 
         if not destination.is_absolute_top_item:
-            raise ValueError("Destination is not the top of the stack. Cannot insert a stack into another stack.")
+            raise ValueError(
+                "Destination is not the top of the stack. Cannot insert a stack into another stack.",
+            )
 
-        if not StackedLabwareZHeightChange.objects.filter(bottom_labware=destination.layout_item.labware,top_labware=source.layout_item.labware).exists():
+        if not StackedLabwareZHeightChange.objects.filter(
+            bottom_labware=destination.layout_item.labware,
+            top_labware=source.layout_item.labware,
+        ).exists():
             raise ValueError("Source and destination are not compatible stack pairs.")
 
-        if not TransportableCarrierLocationConfig.objects.filter(transportablecarrierlocation_set=source,transport_device=self).exists():
-            raise ValueError(f"Source can not be transported by the transport device '{self}'")
+        if not TransportableCarrierLocationConfig.objects.filter(
+            transportablecarrierlocation=source,
+            transport_device=self,
+        ).exists():
+            raise ValueError(
+                f"Source can not be transported by the transport device '{self}'",
+            )
 
-        if not TransportableCarrierLocationConfig.objects.filter(transportablecarrierlocation_set=source,transport_device=self).exists():
-            raise ValueError(f"Destination can not be transported by the transport device '{self}'")
-
+        if not TransportableCarrierLocationConfig.objects.filter(
+            transportablecarrierlocation=destination,
+            transport_device=self,
+        ).exists():
+            raise ValueError(
+                f"Destination can not be transported by the transport device '{self}'",
+            )
 
     @staticmethod
     def get_compatible_transport_configs(
@@ -188,7 +176,9 @@ class TransportBase(PolymorphicModel):
 
     @abstractmethod
     def transport_time(
-        self, source: LoadedLayoutItem, destination: LoadedLayoutItem,
+        self,
+        source: LoadedLayoutItem,
+        destination: LoadedLayoutItem,
     ) -> float:
         raise NotImplementedError
 

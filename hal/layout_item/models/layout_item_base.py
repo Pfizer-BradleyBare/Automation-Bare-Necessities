@@ -42,4 +42,4 @@ class LayoutItemBase(PolymorphicModel):
         return super().save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return self.identifier
+        return f"{self.identifier} ({self.pk})"

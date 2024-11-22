@@ -50,7 +50,7 @@ class BackendBase(PolymorphicModel):
         return super().clean()
 
     def __str__(self) -> str:
-        return self.identifier
+        return f"{self.identifier} ({self.pk})"
 
     class Meta:
         ordering = ["identifier"]

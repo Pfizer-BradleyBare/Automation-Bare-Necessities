@@ -13,4 +13,4 @@ class DeckBase(PolymorphicModel):
         ordering = ["identifier"]
 
     def __str__(self) -> str:
-        return self.identifier
+        return f"{self.identifier} ({self.pk})"
