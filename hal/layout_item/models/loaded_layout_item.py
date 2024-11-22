@@ -76,6 +76,40 @@ class LoadedLayoutItem(models.Model):
     def is_absolute_bottom_item(self) -> bool:
         return self.bottom is None
 
+    @property
+    def x_y_z_dimension(self) -> tuple[float,float,float]:
+        labware_stack = [item.layout_item.labware for item in self.top_items]
+
+        labware_z_dimensions = [sum([z for _,_,z in labware.x_y_z_dimensions]) for labware in labware_stack]
+
+        nesting_z_heights = [
+            StackedLabwareZHeightChange.objects.filter(
+                bottom_labware=bottom,
+                top_labware=top,
+            )
+            .get()
+            .z_height_change
+            for bottom, top in pairwise(labware_stack)
+        ]
+
+        z_dimension = sum(labware_z_dimensions + nesting_z_heights)
+
+        y_dimension = max(
+            [
+                max([y for y, _, _ in labware.x_y_z_dimensions])
+                for labware in labware_stack
+            ],
+        )
+
+        x_dimension = max(
+            [
+                max([x for x, _, _ in labware.x_y_z_dimensions])
+                for labware in labware_stack
+            ],
+        )
+
+        return (x_dimension,y_dimension,z_dimension)
+
     def assert_supported_stack(self):
         stack_pairs = list(
             pairwise([item.layout_item.labware for item in self.top_items]),
@@ -104,39 +138,3 @@ class LoadedLayoutItem(models.Model):
                 f"The following labware stack pairs are not supported: {failed_stack_pairs}",
             )
 
-    def compute_stack_z_dimension(self) -> float:
-        labware_stack = [item.layout_item.labware for item in self.top_items]
-
-        labware_z_dimensions = [labware.height for labware in labware_stack]
-
-        nesting_z_heights = [
-            StackedLabwareZHeightChange.objects.filter(
-                bottom_labware=bottom,
-                top_labware=top,
-            )
-            .get()
-            .z_height_change
-            for bottom, top in pairwise(labware_stack)
-        ]
-
-        return sum(labware_z_dimensions + nesting_z_heights)
-
-    def compute_stack_x_dimension(self) -> float:
-        labware_stack = [item.layout_item.labware for item in self.top_items]
-
-        return max(
-            [
-                max([x for x, _, _ in labware.x_y_z_dimensions])
-                for labware in labware_stack
-            ],
-        )
-
-    def compute_stack_y_dimension(self) -> float:
-        labware_stack = [item.layout_item.labware for item in self.top_items]
-
-        return max(
-            [
-                max([y for y, _, _ in labware.x_y_z_dimensions])
-                for labware in labware_stack
-            ],
-        )
