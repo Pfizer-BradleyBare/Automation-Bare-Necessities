@@ -13,6 +13,7 @@ from hal.layout_item.models import LoadedLayoutItem
 
 if TYPE_CHECKING:
     from hal.carrier_location.models import (
+        CarrierLocationBase,
         TransportableCarrierLocationConfig,
     )
 
@@ -97,7 +98,11 @@ class TransportBase(PolymorphicModel):
         return (short_side_grip_height, long_side_grip_height)
 
     @abstractmethod
-    def assert_transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
+    def assert_transport(
+        self,
+        source: LoadedLayoutItem,
+        destination: CarrierLocationBase,
+    ):
         from hal.carrier_location.models import TransportableCarrierLocationConfig
 
         source.assert_supported_stack()
@@ -132,7 +137,7 @@ class TransportBase(PolymorphicModel):
     @staticmethod
     def get_compatible_transport_configs(
         source: LoadedLayoutItem,
-        destination: LoadedLayoutItem,
+        destination: CarrierLocationBase,
     ) -> list[
         tuple[TransportableCarrierLocationConfig, TransportableCarrierLocationConfig]
     ]:
@@ -171,14 +176,14 @@ class TransportBase(PolymorphicModel):
         raise NotImplementedError
 
     @abstractmethod
-    def transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
+    def transport(self, source: LoadedLayoutItem, destination: CarrierLocationBase):
         raise NotImplementedError
 
     @abstractmethod
     def transport_time(
         self,
         source: LoadedLayoutItem,
-        destination: LoadedLayoutItem,
+        destination: CarrierLocationBase,
     ) -> float:
         raise NotImplementedError
 
