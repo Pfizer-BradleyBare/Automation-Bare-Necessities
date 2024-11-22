@@ -78,7 +78,7 @@ class LoadedLayoutItem(models.Model):
 
     @property
     def x_y_z_dimension(self) -> tuple[float,float,float]:
-        labware_stack = [item.layout_item.labware for item in self.top_items]
+        labware_stack = [self.layout_item.labware, *[item.layout_item.labware for item in self.top_items]]
 
         labware_z_dimensions = [labware.height for labware in labware_stack]
 
@@ -112,7 +112,7 @@ class LoadedLayoutItem(models.Model):
 
     def assert_supported_stack(self):
         stack_pairs = list(
-            pairwise([item.layout_item.labware for item in self.top_items]),
+            pairwise([self.layout_item.labware, *[item.layout_item.labware for item in self.top_items]]),
         )
 
         q_query = models.Q()
