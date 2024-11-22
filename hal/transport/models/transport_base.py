@@ -133,7 +133,7 @@ class TransportBase(PolymorphicModel):
         if not StackedLabwareZHeightChange.objects.filter(bottom_labware=destination.layout_item.labware,top_labware=source.layout_item.labware).exists():
             raise ValueError("Source and destination are not compatible stack pairs.")
 
-        if not TransportableCarrierLocation.objects.filter(transport_configs__transport_device=self).exists():
+        if self not in [source_config.transport_device for source_config,_ in TransportableCarrierLocation.get_compatible_transport_configs(source.layout_item.carrier_location,destination.layout_item.carrier_location)]:
             raise ValueError(f"Source and destination can not be transported by the transport device '{self}'")
 
 
