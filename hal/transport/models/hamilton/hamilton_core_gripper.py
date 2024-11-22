@@ -7,6 +7,7 @@ from plh.hamilton_venus.HSLLabwrAccess import (
     AbsolutePositionValuesGetForLabwareID,
     AbsolutePositionValuesSetForLabwareID,
 )
+from plh.hamilton_venus.ML_STAR.Channel1000uLCOREGrip import GetPlate, PlacePlate
 
 from hal.layout_item.models import LoadedLayoutItem
 from hal.layout_item.models.hamilton import HamiltonLayoutItem
@@ -55,7 +56,30 @@ class HamiltonCOREGripper(TransportBase):
 
         self.assert_transport(source, destination)
 
-        backend = self.backend.get_plh_backend()
+        source_pickup_options = cast(
+            HamiltonCOREGripperPickupOptions,
+            TransportableCarrierLocationConfig.objects.filter(
+                transportablecarrierlocation=source.layout_item.carrier_location,
+                transport_device=self,
+            )
+            .get()
+            .pickup_options,
+        )
+
+        destination_place_options = cast(
+            HamiltonCOREGripperPlaceOptions,
+            TransportableCarrierLocationConfig.objects.filter(
+                transportablecarrierlocation=destination.layout_item.carrier_location,
+                transport_device=self,
+            )
+            .get()
+            .place_options,
+        )
+
+        _, grip_height = cast(tuple[None, float], self.compute_grip_height(source))
+
+        source_labware = source.layout_item.labware
+        labware_depth = source_labware.get_depth_at_height(grip_height)
 
         source_labware_id = cast(
             HamiltonLayoutItem,
@@ -66,6 +90,8 @@ class HamiltonCOREGripper(TransportBase):
             HamiltonLayoutItem,
             destination.layout_item,
         ).venus_labware_id
+
+        backend = self.backend.get_plh_backend()
 
         command = AbsolutePositionValuesGetForLabwareID.Command(
             options=[
@@ -121,19 +147,42 @@ class HamiltonCOREGripper(TransportBase):
         backend.acknowledge(command, AbsolutePositionValuesSetForLabwareID.Response)
         # move the labware virtually into the correct space first. Since labware can be stacked
 
-        source_config = TransportableCarrierLocationConfig.objects.filter(
-            transportablecarrierlocation=source.layout_item.carrier_location,
-            transport_device=self,
+        command = GetPlate.Command(
+            backend_error_handling=False,
+            options=GetPlate.Options(
+                GripperLabwareID=self.gripper_labware_id,
+                PlateLabwareID=source_labware_id,
+                OpenWidth=labware_depth + 4,
+                GripWidth=labware_depth - 4,
+                GripHeight=grip_height,
+                GripForce=GetPlate.GripForceOptions[source_pickup_options.grip_force],
+                GripSpeed=source_pickup_options.grip_speed,
+                ZSpeed=source_pickup_options.z_speed,
+                CheckPlateExists=source_pickup_options.check_plate_exists,
+            ),
         )
+        backend.execute(command)
+        backend.wait(command)
+        backend.acknowledge(command, GetPlate.Response)
+        # Do the pickup.
 
-        destination_config = TransportableCarrierLocationConfig.objects.filter(
-            transportablecarrierlocation=destination.layout_item.carrier_location,
-            transport_device=self,
+        command = PlacePlate.Command(
+            backend_error_handling=False,
+            options=PlacePlate.Options(
+                LabwareID=destination_labware_id,
+                EjectTool=self.last_transport_flag,
+                XSpeed=PlacePlate.XSpeedOptions[
+                    destination_place_options.x_acceleration_level
+                ],
+                ZSpeed=destination_place_options.z_speed,
+                PressOnDistance=destination_place_options.plate_press_on_distance,
+                CheckPlateExists=destination_place_options.check_plate_exists,
+            ),
         )
-
-        _, grip_height = cast(tuple[None, float], self.compute_grip_height(source))
-
-        grip_labware = source.layout_item.labware
+        backend.execute(command)
+        backend.wait(command)
+        backend.acknowledge(command, PlacePlate.Response)
+        # Do the place
 
         command = AbsolutePositionValuesSetForLabwareID.Command(
             options=[
