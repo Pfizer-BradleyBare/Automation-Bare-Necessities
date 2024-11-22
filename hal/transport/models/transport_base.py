@@ -51,7 +51,7 @@ class TransportBase(PolymorphicModel):
         self,
         grip_item: LoadedLayoutItem,
     ) -> tuple[float | None, float | None]:
-        stack_height = grip_item.height
+        stack_height = grip_item.height_from_item
 
         labware = grip_item.layout_item.labware
 
