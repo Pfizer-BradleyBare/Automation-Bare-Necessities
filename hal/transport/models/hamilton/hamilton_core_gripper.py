@@ -29,7 +29,10 @@ class HamiltonCOREGripper(TransportBase):
     ) -> float:
         return 0
 
-    def transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem): ...
+    def transport(self, source: LoadedLayoutItem, destination: LoadedLayoutItem):
+        self.assert_transport(source,destination)
+
+        grip_height = self.compute_long_side_grip_height(source)
 
 
 class HamiltonCOREGripperPickupOptions(TransportPickupOptionsBase):
