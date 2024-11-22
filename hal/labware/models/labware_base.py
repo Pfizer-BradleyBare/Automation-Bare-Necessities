@@ -18,21 +18,21 @@ def _x_y_z_dimensions_default() -> list[tuple[float, float, float]]:
 class LabwareBase(PolymorphicModel):
     identifier = models.CharField(max_length=255, unique=True, primary_key=True)
 
-    x_y_z_dimensions: models.JSONField[list[tuple[float, float, float]]] = (
-        models.JSONField(
-            help_text="Plates are not inheritantly a cube. This property defines how the rectangular shape of the plate changes across z heights. Labware is assumed to be landscape such that X is length of the long side (ex. 127mm) and Y is the length of the short side (ex. 82mm).",
-            default=_x_y_z_dimensions_default,
-            verbose_name="X Y Z dimensions",
-        )
+    width_depth_height_dimensions: models.JSONField[
+        list[tuple[float, float, float]]
+    ] = models.JSONField(
+        help_text="Plates are not inheritantly a cube. This property defines how the rectangular shape of the plate changes across heights. Labware is assumed to be landscape such that long side is width (ex. 127mm) and short side is depth (ex. 82mm).",
+        default=_x_y_z_dimensions_default,
+        verbose_name="X Y Z dimensions",
     )
 
-    short_side_z_grip_heights: models.JSONField[list[float]] = models.JSONField(
+    short_side_grip_heights: models.JSONField[list[float]] = models.JSONField(
         help_text="Which Z heights are acceptable to be gripped on the short side when transported. Relative to bottom. If not transportable then empty brackets.",
         default=_grip_regions_default,
         verbose_name="Short side Z grip heights",
     )
 
-    long_side_z_grip_heights: models.JSONField[list[float]] = models.JSONField(
+    long_side_grip_heights: models.JSONField[list[float]] = models.JSONField(
         help_text="Which Z heights are acceptable to be gripped on the long side when transported. Relative to bottom. If not transportable then empty brackets.",
         default=_grip_regions_default,
         verbose_name="Long side Z grip heights",
@@ -57,40 +57,43 @@ class LabwareBase(PolymorphicModel):
         ordering = ["identifier"]
 
     @property
-    def max_x_dimension(self) -> float:
-        return max([x for x, _, _ in self.x_y_z_dimensions])
+    def max_width(self) -> float:
+        return max([width for width, _, _ in self.width_depth_height_dimensions])
 
     @property
-    def max_y_dimension(self) -> float:
-        return max([y for _, y, _ in self.x_y_z_dimensions])
+    def max_depth(self) -> float:
+        return max([depth for _, depth, _ in self.width_depth_height_dimensions])
 
     @property
     def height(self) -> float:
-        return sum([z for _, _, z in self.x_y_z_dimensions])
+        return sum([height for _, _, height in self.width_depth_height_dimensions])
 
     def clean(self) -> None:
-        dimensions = cast(list[tuple[float, float, float]], self.x_y_z_dimensions)
+        dimensions = cast(
+            list[tuple[float, float, float]],
+            self.width_depth_height_dimensions,
+        )
 
         try:
-            for index, (x, y, z) in enumerate(dimensions):
+            for index, (width, depth, height) in enumerate(dimensions):
                 if len(dimensions[index]) != 3:
                     raise ValueError  # noqa:TRY301
 
-                dimensions[index] = (float(y), float(x), float(z))
+                dimensions[index] = (float(width), float(depth), float(height))
 
         except ValueError as e:
             raise ValidationError(
-                "'x_y_z_dimensions' is incorrect. Expected list of tuples. Ex: [(127,82,0),(127.5,82,5),(127.25,82.5,0)]",
+                "'width_depth_height_dimensions' is incorrect. Expected list of tuples. Ex: [(127,82,0),(127.5,82,5),(127.25,82.5,0)]",
             ) from e
 
-        if len(dimensions) != len({z for _, _, z in dimensions}):
+        if len(dimensions) != len({height for _, _, height in dimensions}):
             raise ValidationError(
-                "'x_y_z_dimensions' is incorrect. Duplicate z values are present.",
+                "'width_depth_height_dimensions' is incorrect. Duplicate height values are present.",
             )
 
-        self.x_y_z_dimensions = sorted(dimensions, key=lambda x: x[0])
+        self.width_depth_height_dimensions = sorted(dimensions, key=lambda x: x[0])
 
-        regions = self.short_side_z_grip_heights
+        regions = self.short_side_grip_heights
 
         try:
             for index, region in enumerate(regions):
@@ -101,9 +104,9 @@ class LabwareBase(PolymorphicModel):
                 "'short_side_z_grip_heights' is incorrect. Expected list of numbers. Ex: [2,5,10]",
             ) from e
 
-        self.short_side_z_grip_heights = sorted(regions)
+        self.short_side_grip_heights = sorted(regions)
 
-        regions = self.long_side_z_grip_heights
+        regions = self.long_side_grip_heights
 
         try:
             for index, region in enumerate(regions):
@@ -114,7 +117,7 @@ class LabwareBase(PolymorphicModel):
                 "'long_side_z_grip_heights' is incorrect. Expected list of numbers. Ex: [2,5,10]",
             ) from e
 
-        self.long_side_z_grip_heights = sorted(regions)
+        self.long_side_grip_heights = sorted(regions)
 
         if (
             self.addressing_direction != "Column-wise"
